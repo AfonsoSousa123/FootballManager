@@ -6,11 +6,12 @@ package com.mycompany.footballmanager;
 
 /**
  *
- * @author afons
+ * @author afonso
  */
 public class FootballManager {
 
     public static void main(String[] args) {
+        // Instanciamos todos os Objetos e chamamos os Métotos
         System.out.println("Hello World!");
     }
 }
