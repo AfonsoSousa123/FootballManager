@@ -6,7 +6,7 @@ package com.mycompany.footballmanager;
 
 /**
  *
- * @author afonso
+ * @author afonso, milena, tânia
  */
 public class Equipa {
 
@@ -14,6 +14,5 @@ public class Equipa {
     private Jogador jogador;
     private Treinador treinador;
     private Liga liga;
-    private String hist_lesoes;
 
 }

@@ -6,9 +6,10 @@ package com.mycompany.footballmanager;
 
 /**
  *
- * @author afonso
+ * @author afonso, milena, tânia
  */
 public class Arbitro {
+
     private int id;
     private String nome;
     private int idade;
