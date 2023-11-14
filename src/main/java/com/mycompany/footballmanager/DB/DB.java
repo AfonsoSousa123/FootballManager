@@ -4,51 +4,56 @@
  */
 package com.mycompany.footballmanager.DB;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
- *
  * @author afonso, milena, tânia
  */
 public class DB {
     public static void connection() {
         Connection connection = null;
-        try {
-            // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
-            Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-//            statement.executeUpdate("drop table if exists person");
-//            statement.executeUpdate("create table person (id integer, name string)");
-//            statement.executeUpdate("insert into person values(1, 'leo')");
-//            statement.executeUpdate("insert into person values(2, 'yui')");
-//            ResultSet rs = statement.executeQuery("select * from person");
-//            while(rs.next())
-//            {
-//                // read the result set
-//                System.out.println("name = " + rs.getString("name"));
-//                System.out.println("id = " + rs.getInt("id"));
-//            }
-        }
-        catch(SQLException e)
-        {
+        // JDBC URL, username, and password of PostgreSQL server
+        String url = "postgres://postgres:DAa*Bf1Gd6bC3EEc2dgdg15f35Aef6Ag@viaduct.proxy.rlwy.net:15197/railway";
+        String user = "postgres";
+        String password = "DAa*Bf1Gd6bC3EEc2dgdg15f35Aef6Ag";
+
+        try {
+//            // Explicitly load the PostgreSQL driver class
+//            Class.forName("org.postgresql.Driver");
+
+            // Establishing a connection to your database
+            connection = DriverManager.getConnection(url, user, password);
+
+            // Creating a SQL statement
+            Statement statement = connection.createStatement();
+
+            // Executing a simple query to fetch records
+            String query = "SELECT * FROM jogados";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            // Displaying the results
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nome = resultSet.getString("nome");
+                int idade = resultSet.getInt("idade");
+                // ... (retrieve other columns as needed)
+                System.out.println("ID: " + id + ", Name: " + nome + ", Age: " + idade);
+            }
+
+            // Closing resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
             // if the error message is "out of memory",
             // it probably means no database file is found
             System.err.println(e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if(connection != null)
+        } finally {
+            try {
+                if (connection != null)
                     connection.close();
-            }
-            catch(SQLException e)
-            {
+            } catch (SQLException e) {
                 // connection close failed.
                 System.err.println(e.getMessage());
             }
