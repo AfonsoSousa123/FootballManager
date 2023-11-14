@@ -4,19 +4,15 @@
  */
 package com.mycompany.footballmanager;
 
-import com.mycompany.footballmanager.Interfaces.InsertsRecords;
+import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * @author afonso, milena, tânia
  */
-public class Jogador implements InsertsRecords {
+public class Jogador extends Pessoa implements Dados {
     // BEGIN Variables ----------------------------------------------------------------
-    private int id = 0;
-    private static int AI = 1; // Auto Increment
-    private String nome;
-    private int idade;
     private String posicao;
     private String hist_lesoes;
     private double ataque;
@@ -24,11 +20,9 @@ public class Jogador implements InsertsRecords {
     private int n_agressividade;
     // END Variables ----------------------------------------------------------------
 
-    // BEGIN Getters ----------------------------------------------------------------
+    // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
-        id = AI++;
-        nome = "Zézinho";
-        idade = 20;
+        super();
         posicao = "central";
         hist_lesoes = "perna partida, ";
         ataque = 10;
@@ -45,22 +39,20 @@ public class Jogador implements InsertsRecords {
             double defesa,
             int n_agressividade
     ) {
-        this.id = AI++;
-        this.nome = nome;
-        this.idade = idade;
+        super(nome, idade);
         this.posicao = posicao;
         this.hist_lesoes = hist_lesoes;
         this.ataque = ataque;
         this.defesa = defesa;
         this.n_agressividade = n_agressividade;
     }
-    // END Getters ----------------------------------------------------------------
+    // END Constructors ----------------------------------------------------------------
 
-    // BEGIN Methods ----------------------------------------------------------------
+    // BEGIN Interface Methods ----------------------------------------------------------------
     @Override
-    public void InsertJogador() {
+    public void insert() {
         // Simulated database as a list
-        ArrayList<Jogador> jogadores = new ArrayList<>();
+        LinkedList<Jogador> jogadores = new LinkedList<>();
 
         // Assuming you want to insert 'this' Jogador object
         jogadores.add(this);
@@ -68,17 +60,24 @@ public class Jogador implements InsertsRecords {
         // Printing the inserted player for demonstration
         System.out.println("Player inserted into the database: " + this.toString());
     }
-    // END Methods ----------------------------------------------------------------
+
+    @Override
+    public void print() {
+        //
+    }
+
+    @Override
+    public void update() {
+        //
+    }
+
+    @Override
+    public void delete() {
+        //
+    }
+    // END Interface Methods ----------------------------------------------------------------
 
     // BEGIN Setters ----------------------------------------------------------------
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
     public void setPosicao(String posicao) {
         this.posicao = posicao;
     }
@@ -101,18 +100,6 @@ public class Jogador implements InsertsRecords {
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-    public int getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
     public String getPosicao() {
         return posicao;
     }
@@ -144,7 +131,6 @@ public class Jogador implements InsertsRecords {
     public String toString() {
         String dataRow = String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14d |%n",
                 getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
-
         return dataRow;
     }
 }

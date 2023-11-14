@@ -5,9 +5,14 @@
 package com.mycompany.footballmanager.Interfaces;
 
 /**
- *
  * @author afonso, milena, tânia
  */
-public interface InsertsRecords {
-    public abstract void InsertJogador();
+public interface Dados {
+    public abstract void insert();
+
+    public abstract void print();
+
+    public abstract void update();
+
+    public abstract void delete();
 }
