@@ -23,7 +23,7 @@ public class Pessoa {
     }
 
     public Pessoa(String nome, int idade) {
-        id = AI++;
+        this.id = AI++;
         this.nome = nome;
         this.idade = idade;
     }

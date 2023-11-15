@@ -16,7 +16,8 @@ public class Arbitro extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
-        super();
+        super.setNome("Arbitro nome");
+        super.setIdade(24);
         experiencia = "3 Anos";
     }
 

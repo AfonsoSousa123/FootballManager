@@ -22,7 +22,8 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
-        super();
+        super.setNome("Zézinho");
+        super.setIdade(24);
         posicao = "central";
         hist_lesoes = "perna partida, ";
         ataque = 10;
@@ -100,7 +101,6 @@ public class Jogador extends Pessoa implements Dados {
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-
     @Override
     public int getId() {
         return super.getId();
@@ -146,6 +146,6 @@ public class Jogador extends Pessoa implements Dados {
     @Override
     public String toString() {
         return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14d |%n",
-                getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
+                this.getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
     }
 }

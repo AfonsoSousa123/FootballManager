@@ -17,7 +17,8 @@ public class Treinador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
-        super();
+        super.setNome("Treinador nome");
+        super.setIdade(24);
         especializacoes = "Estilo ofensivo";
         taticas_fav = "tatica defensiva";
     }

@@ -43,14 +43,15 @@ public class Menu {
 
                 switch (option) {
                     case 1:
-                        System.out.println("| MENU INSERIR DADOS:");
-                        System.out.println("| 1. Inserir Jogador");
-                        System.out.println("| 2. Inserir Arbitro");
-                        System.out.println("| 3. Inserir Treinador");
-                        System.out.println("| 4. Inserir Equipa");
-                        System.out.println("| 5. Inserir Liga");
-                        System.out.println("| 6. Voltar atrás");
-                        System.out.println("---------------------------------------");
+                        System.out.println("|------------------------------|");
+                        System.out.println("| MENU INSERIR DADOS:          |");
+                        System.out.println("| 1. Inserir Jogador           |");
+                        System.out.println("| 2. Inserir Arbitro           |");
+                        System.out.println("| 3. Inserir Treinador         |");
+                        System.out.println("| 4. Inserir Equipa            |");
+                        System.out.println("| 5. Inserir Liga              |");
+                        System.out.println("| 6. Voltar atrás              |");
+                        System.out.println("-------------------------------|");
                         System.out.print("Escolha uma opção: ");
 
                         try {
