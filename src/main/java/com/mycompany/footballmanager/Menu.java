@@ -4,8 +4,6 @@
  */
 package com.mycompany.footballmanager;
 
-import com.mycompany.footballmanager.DB.DB;
-
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -14,6 +12,8 @@ import java.util.Scanner;
  */
 public class Menu {
     LinkedList<Jogador> jogadores = new LinkedList<>();
+    LinkedList<Arbitro> arbitros = new LinkedList<>();
+    LinkedList<Treinador> treinadores = new LinkedList<>();
     Scanner scanner = new Scanner(System.in);
 
     public void menu() {
@@ -88,9 +88,12 @@ public class Menu {
                     case 2:
                         // Print Jogadores
                         printJogador();
+                        pressEnterToContinue();
                         break;
                     case 3:
                         // Print Treinadores
+                        printTreinador();
+                        pressEnterToContinue();
                         break;
                     case 4:
                         // Print Equipas
@@ -106,6 +109,8 @@ public class Menu {
                         break;
                     case 8:
                         // Criar Partida
+                        printArbitro();
+                        pressEnterToContinue();
                         break;
                     case 9:
                         System.out.println("Saindo do Programa!");
@@ -136,10 +141,68 @@ public class Menu {
         jogadores.add(jogador1);
         jogadores.add(jogador2);
 
-        // Print details of all players using a loop
+        // Print the table Headers
         System.out.printf(jogador1.tableHeaders());
+        // Print details of all players using a loop
         for (Jogador jogador : jogadores) {
             jogador.print();
+        }
+    }
+
+    public void printArbitro() {
+        // Instantiate arbitro objects and add them to the list
+        Arbitro arbitro1 = new Arbitro();
+        Arbitro arbitro2 = new Arbitro("Ricardo Sousa", 43, "5 anos");
+
+        arbitros.add(arbitro1);
+        arbitros.add(arbitro2);
+
+        // Print the table Headers
+        System.out.printf(arbitro1.tableHeaders());
+        // Print details of all players using a loop
+        for (Arbitro arbitro : arbitros) {
+            arbitro.print();
+        }
+    }
+
+    public void printTreinador() {
+        // Instantiate jogador objects and add them to the list
+        Treinador treinador1 = new Treinador();
+        Treinador treinador2 = new Treinador("José Mourinho", 34, "something", "i dont know, ask him...");
+
+        treinadores.add(treinador1);
+        treinadores.add(treinador2);
+
+        // Print the table Headers
+        System.out.printf(treinador1.tableHeaders());
+        // Print details of all players using a loop
+        for (Treinador treinador : treinadores) {
+            treinador.print();
+        }
+    }
+
+    public static void clearConsole() {
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (final Exception e) {
+            System.out.println("Error clearing console" + e.getMessage());
+        }
+    }
+
+    private void pressEnterToContinue() {
+        System.out.println("Pressione ENTER para continuar...");
+        try {
+            System.in.read();
+            scanner.nextLine();
+            clearConsole();
+        } catch (Exception e) {
+            System.out.println("Input inválido, tente novamente");
         }
     }
 }

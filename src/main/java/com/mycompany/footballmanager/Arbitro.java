@@ -4,10 +4,14 @@
  */
 package com.mycompany.footballmanager;
 
+import com.mycompany.footballmanager.Interfaces.Dados;
+
+import java.util.LinkedList;
+
 /**
  * @author afonso, milena, tânia
  */
-public class Arbitro extends Pessoa {
+public class Arbitro extends Pessoa implements Dados {
     private String experiencia;
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -26,36 +30,57 @@ public class Arbitro extends Pessoa {
     }
     // END Constructors ----------------------------------------------------------------
 
+    // BEGIN Interface Methods ----------------------------------------------------------------
+    @Override
+    public void insert() {
+        // Simulated database as a list
+        LinkedList<Arbitro> arbitros = new LinkedList<>();
+
+        // Assuming you want to insert 'this' Arbitro object
+        arbitros.add(this);
+
+        // Printing the inserted player for demonstration
+        System.out.println("Player inserted into the database: " + this.toString());
+    }
+
+    @Override
+    public void print() {
+        System.out.printf(this.toString());
+    }
+
+    @Override
+    public void update() {
+        //
+    }
+
+    @Override
+    public void delete() {
+        //
+    }
+    // END Interface Methods ----------------------------------------------------------------
+
+
     // BEGIN Setters ----------------------------------------------------------------
-    @Override
-    public void setIdade(int idade) {
-        super.setIdade(idade);
-    }
-
-    @Override
-    public void setNome(String nome) {
-        super.setNome(nome);
-    }
-
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;
     }
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
+
     @Override
     public int getId() {
         return super.getId();
     }
 
     @Override
-    public int getIdade() {
-        return super.getIdade();
+    public String getNome() {
+        return super.getNome();
     }
 
     @Override
-    public String getNome() {
-        return super.getNome();
+    public int getIdade() {
+        return super.getIdade();
     }
 
     public String getExperiencia() {
@@ -71,8 +96,7 @@ public class Arbitro extends Pessoa {
 
     @Override
     public String toString() {
-        String dataRow = String.format("| %-3s | %-20s | %-7s | %-20s |%n",
+        return String.format("| %-3s | %-20s | %-7s | %-20s |%n",
                 getId(), getNome(), getIdade(), getExperiencia());
-        return dataRow;
     }
 }

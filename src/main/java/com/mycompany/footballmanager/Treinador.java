@@ -4,10 +4,14 @@
  */
 package com.mycompany.footballmanager;
 
+import com.mycompany.footballmanager.Interfaces.Dados;
+
+import java.util.LinkedList;
+
 /**
  * @author afonso, milena, tânia
  */
-public class Treinador extends Pessoa {
+public class Treinador extends Pessoa implements Dados {
     private String especializacoes;
     private String taticas_fav;
 
@@ -30,18 +34,37 @@ public class Treinador extends Pessoa {
     }
     // END Constructors ----------------------------------------------------------------
 
+    // BEGIN Interface Methods ----------------------------------------------------------------
+    @Override
+    public void insert() {
+        // Simulated database as a list
+        LinkedList<Treinador> treinadores = new LinkedList<>();
+
+        // Assuming you want to insert 'this' Treinador object
+        treinadores.add(this);
+
+        // Printing the inserted player for demonstration
+        System.out.println("Treinador inserted into the database: " + this.toString());
+    }
+
+    @Override
+    public void print() {
+        System.out.printf(this.toString());
+    }
+
+    @Override
+    public void update() {
+        //
+    }
+
+    @Override
+    public void delete() {
+        //
+    }
+    // END Interface Methods ----------------------------------------------------------------
+
+
     // BEGIN Setters ----------------------------------------------------------------
-
-    @Override
-    public void setIdade(int idade) {
-        super.setIdade(idade);
-    }
-
-    @Override
-    public void setNome(String nome) {
-        super.setNome(nome);
-    }
-
     public void setEspecializacoes(String especializacoes) {
         this.especializacoes = especializacoes;
     }
@@ -85,9 +108,8 @@ public class Treinador extends Pessoa {
 
     @Override
     public String toString() {
-        String dataRow = String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
-                getId(), getNome(), getIdade(), getEspecializacoes(), getTaticas_fav());
 
-        return dataRow;
+        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
+                getId(), getNome(), getIdade(), getEspecializacoes(), getTaticas_fav());
     }
 }

@@ -100,6 +100,22 @@ public class Jogador extends Pessoa implements Dados {
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
+
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public String getNome() {
+        return super.getNome();
+    }
+
+    @Override
+    public int getIdade() {
+        return super.getIdade();
+    }
+
     public String getPosicao() {
         return posicao;
     }
