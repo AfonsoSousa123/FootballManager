@@ -63,7 +63,7 @@ public class Jogador extends Pessoa implements Dados {
 
     @Override
     public void print() {
-        //
+        System.out.printf(this.toString());
     }
 
     @Override
@@ -129,8 +129,7 @@ public class Jogador extends Pessoa implements Dados {
 
     @Override
     public String toString() {
-        String dataRow = String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14d |%n",
+        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14d |%n",
                 getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
-        return dataRow;
     }
 }
