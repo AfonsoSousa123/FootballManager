@@ -4,26 +4,28 @@
  */
 package com.mycompany.footballmanager;
 
+import java.util.Random;
+
 /**
  * @author afonso, milena, tânia
  */
 public class Pessoa {
     // BEGIN Variables ----------------------------------------------------------------
-    private int id = 0;
-    private static int AI = 1; // Auto Increment
     private String nome;
     private int idade;
+
+    protected Random random = new Random();
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Pessoa() {
-        id = AI++;
+//        id = AI++;
         nome = "Pessoa";
         idade = 20;
     }
 
     public Pessoa(String nome, int idade) {
-        this.id = AI++;
+//        this.id = AI++;
         this.nome = nome;
         this.idade = idade;
     }
@@ -40,10 +42,6 @@ public class Pessoa {
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-    public int getId() {
-        return id;
-    }
-
     public int getIdade() {
         return idade;
     }

@@ -13,6 +13,8 @@ import java.util.LinkedList;
  */
 public class Jogador extends Pessoa implements Dados {
     // BEGIN Variables ----------------------------------------------------------------
+    private static int AI = 1; // Auto Increment
+    private int id = 0;
     private String posicao;
     private String hist_lesoes;
     private double ataque;
@@ -22,6 +24,7 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
+        id = AI++;
         super.setNome("Zézinho");
         super.setIdade(24);
         posicao = "central";
@@ -41,6 +44,7 @@ public class Jogador extends Pessoa implements Dados {
             int n_agressividade
     ) {
         super(nome, idade);
+        this.id = AI++;
         this.posicao = posicao;
         this.hist_lesoes = hist_lesoes;
         this.ataque = ataque;
@@ -51,7 +55,7 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     @Override
-    public void insert() {
+    public void insert() { // AINDA NAO ESTA A FUNCIONAR !!!
         // Simulated database as a list
         LinkedList<Jogador> jogadores = new LinkedList<>();
 
@@ -101,9 +105,8 @@ public class Jogador extends Pessoa implements Dados {
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-    @Override
     public int getId() {
-        return super.getId();
+        return id;
     }
 
     @Override

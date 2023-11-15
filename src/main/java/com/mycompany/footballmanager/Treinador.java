@@ -7,18 +7,23 @@ package com.mycompany.footballmanager;
 import com.mycompany.footballmanager.Interfaces.Dados;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * @author afonso, milena, tânia
  */
 public class Treinador extends Pessoa implements Dados {
+    private static int AI = 1; // Auto Increment
+    private int id = 0;
     private String especializacoes;
     private String taticas_fav;
 
+
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
+        id = AI++;
         super.setNome("Treinador nome");
-        super.setIdade(24);
+        super.setIdade(random.nextInt(20));
         especializacoes = "Estilo ofensivo";
         taticas_fav = "tatica defensiva";
     }
@@ -30,12 +35,13 @@ public class Treinador extends Pessoa implements Dados {
             String taticas_fav
     ) {
         super(nome, idade);
+        this.id = AI++;
         this.especializacoes = especializacoes;
         this.taticas_fav = taticas_fav;
     }
     // END Constructors ----------------------------------------------------------------
 
-    // BEGIN Interface Methods ----------------------------------------------------------------
+    // BEGIN Interface Methods ---------------------------------------------------------
     @Override
     public void insert() {
         // Simulated database as a list
@@ -62,7 +68,7 @@ public class Treinador extends Pessoa implements Dados {
     public void delete() {
         //
     }
-    // END Interface Methods ----------------------------------------------------------------
+    // END Interface Methods --------------------------------------------------------
 
 
     // BEGIN Setters ----------------------------------------------------------------
@@ -74,12 +80,12 @@ public class Treinador extends Pessoa implements Dados {
         this.taticas_fav = taticas_fav;
     }
 
-    // END Setters ----------------------------------------------------------------
+    // END Setters ------------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-    @Override
+
     public int getId() {
-        return super.getId();
+        return id;
     }
 
     @Override

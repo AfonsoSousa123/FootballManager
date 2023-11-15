@@ -20,6 +20,8 @@ public class Menu {
         int option = 0;
         int optionInsert;
 
+        boolean validInput = false;
+
 //        boolean sair = false;
         do {
             System.out.println("|--------------------------------------|");
@@ -40,6 +42,7 @@ public class Menu {
 
             try {
                 option = scanner.nextInt();
+                validInput = true;
 
                 switch (option) {
                     case 1:
@@ -79,6 +82,7 @@ public class Menu {
                                     break;
                                 default:
                                     printInvalidOptionError();
+                                    validInput = false;
                                     break;
                             }
                         } catch (Exception e) {
@@ -126,6 +130,8 @@ public class Menu {
                 }
             } catch (Exception e) {
                 printInvalidOptionError();
+                scanner.nextLine(); // Consume invalid input
+                validInput = false; // Set flag to false for invalid input
             }
         } while (option > 0 && option < 10);
     }

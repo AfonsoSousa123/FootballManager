@@ -12,10 +12,13 @@ import java.util.LinkedList;
  * @author afonso, milena, tânia
  */
 public class Arbitro extends Pessoa implements Dados {
+    protected static int AI = 1; // Auto Increment
+    private int id = 0;
     private String experiencia;
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
+        id = AI++;
         super.setNome("Arbitro nome");
         super.setIdade(24);
         experiencia = "3 Anos";
@@ -27,6 +30,7 @@ public class Arbitro extends Pessoa implements Dados {
             String experiencia
     ) {
         super(nome, idade);
+        this.id = AI++;
         this.experiencia = experiencia;
     }
     // END Constructors ----------------------------------------------------------------
@@ -69,9 +73,8 @@ public class Arbitro extends Pessoa implements Dados {
 
     // BEGIN Getters ----------------------------------------------------------------
 
-    @Override
     public int getId() {
-        return super.getId();
+        return id;
     }
 
     @Override
