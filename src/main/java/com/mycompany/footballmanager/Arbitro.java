@@ -12,7 +12,7 @@ import java.util.LinkedList;
  * @author afonso, milena, tânia
  */
 public class Arbitro extends Pessoa implements Dados {
-    protected static int AI = 1; // Auto Increment
+    private static int AI = 1; // Auto Increment
     private int id = 0;
     private String experiencia;
 
@@ -20,7 +20,7 @@ public class Arbitro extends Pessoa implements Dados {
     public Arbitro() {
         id = AI++;
         super.setNome("Arbitro nome");
-        super.setIdade(24);
+        super.setIdade(random.nextInt(20, 40));
         experiencia = "3 Anos";
     }
 

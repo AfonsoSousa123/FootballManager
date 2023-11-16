@@ -9,23 +9,21 @@ import java.util.Random;
 /**
  * @author afonso, milena, tânia
  */
-public class Pessoa {
+public abstract class Pessoa {
     // BEGIN Variables ----------------------------------------------------------------
     private String nome;
     private int idade;
-
     protected Random random = new Random();
+
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Pessoa() {
-//        id = AI++;
         nome = "Pessoa";
-        idade = 20;
+        idade = random.nextInt(20, 40);
     }
 
     public Pessoa(String nome, int idade) {
-//        this.id = AI++;
         this.nome = nome;
         this.idade = idade;
     }

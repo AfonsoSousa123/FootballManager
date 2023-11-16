@@ -7,7 +7,6 @@ package com.mycompany.footballmanager;
 import com.mycompany.footballmanager.Interfaces.Dados;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 /**
  * @author afonso, milena, tânia
@@ -23,7 +22,7 @@ public class Treinador extends Pessoa implements Dados {
     public Treinador() {
         id = AI++;
         super.setNome("Treinador nome");
-        super.setIdade(random.nextInt(20));
+        super.setIdade(random.nextInt(30, 60));
         especializacoes = "Estilo ofensivo";
         taticas_fav = "tatica defensiva";
     }

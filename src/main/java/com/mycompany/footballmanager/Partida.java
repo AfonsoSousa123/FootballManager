@@ -5,14 +5,18 @@
 package com.mycompany.footballmanager;
 
 /**
- *
  * @author afonso, milena, tânia
  */
 public class Partida {
-
+    private static int AI = 1; // Auto Increment
     private int id;
     private String nome;
     private Arbitro arbitro;
-    private Equipa equipa1;
-    private Equipa equipa2;
+    private Equipa equipa;
+    private Equipa adversario;
+    private String data;
+    private int resultado;
+    private String local;
+    private int golos_marcados;
+    private int golos_sofridos;
 }

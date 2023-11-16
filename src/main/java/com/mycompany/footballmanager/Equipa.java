@@ -5,14 +5,18 @@
 package com.mycompany.footballmanager;
 
 /**
- *
  * @author afonso, milena, tânia
  */
 public class Equipa {
-
+    // BEGIN Variables ----------------------------------------------------------------
     private int id;
+    private String nome;
     private Jogador jogador;
     private Treinador treinador;
     private Liga liga;
+    private String cidade;
+    private String historico;
+    // END Variables ------------------------------------------------------------------
+
 
 }

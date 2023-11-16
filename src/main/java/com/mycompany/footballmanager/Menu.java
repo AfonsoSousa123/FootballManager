@@ -209,7 +209,7 @@ public class Menu {
             scanner.nextLine();
             clearConsole();
         } catch (Exception e) {
-            System.out.println("Input inválido, tente novamente");
+            System.out.println("Input inválido, tente novamente" + e.getMessage());
         }
     }
 }

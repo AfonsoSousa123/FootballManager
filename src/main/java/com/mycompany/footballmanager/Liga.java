@@ -5,13 +5,12 @@
 package com.mycompany.footballmanager;
 
 /**
- *
  * @author afonso, milena, tânia
  */
 public class Liga {
-
     private int id;
     private String nome;
     private String pais;
     private Partida partida;
+    private int ranking_equipas;
 }

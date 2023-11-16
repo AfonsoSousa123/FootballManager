@@ -6,8 +6,6 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.util.LinkedList;
-
 /**
  * @author afonso, milena, tânia
  */
@@ -17,9 +15,9 @@ public class Jogador extends Pessoa implements Dados {
     private int id = 0;
     private String posicao;
     private String hist_lesoes;
-    private double ataque;
-    private double defesa;
-    private int n_agressividade;
+    private double ataque; // de 0 a 100
+    private double defesa; // de 0 a 100
+    private int n_agressividade; // de 0 a 100
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -56,14 +54,15 @@ public class Jogador extends Pessoa implements Dados {
     // BEGIN Interface Methods ----------------------------------------------------------------
     @Override
     public void insert() { // AINDA NAO ESTA A FUNCIONAR !!!
-        // Simulated database as a list
-        LinkedList<Jogador> jogadores = new LinkedList<>();
-
-        // Assuming you want to insert 'this' Jogador object
-        jogadores.add(this);
-
-        // Printing the inserted player for demonstration
-        System.out.println("Player inserted into the database: " + this.toString());
+//        // Simulated database as a list
+//        LinkedList<Jogador> jogadores = new LinkedList<>();
+//
+//        // Assuming you want to insert 'this' Jogador object
+//        jogadores.add(this);
+//
+//        // Printing the inserted player for demonstration
+//        System.out.println("Player inserted into the database: " + this.toString());
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
