@@ -4,59 +4,49 @@
  */
 package com.mycompany.footballmanager.DB;
 
-import java.sql.*;
+import java.io.*;
+import java.util.ArrayList;
 
 /**
  * @author afonso, milena, tânia
  */
 public class DB {
-    public static void connection() {
-        Connection connection = null;
-
-        // JDBC URL, username, and password of PostgreSQL server
-        String url = "postgres://postgres:DAa*Bf1Gd6bC3EEc2dgdg15f35Aef6Ag@viaduct.proxy.rlwy.net:15197/railway";
-        String user = "postgres";
-        String password = "DAa*Bf1Gd6bC3EEc2dgdg15f35Aef6Ag";
+    public static void fileReader() {
+        // Variables
+        String path = "./src/main/java/com/mycompany/footballmanager/DB/database.csv";
+        String row = "";
 
         try {
-//            // Explicitly load the PostgreSQL driver class
-//            Class.forName("org.postgresql.Driver");
+            File file = new File(path);
 
-            // Establishing a connection to your database
-            connection = DriverManager.getConnection(url, user, password);
+            // Check if the file exists; if not, creates it
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("Ficheiro criado com sucesso!");
+                } else {
+                    System.out.println("Falha ao criar o ficheiro!");
+                    return; // Exit the method if file creation fails
+                }
+            }
 
-            // Creating a SQL statement
-            Statement statement = connection.createStatement();
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            ArrayList<String> rows = new ArrayList<>();
 
-            // Executing a simple query to fetch records
-            String query = "SELECT * FROM jogados";
-            ResultSet resultSet = statement.executeQuery(query);
+            // Reading the file and storing rows in a ArrayList
+            while ((row = reader.readLine()) != null) {
+                rows.add(row);
+            }
+
+            reader.close(); // Close the reader after reading
 
             // Displaying the results
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String nome = resultSet.getString("nome");
-                int idade = resultSet.getInt("idade");
-                // ... (retrieve other columns as needed)
-                System.out.println("ID: " + id + ", Name: " + nome + ", Age: " + idade);
+            for (String storedLine : rows) {
+                System.out.println(storedLine);
             }
-
-            // Closing resources
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
-            System.err.println(e.getMessage());
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -4,18 +4,19 @@
  */
 package com.mycompany.footballmanager;
 
-import java.util.LinkedList;
+import com.mycompany.footballmanager.DB.DB;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * @author afonso, milena, tânia
  */
 public class Menu {
-    LinkedList<Jogador> jogadores = new LinkedList<>();
-    LinkedList<Arbitro> arbitros = new LinkedList<>();
-    LinkedList<Treinador> treinadores = new LinkedList<>();
+    ArrayList<Jogador> jogadores = new ArrayList<>();
+    ArrayList<Arbitro> arbitros = new ArrayList<>();
+    ArrayList<Treinador> treinadores = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
-    Jogador insereJogador = new Jogador();
 
     public void menu() {
         int option = 0;
@@ -55,7 +56,7 @@ public class Menu {
                         System.out.println("| 4. Inserir Equipa            |");
                         System.out.println("| 5. Inserir Liga              |");
                         System.out.println("| 6. Voltar atrás              |");
-                        System.out.println("-------------------------------|");
+                        System.out.println("|------------------------------|");
                         System.out.print("Escolha uma opção: ");
 
                         try {
@@ -65,7 +66,8 @@ public class Menu {
                             switch (optionInsert) {
                                 case 1:
                                     // Jogador
-                                    insereJogador.insereJogador();
+                                    Jogador jogador = new Jogador();
+                                    jogadores.add(jogador.insereJogador());
                                     break;
                                 case 2:
                                     // Arbitro
@@ -103,6 +105,7 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 4:
+                        DB.fileReader();
                         // Print Equipas
                         break;
                     case 5:
@@ -143,17 +146,7 @@ public class Menu {
     }
 
     public void printJogador() {
-        // Instantiate jogador objects and add them to the list
         Jogador jogador1 = new Jogador();
-        Jogador jogador2 = new Jogador("Cristiano Ronaldo", 34, "Avançado", "costela partida", 50, 45, 7);
-        
-                
-        jogadores.add(jogador1);
-        jogadores.add(jogador2);
-        jogadores.add(insereJogador);
-                
-        
-        
 
         // Print the table Headers
         System.out.printf(jogador1.tableHeaders());
@@ -161,7 +154,6 @@ public class Menu {
         for (Jogador jogador : jogadores) {
             jogador.print();
         }
-     
     }
 
     public void printArbitro() {

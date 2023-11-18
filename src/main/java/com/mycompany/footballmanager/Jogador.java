@@ -5,8 +5,9 @@
 package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
+
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.LinkedList;
 
 /**
  * @author afonso, milena, tânia
@@ -26,7 +27,7 @@ public class Jogador extends Pessoa implements Dados {
     public Jogador() {
         id = AI++;
         super.setNome("Zézinho");
-        super.setIdade(random.nextInt(20,40));
+        super.setIdade(random.nextInt(20, 40));
         posicao = "central";
         hist_lesoes = "perna partida, ";
         ataque = 10;
@@ -55,62 +56,65 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     @Override
-    public void insert() { // AINDA NAO ESTA A FUNCIONAR !!!
-//        // Simulated database as a list
-//        LinkedList<Jogador> jogadores = new LinkedList<>();
-//
-//        // Assuming you want to insert 'this' Jogador object
-//        jogadores.add(this);
-//
-//        // Printing the inserted player for demonstration
-//        System.out.println("Player inserted into the database: " + this.toString());
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void insert() {
+        // Simulated database as a list
+        ArrayList<Jogador> jogadores = new ArrayList<>();
+
+        // Assuming you want to insert 'this' Jogador object
+        jogadores.add(insereJogador());
+
+        // Printing the inserted player for demonstration
+        System.out.println("Player inserted into the database! ");
+//        throw new UnsupportedOperationException("Not implemented yet");
     }
-    
+
     public Jogador insereJogador() {
+//        Jogador jogador = new Jogador();
         Scanner scanner = new Scanner(System.in);
-        
-            
+
+        try {
             System.out.println("Nome: ");
             String nome = scanner.nextLine();
             this.setNome(nome);
-        
+
             System.out.println("Idade: ");
             int idade = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Consume newline character
             this.setIdade(idade);
-        
+
             System.out.println("Posição: ");
-            String posição = scanner.nextLine();
+            String posicao = scanner.nextLine();
             this.setPosicao(posicao);
-        
+
             System.out.println("Historico: ");
             String historico = scanner.nextLine();
             this.setHist_lesoes(historico);
-        
+
             System.out.println("Ataque: ");
             double ataque = scanner.nextDouble();
-            scanner.nextLine();
+            scanner.nextLine(); // Consume newline character
             this.setAtaque(ataque);
-        
+
             System.out.println("Defesa: ");
             double defesa = scanner.nextDouble();
-            scanner.nextLine();
+            scanner.nextLine(); // Consume newline character
             this.setDefesa(defesa);
-        
-            System.out.println("Agressividade: ");
-            int agressividade = scanner.nextInt();
-            scanner.nextLine();
-            this.setN_agressividade(n_agressividade);
-        
 
-          
+            System.out.println("Agressividade: ");
+            int n_agressividade = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+            this.setN_agressividade(n_agressividade);
+
+//            scanner.close(); // Closing Scanner
+        } catch (Exception e) {
+            System.out.println("Input inválido: " + e.getMessage());
+            // Consider handling or logging the exception here
+        }
+
         return this;
-        
     }
 
-    
-    
+
     @Override
     public void print() {
         System.out.printf(this.toString());
