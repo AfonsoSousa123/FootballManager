@@ -15,6 +15,7 @@ public class Menu {
     LinkedList<Arbitro> arbitros = new LinkedList<>();
     LinkedList<Treinador> treinadores = new LinkedList<>();
     Scanner scanner = new Scanner(System.in);
+    Jogador insereJogador = new Jogador();
 
     public void menu() {
         int option = 0;
@@ -64,6 +65,7 @@ public class Menu {
                             switch (optionInsert) {
                                 case 1:
                                     // Jogador
+                                    insereJogador.insereJogador();
                                     break;
                                 case 2:
                                     // Arbitro
@@ -144,9 +146,14 @@ public class Menu {
         // Instantiate jogador objects and add them to the list
         Jogador jogador1 = new Jogador();
         Jogador jogador2 = new Jogador("Cristiano Ronaldo", 34, "Avançado", "costela partida", 50, 45, 7);
-
+        
+                
         jogadores.add(jogador1);
         jogadores.add(jogador2);
+        jogadores.add(insereJogador);
+                
+        
+        
 
         // Print the table Headers
         System.out.printf(jogador1.tableHeaders());
@@ -154,6 +161,7 @@ public class Menu {
         for (Jogador jogador : jogadores) {
             jogador.print();
         }
+     
     }
 
     public void printArbitro() {

@@ -5,6 +5,8 @@
 package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
+import java.util.Scanner;
+import java.util.LinkedList;
 
 /**
  * @author afonso, milena, tânia
@@ -64,7 +66,51 @@ public class Jogador extends Pessoa implements Dados {
 //        System.out.println("Player inserted into the database: " + this.toString());
         throw new UnsupportedOperationException("Not implemented yet");
     }
+    
+    public Jogador insereJogador() {
+        Scanner scanner = new Scanner(System.in);
+        
+            
+            System.out.println("Nome: ");
+            String nome = scanner.nextLine();
+            this.setNome(nome);
+        
+            System.out.println("Idade: ");
+            int idade = scanner.nextInt();
+            scanner.nextLine();
+            this.setIdade(idade);
+        
+            System.out.println("Posição: ");
+            String posição = scanner.nextLine();
+            this.setPosicao(posicao);
+        
+            System.out.println("Historico: ");
+            String historico = scanner.nextLine();
+            this.setHist_lesoes(historico);
+        
+            System.out.println("Ataque: ");
+            double ataque = scanner.nextDouble();
+            scanner.nextLine();
+            this.setAtaque(ataque);
+        
+            System.out.println("Defesa: ");
+            double defesa = scanner.nextDouble();
+            scanner.nextLine();
+            this.setDefesa(defesa);
+        
+            System.out.println("Agressividade: ");
+            int agressividade = scanner.nextInt();
+            scanner.nextLine();
+            this.setN_agressividade(n_agressividade);
+        
 
+          
+        return this;
+        
+    }
+
+    
+    
     @Override
     public void print() {
         System.out.printf(this.toString());
