@@ -64,7 +64,6 @@ public class Arbitro extends Pessoa implements Dados {
     }
     // END Interface Methods ----------------------------------------------------------------
 
-
     // BEGIN Setters ----------------------------------------------------------------
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;

@@ -118,7 +118,7 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 9:
-                        System.out.println("Saindo do Programa!");
+                        System.out.println("Saindo do Programa...");
                         // Closes the scanner
                         scanner.close();
                         // Closes the Program

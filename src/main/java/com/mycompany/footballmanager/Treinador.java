@@ -17,14 +17,13 @@ public class Treinador extends Pessoa implements Dados {
     private String especializacoes;
     private String taticas_fav;
 
-
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
         id = AI++;
         super.setNome("Treinador nome");
         super.setIdade(random.nextInt(30, 60));
         especializacoes = "Estilo ofensivo";
-        taticas_fav = "tatica defensiva";
+        taticas_fav = "3-4-3, 5-6-4";
     }
 
     public Treinador(

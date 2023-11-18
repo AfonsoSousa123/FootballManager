@@ -4,6 +4,8 @@
  */
 package com.mycompany.footballmanager;
 
+import java.util.LinkedList;
+
 /**
  * @author afonso, milena, tânia
  */
@@ -11,6 +13,7 @@ public class Liga {
     private int id;
     private String nome;
     private String pais;
-    private Partida partida;
+    private LinkedList<Equipa> equipas;
+    private LinkedList<Partida> partidas;
     private int ranking_equipas;
 }

@@ -10,12 +10,12 @@ package com.mycompany.footballmanager;
 public class Partida {
     private static int AI = 1; // Auto Increment
     private int id;
-    private String nome;
+    private String nome; // O nome vai ser a junção dos nomes das equipas que estão jogando
     private Arbitro arbitro;
     private Equipa equipa;
     private Equipa adversario;
-    private String data;
-    private int resultado;
+    private String data; // quando formos inserir usamos um objeto de data para formatar a String para a data pretendida
+    private int resultado; // por exemplo: 4:3
     private String local;
     private int golos_marcados;
     private int golos_sofridos;

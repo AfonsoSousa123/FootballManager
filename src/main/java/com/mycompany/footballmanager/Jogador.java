@@ -24,7 +24,7 @@ public class Jogador extends Pessoa implements Dados {
     public Jogador() {
         id = AI++;
         super.setNome("Zézinho");
-        super.setIdade(24);
+        super.setIdade(random.nextInt(20,40));
         posicao = "central";
         hist_lesoes = "perna partida, ";
         ataque = 10;
