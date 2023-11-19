@@ -13,10 +13,11 @@ import java.util.Scanner;
  * @author afonso, milena, tânia
  */
 public class Menu {
-    ArrayList<Jogador> jogadores = new ArrayList<>();
-    ArrayList<Arbitro> arbitros = new ArrayList<>();
-    ArrayList<Treinador> treinadores = new ArrayList<>();
+    public static ArrayList<Jogador> jogadores = new ArrayList<>();
+    public ArrayList<Arbitro> arbitros = new ArrayList<>();
+    public ArrayList<Treinador> treinadores = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
+    private Jogador jogador = new Jogador();
 
     public void menu() {
         int option = 0;
@@ -66,8 +67,7 @@ public class Menu {
                             switch (optionInsert) {
                                 case 1:
                                     // Jogador
-                                    Jogador jogador = new Jogador();
-                                    jogadores.add(jogador.insereJogador());
+                                    jogador.insert();
                                     break;
                                 case 2:
                                     // Arbitro
@@ -146,10 +146,9 @@ public class Menu {
     }
 
     public void printJogador() {
-        Jogador jogador1 = new Jogador();
-
         // Print the table Headers
-        System.out.printf(jogador1.tableHeaders());
+        System.out.printf(Jogador.tableHeaders());
+
         // Print details of all players using a loop
         for (Jogador jogador : jogadores) {
             jogador.print();

@@ -6,7 +6,6 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -18,18 +17,18 @@ public class Jogador extends Pessoa implements Dados {
     private int id = 0;
     private String posicao;
     private String hist_lesoes;
-    private double ataque; // de 0 a 100
-    private double defesa; // de 0 a 100
+    private int ataque; // de 0 a 100
+    private int defesa; // de 0 a 100
     private int n_agressividade; // de 0 a 100
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
-        id = AI++;
+        this.id = AI++;
         super.setNome("Zézinho");
         super.setIdade(random.nextInt(20, 40));
         posicao = "central";
-        hist_lesoes = "perna partida, ";
+        hist_lesoes = "perna partida";
         ataque = 10;
         defesa = 15;
         n_agressividade = 5;
@@ -40,8 +39,8 @@ public class Jogador extends Pessoa implements Dados {
             int idade,
             String posicao,
             String hist_lesoes,
-            double ataque,
-            double defesa,
+            int ataque,
+            int defesa,
             int n_agressividade
     ) {
         super(nome, idade);
@@ -57,63 +56,70 @@ public class Jogador extends Pessoa implements Dados {
     // BEGIN Interface Methods ----------------------------------------------------------------
     @Override
     public void insert() {
-        // Simulated database as a list
-        ArrayList<Jogador> jogadores = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
 
-        // Assuming you want to insert 'this' Jogador object
-        jogadores.add(insereJogador());
+        boolean insertMore = true;
 
-        // Printing the inserted player for demonstration
-        System.out.println("Player inserted into the database! ");
-//        throw new UnsupportedOperationException("Not implemented yet");
+        while (insertMore) {
+            Menu.jogadores.add(insereJogador());
+
+            System.out.println("Deseja inserir outro Jogador? (sim/nao)");
+            String choice = scanner.nextLine().trim().toLowerCase();
+
+            if (!choice.equals("sim")) {
+                insertMore = false;
+            }
+        }
+
+//        scanner.nextLine(); // Consume newline character
+//        scanner.close(); // Close Scanner after use
     }
 
     public Jogador insereJogador() {
-//        Jogador jogador = new Jogador();
+        Jogador jogador = new Jogador();
         Scanner scanner = new Scanner(System.in);
 
         try {
             System.out.println("Nome: ");
             String nome = scanner.nextLine();
-            this.setNome(nome);
+            jogador.setNome(nome);
 
             System.out.println("Idade: ");
             int idade = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
-            this.setIdade(idade);
+            jogador.setIdade(idade);
 
             System.out.println("Posição: ");
             String posicao = scanner.nextLine();
-            this.setPosicao(posicao);
+            jogador.setPosicao(posicao);
 
             System.out.println("Historico: ");
             String historico = scanner.nextLine();
-            this.setHist_lesoes(historico);
+            jogador.setHist_lesoes(historico);
 
             System.out.println("Ataque: ");
-            double ataque = scanner.nextDouble();
+            int ataque = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
-            this.setAtaque(ataque);
+            jogador.setAtaque(ataque);
 
             System.out.println("Defesa: ");
-            double defesa = scanner.nextDouble();
+            int defesa = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
-            this.setDefesa(defesa);
+            jogador.setDefesa(defesa);
 
             System.out.println("Agressividade: ");
             int n_agressividade = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
-            this.setN_agressividade(n_agressividade);
-
+            jogador.setN_agressividade(n_agressividade);
+//            scanner.nextLine(); // Consume newline character
+//
 //            scanner.close(); // Closing Scanner
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage());
-            // Consider handling or logging the exception here
         }
 
-        return this;
+        return jogador;
     }
-
 
     @Override
     public void print() {
@@ -132,6 +138,11 @@ public class Jogador extends Pessoa implements Dados {
     // END Interface Methods ----------------------------------------------------------------
 
     // BEGIN Setters ----------------------------------------------------------------
+
+    private void setId(int id) {
+        this.id = id;
+    }
+
     public void setPosicao(String posicao) {
         this.posicao = posicao;
     }
@@ -140,11 +151,11 @@ public class Jogador extends Pessoa implements Dados {
         this.hist_lesoes = hist_lesoes;
     }
 
-    public void setAtaque(double ataque) {
+    public void setAtaque(int ataque) {
         this.ataque = ataque;
     }
 
-    public void setDefesa(double defesa) {
+    public void setDefesa(int defesa) {
         this.defesa = defesa;
     }
 
@@ -176,11 +187,11 @@ public class Jogador extends Pessoa implements Dados {
         return hist_lesoes;
     }
 
-    public double getAtaque() {
+    public int getAtaque() {
         return ataque;
     }
 
-    public double getDefesa() {
+    public int getDefesa() {
         return defesa;
     }
 
@@ -190,7 +201,7 @@ public class Jogador extends Pessoa implements Dados {
     // END Getters ----------------------------------------------------------------
 
     // Print headers
-    public String tableHeaders() {
+    public static String tableHeaders() {
         return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
                 "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
     }
