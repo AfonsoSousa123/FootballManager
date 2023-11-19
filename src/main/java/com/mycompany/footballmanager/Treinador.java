@@ -70,6 +70,11 @@ public class Treinador extends Pessoa implements Dados {
 
 
     // BEGIN Setters ----------------------------------------------------------------
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setEspecializacoes(String especializacoes) {
         this.especializacoes = especializacoes;
     }
@@ -106,7 +111,7 @@ public class Treinador extends Pessoa implements Dados {
     // END Getters ----------------------------------------------------------------
 
     // Print headers
-    public String tableHeaders() {
+    public static String tableHeaders() {
         return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
                 "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
     }
