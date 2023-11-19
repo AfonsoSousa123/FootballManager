@@ -24,7 +24,7 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
-        this.id = AI++;
+//        this.id = getId() + AI++;
         super.setNome("Zézinho");
         super.setIdade(random.nextInt(20, 40));
         posicao = "central";
@@ -44,7 +44,7 @@ public class Jogador extends Pessoa implements Dados {
             int n_agressividade
     ) {
         super(nome, idade);
-        this.id = AI++;
+//        this.id = AI++;
         this.posicao = posicao;
         this.hist_lesoes = hist_lesoes;
         this.ataque = ataque;
@@ -80,6 +80,8 @@ public class Jogador extends Pessoa implements Dados {
         Scanner scanner = new Scanner(System.in);
 
         try {
+            jogador.setId(getId() + AI++);
+
             System.out.println("Nome: ");
             String nome = scanner.nextLine();
             jogador.setNome(nome);
