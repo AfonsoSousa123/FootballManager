@@ -5,12 +5,15 @@
 package com.mycompany.footballmanager;
 
 /**
- *
- * @author afons
+ * @author afonso, milena, tânia
  */
 public class FootballManager {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        // Instanciamos todos os Objetos e chamamos os Métotos
+
+        // Calls the Menu method
+        Menu m = new Menu();
+        m.menu();
     }
 }
