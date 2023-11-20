@@ -179,7 +179,7 @@ public class Jogador extends Pessoa implements Dados {
                 System.out.printf(jogador.toString());
             }
         } else {
-            System.out.println("Não existem jogadores!");
+            System.out.println("Não existem Jogadores!");
         }
     }
 
@@ -191,7 +191,19 @@ public class Jogador extends Pessoa implements Dados {
             String row;
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Jogador> jogadores = new ArrayList<>(); // Create a new list for jogadores
-            
+            File file = new File(path);
+
+
+            // Check if the file exists; if not, creates it
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("Ficheiro criado com sucesso!");
+                } else {
+                    System.out.println("Falha ao criar o ficheiro!");
+                    return; // Exit the method if file creation fails
+                }
+            }
+
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
                     firstLine = false; // Set the flag to false after encountering the first line
@@ -220,7 +232,6 @@ public class Jogador extends Pessoa implements Dados {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

@@ -12,10 +12,11 @@ import java.util.Scanner;
  */
 public class Menu {
     public static ArrayList<Jogador> jogadores = new ArrayList<>();
-    public ArrayList<Arbitro> arbitros = new ArrayList<>();
-    public ArrayList<Treinador> treinadores = new ArrayList<>();
+    public static ArrayList<Arbitro> arbitros = new ArrayList<>();
+    public static ArrayList<Treinador> treinadores = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
     private Jogador jogador = new Jogador();
+    private Treinador treinador = new Treinador();
 
     public void menu() {
         int option = 0;
@@ -50,8 +51,8 @@ public class Menu {
                         System.out.println("|------------------------------|");
                         System.out.println("| MENU INSERIR DADOS:          |");
                         System.out.println("| 1. Inserir Jogador           |");
-                        System.out.println("| 2. Inserir Arbitro           |");
                         System.out.println("| 3. Inserir Treinador         |");
+                        System.out.println("| 2. Inserir Arbitro           |");
                         System.out.println("| 4. Inserir Equipa            |");
                         System.out.println("| 5. Inserir Liga              |");
                         System.out.println("| 6. Voltar atrás              |");
@@ -68,10 +69,11 @@ public class Menu {
                                     jogador.insert();
                                     break;
                                 case 2:
-                                    // Arbitro
+                                    // Treinador
+                                    treinador.insert();
                                     break;
                                 case 3:
-                                    // Treinador
+                                    // Arbitro
                                     break;
                                 case 4:
                                     // Equipa
@@ -99,7 +101,7 @@ public class Menu {
                         break;
                     case 3:
                         // Print Treinadores
-                        printTreinador();
+                        treinador.print();
                         pressEnterToContinue();
                         break;
                     case 4:
@@ -156,22 +158,6 @@ public class Menu {
         // Print details of all players using a loop
         for (Arbitro arbitro : arbitros) {
             arbitro.print();
-        }
-    }
-
-    public void printTreinador() {
-        // Instantiate jogador objects and add them to the list
-        Treinador treinador1 = new Treinador();
-        Treinador treinador2 = new Treinador("José Mourinho", 34, "something", "i dont know, ask him...");
-
-        treinadores.add(treinador1);
-        treinadores.add(treinador2);
-
-        // Print the table Headers
-        System.out.printf(treinador1.tableHeaders());
-        // Print details of all players using a loop
-        for (Treinador treinador : treinadores) {
-            treinador.print();
         }
     }
 

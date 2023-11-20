@@ -6,7 +6,11 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.util.LinkedList;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import static com.mycompany.footballmanager.Menu.treinadores;
 
 /**
  * @author afonso, milena, tânia
@@ -19,7 +23,6 @@ public class Treinador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
-        id = AI++;
         super.setNome("Treinador nome");
         super.setIdade(random.nextInt(30, 60));
         especializacoes = "Estilo ofensivo";
@@ -33,7 +36,6 @@ public class Treinador extends Pessoa implements Dados {
             String taticas_fav
     ) {
         super(nome, idade);
-        this.id = AI++;
         this.especializacoes = especializacoes;
         this.taticas_fav = taticas_fav;
     }
@@ -42,19 +44,159 @@ public class Treinador extends Pessoa implements Dados {
     // BEGIN Interface Methods ---------------------------------------------------------
     @Override
     public void insert() {
-        // Simulated database as a list
-        LinkedList<Treinador> treinadores = new LinkedList<>();
+        Scanner scanner = new Scanner(System.in);
 
-        // Assuming you want to insert 'this' Treinador object
-        treinadores.add(this);
+        boolean insertMore = true;
 
-        // Printing the inserted player for demonstration
-        System.out.println("Treinador inserted into the database: " + this.toString());
+        while (insertMore) {
+            getTreinadores();
+            treinadores.add(insereTreinador());
+
+            System.out.println("Deseja inserir outro Treinador? (sim/nao)");
+            String choice = scanner.nextLine().trim().toLowerCase();
+
+            if (!choice.equals("sim")) {
+                insertMore = false;
+            }
+        }
+
+//        scanner.nextLine(); // Consume newline character
+//        scanner.close(); // Close Scanner after use
+    }
+
+    public Treinador insereTreinador() {
+        Treinador treinador = new Treinador();
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.println("Inserir Treinador: ");
+            treinador.setId(getId() + AI++);
+
+            System.out.println("Insira o Nome: ");
+            String nome = scanner.nextLine().trim();
+            treinador.setNome(nome);
+
+            System.out.println("Insira a Idade: ");
+            int idade = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+            treinador.setIdade(idade);
+
+            System.out.println("Insira as Especializações: ");
+            String especializacoes = scanner.nextLine().trim();
+            treinador.setEspecializacoes(especializacoes);
+
+            System.out.println("Insira as Taticas Favoritas (_-_-_; _-_-_;): ");
+            String taticas_fav = scanner.nextLine();
+            treinador.setTaticas_fav(taticas_fav);
+//            scanner.nextLine(); // Consume newline character
+//
+//            scanner.close(); // Closing Scanner
+        } catch (Exception e) {
+            System.out.println("Input inválido: " + e.getMessage());
+        }
+
+        writeToCSV(treinador);
+
+        return treinador;
+    }
+
+    // Method to write Treinador data to a CSV file
+    private void writeToCSV(Treinador treinador) {
+        String csvFile = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.csv";
+
+        try (FileWriter writer = new FileWriter(csvFile, true)) {
+            File file = new File(csvFile);
+
+            // Check if the file exists; if not, creates it
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("Ficheiro criado com sucesso!");
+                } else {
+                    System.out.println("Falha ao criar o ficheiro!");
+                    return; // Exit the method if file creation fails
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            // Construct the CSV line
+            sb.append(treinador.getId()).append(",");
+            sb.append(treinador.getNome()).append(",");
+            sb.append(treinador.getIdade()).append(",");
+            sb.append(treinador.getEspecializacoes()).append(",");
+            sb.append(treinador.getTaticas_fav()).append(",").append("\n");
+
+            // Write the CSV line to the file
+            writer.append(sb.toString());
+            // closes the output stream
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void print() {
-        System.out.printf(this.toString());
+        getTreinadores();
+        // Print the table Headers
+        System.out.printf(Treinador.tableHeaders());
+
+        // Print details of all Treinadores using a loop
+        if (!treinadores.isEmpty()) {
+            for (Treinador treinador : treinadores) {
+                System.out.printf(treinador.toString());
+            }
+        } else {
+            System.out.println("Não existem Treinadores!");
+        }
+    }
+
+    public void getTreinadores() {
+        // Path to file
+        String path = "src/main/java/com/mycompany/footballmanager/DB/treinadores.csv";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String row;
+            boolean firstLine = true; // Flag to identify the first line
+            ArrayList<Treinador> treinadores = new ArrayList<>(); // Create a new list for treinadores
+            File file = new File(path);
+
+
+            // Check if the file exists; if not, creates it
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("Ficheiro criado com sucesso!");
+                } else {
+                    System.out.println("Falha ao criar o ficheiro!");
+                    return; // Exit the method if file creation fails
+                }
+            }
+
+            while ((row = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false; // Set the flag to false after encountering the first line
+                    continue; // Skip processing the first line
+                }
+
+                String[] data = row.split(",");
+
+                // CSV format: ID, Nome, Idade, Especializações e Taticas Favoritas
+                Treinador treinador = new Treinador();
+                treinador.setId(Integer.parseInt(data[0]));
+                treinador.setNome(data[1]);
+                treinador.setIdade(Integer.parseInt(data[2]));
+                treinador.setEspecializacoes(data[3]);
+                treinador.setTaticas_fav(data[4]);
+
+                // Adds the treinador to the ArrayList
+                treinadores.add(treinador);
+            }
+
+            // Replaces the ArrayList from Menu class with the new ArrayList
+            Menu.treinadores = treinadores;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -118,7 +260,6 @@ public class Treinador extends Pessoa implements Dados {
 
     @Override
     public String toString() {
-
         return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
                 getId(), getNome(), getIdade(), getEspecializacoes(), getTaticas_fav());
     }
