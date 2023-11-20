@@ -7,6 +7,7 @@ package com.mycompany.footballmanager;
 import com.mycompany.footballmanager.Interfaces.Dados;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static com.mycompany.footballmanager.Menu.jogadores;
@@ -27,7 +28,6 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
-//        this.id = getId() + AI++;
         super.setNome("Zézinho");
         super.setIdade(random.nextInt(20, 40));
         posicao = "central";
@@ -47,7 +47,6 @@ public class Jogador extends Pessoa implements Dados {
             int n_agressividade
     ) {
         super(nome, idade);
-//        this.id = AI++;
         this.posicao = posicao;
         this.hist_lesoes = hist_lesoes;
         this.ataque = ataque;
@@ -64,6 +63,7 @@ public class Jogador extends Pessoa implements Dados {
         boolean insertMore = true;
 
         while (insertMore) {
+            getJogadores();
             jogadores.add(insereJogador());
 
             System.out.println("Deseja inserir outro Jogador? (sim/nao)");
@@ -83,36 +83,37 @@ public class Jogador extends Pessoa implements Dados {
         Scanner scanner = new Scanner(System.in);
 
         try {
+            System.out.println("Inserir Jogador: ");
             jogador.setId(getId() + AI++);
 
-            System.out.println("Nome: ");
+            System.out.println("Insira o Nome: ");
             String nome = scanner.nextLine().trim();
             jogador.setNome(nome);
 
-            System.out.println("Idade: ");
+            System.out.println("Insira a Idade: ");
             int idade = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
             jogador.setIdade(idade);
 
-            System.out.println("Posição: ");
+            System.out.println("Insira a Posição: ");
             String posicao = scanner.nextLine().trim();
             jogador.setPosicao(posicao);
 
-            System.out.println("Historico: ");
+            System.out.println("Insira o Historico: ");
             String historico = scanner.nextLine();
             jogador.setHist_lesoes(historico);
 
-            System.out.println("Ataque: ");
+            System.out.println("Insira o Ataque: ");
             int ataque = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
             jogador.setAtaque(ataque);
 
-            System.out.println("Defesa: ");
+            System.out.println("Insira o Defesa: ");
             int defesa = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
             jogador.setDefesa(defesa);
 
-            System.out.println("Agressividade: ");
+            System.out.println("Insira o Nivel de Agressividade: ");
             int n_agressividade = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
             jogador.setN_agressividade(n_agressividade);
@@ -168,51 +169,58 @@ public class Jogador extends Pessoa implements Dados {
 
     @Override
     public void print() {
-        // Path to file
-        String path = "src/main/java/com/mycompany/footballmanager/DB/jogadores.csv";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String row = br.readLine(); // Read the header line (skipping processing)
-
-            if (row != null) {
-                while ((row = br.readLine()) != null) {
-                    String[] data = row.split(",");
-
-                    // CSV format: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
-                    Jogador jogador = new Jogador();
-                    jogador.setId(Integer.parseInt(data[0]));
-                    jogador.setNome(data[1]);
-                    jogador.setIdade(Integer.parseInt(data[2]));
-                    jogador.setPosicao(data[3]);
-                    jogador.setHist_lesoes(data[4]);
-                    jogador.setAtaque(Integer.parseInt(data[5]));
-                    jogador.setDefesa(Integer.parseInt(data[6]));
-                    jogador.setN_agressividade(Integer.parseInt(data[7]));
-
-                    jogadores.add(jogador);
-                }
-            } else {
-                System.out.println("O ficheiro está vazio!");
-            }
-
-            // Print the table Headers
-            System.out.printf(Jogador.tableHeaders());
-
-            // Print details of all players using a loop
-            for (Jogador jogador : jogadores) {
-                System.out.printf(jogador.toString());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        getJogadores();
         // Print the table Headers
         System.out.printf(Jogador.tableHeaders());
 
         // Print details of all players using a loop
-        for (Jogador jogador : jogadores) {
-            System.out.printf(jogador.toString());
+        if (!jogadores.isEmpty()) {
+            for (Jogador jogador : jogadores) {
+                System.out.printf(jogador.toString());
+            }
+        } else {
+            System.out.println("Não existem jogadores!");
         }
+    }
+
+    public void getJogadores() {
+        // Path to file
+        String path = "src/main/java/com/mycompany/footballmanager/DB/jogadores.csv";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String row;
+            boolean firstLine = true; // Flag to identify the first line
+            ArrayList<Jogador> jogadores = new ArrayList<>(); // Create a new list for jogadores
+            
+            while ((row = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false; // Set the flag to false after encountering the first line
+                    continue; // Skip processing the first line
+                }
+
+                String[] data = row.split(",");
+
+                // CSV format: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
+                Jogador jogador = new Jogador();
+                jogador.setId(Integer.parseInt(data[0]));
+                jogador.setNome(data[1]);
+                jogador.setIdade(Integer.parseInt(data[2]));
+                jogador.setPosicao(data[3]);
+                jogador.setHist_lesoes(data[4]);
+                jogador.setAtaque(Integer.parseInt(data[5]));
+                jogador.setDefesa(Integer.parseInt(data[6]));
+                jogador.setN_agressividade(Integer.parseInt(data[7]));
+
+                // Adds the jogador to the ArrayList
+                jogadores.add(jogador);
+            }
+
+            // Replaces the ArrayList from Menu class with the new ArrayList
+            Menu.jogadores = jogadores;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
