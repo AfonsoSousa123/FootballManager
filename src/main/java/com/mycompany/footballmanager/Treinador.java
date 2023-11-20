@@ -124,7 +124,7 @@ public class Treinador extends Pessoa implements Dados {
             sb.append(treinador.getNome()).append(",");
             sb.append(treinador.getIdade()).append(",");
             sb.append(treinador.getEspecializacoes()).append(",");
-            sb.append(treinador.getTaticas_fav()).append(",").append("\n");
+            sb.append(treinador.getTaticas_fav()).append("\n");
 
             // Write the CSV line to the file
             writer.append(sb.toString());
@@ -160,7 +160,6 @@ public class Treinador extends Pessoa implements Dados {
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Treinador> treinadores = new ArrayList<>(); // Create a new list for treinadores
             File file = new File(path);
-
 
             // Check if the file exists; if not, creates it
             if (!file.exists()) {
