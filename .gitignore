@@ -56,3 +56,4 @@ nb-configuration.xml
 ## OS X
 ##############################
 .DS_Store
+/src/main/java/com/mycompany/footballmanager/DB/jogadores.csv

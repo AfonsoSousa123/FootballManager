@@ -4,8 +4,6 @@
  */
 package com.mycompany.footballmanager;
 
-import com.mycompany.footballmanager.DB.DB;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -96,7 +94,7 @@ public class Menu {
                         break;
                     case 2:
                         // Print Jogadores
-                        printJogador();
+                        jogador.print();
                         pressEnterToContinue();
                         break;
                     case 3:
@@ -105,7 +103,7 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 4:
-                        DB.fileReader();
+                        // DB.fileReader();
                         // Print Equipas
                         break;
                     case 5:
@@ -143,16 +141,6 @@ public class Menu {
 
     private void printInvalidOptionError() {
         System.out.println("Opção inválida! Insira um valor válido.");
-    }
-
-    public void printJogador() {
-        // Print the table Headers
-        System.out.printf(Jogador.tableHeaders());
-
-        // Print details of all players using a loop
-        for (Jogador jogador : jogadores) {
-            jogador.print();
-        }
     }
 
     public void printArbitro() {
@@ -206,7 +194,7 @@ public class Menu {
         try {
             System.in.read();
             scanner.nextLine();
-            clearConsole();
+//            clearConsole();
         } catch (Exception e) {
             System.out.println("Input inválido, tente novamente" + e.getMessage());
         }

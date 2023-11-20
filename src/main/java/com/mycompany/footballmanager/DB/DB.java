@@ -4,6 +4,8 @@
  */
 package com.mycompany.footballmanager.DB;
 
+import com.mycompany.footballmanager.Jogador;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -12,6 +14,40 @@ import java.util.ArrayList;
  */
 public class DB {
     public static void fileReader() {
+        // Variables
+        String path = "./src/main/java/com/mycompany/footballmanager/DB/database.csv";
+        String row = "";
+
+        try {
+            File file = new File(path);
+            // Check if the file exists
+            if (!file.exists()) {
+                System.out.println("O ficheiro nao existe!");
+                return;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            ArrayList<String> rows = new ArrayList<>();
+
+            // Reading the file and storing rows in a ArrayList
+            while ((row = reader.readLine()) != null) {
+                rows.add(row);
+            }
+
+            reader.close(); // Close the reader after reading
+
+            // Displaying the results
+            for (String storedLine : rows) {
+                System.out.println(storedLine);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fileWriter(ArrayList<Jogador> jogadores) {
         // Variables
         String path = "./src/main/java/com/mycompany/footballmanager/DB/database.csv";
         String row = "";
@@ -29,20 +65,7 @@ public class DB {
                 }
             }
 
-            BufferedReader reader = new BufferedReader(new FileReader(path));
-            ArrayList<String> rows = new ArrayList<>();
 
-            // Reading the file and storing rows in a ArrayList
-            while ((row = reader.readLine()) != null) {
-                rows.add(row);
-            }
-
-            reader.close(); // Close the reader after reading
-
-            // Displaying the results
-            for (String storedLine : rows) {
-                System.out.println(storedLine);
-            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
