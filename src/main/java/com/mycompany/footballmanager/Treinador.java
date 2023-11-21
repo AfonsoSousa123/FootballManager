@@ -6,10 +6,14 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static com.mycompany.footballmanager.Menu.checkIfFileExists;
 import static com.mycompany.footballmanager.Menu.treinadores;
 
 /**
@@ -20,6 +24,8 @@ public class Treinador extends Pessoa implements Dados {
     private int id = 0;
     private String especializacoes;
     private String taticas_fav;
+
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.txt";
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
@@ -67,19 +73,24 @@ public class Treinador extends Pessoa implements Dados {
     public Treinador insereTreinador() {
         Treinador treinador = new Treinador();
         Scanner scanner = new Scanner(System.in);
+        int latest = 0;
 
         try {
-            // Gets the ID of the latest treinador, using the size of the ArrayList and decrementing 1
-            int latest = treinadores.get(treinadores.size() - 1).getId();
-            int increment = 1;
-            treinador.setId(latest + increment); // Automatically increments the ID
+            if (!Menu.treinadores.isEmpty()) {
+                // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
+                latest = Menu.treinadores.get(Menu.treinadores.size() - 1).getId();
+            }
 
-            System.out.println("Inserir Jogador: ");
+            // Automatically increments the ID
+            int increment = 1;
+            treinador.setId(latest + increment);
+
+            System.out.println("Inserir Treinador: ");
             try {
                 System.out.println("Insira o Nome: ");
                 String nome = scanner.nextLine();
                 if (Menu.hasVirgulaString(nome)) {
-                    System.out.println("O Nome do Jogador não pode conter virgulas! Tente Novamente...");
+                    System.out.println("O Nome do Treinador não pode conter virgulas! Tente Novamente...");
                     return insereTreinador();
                 } else {
                     treinador.setNome(nome);
@@ -94,10 +105,10 @@ public class Treinador extends Pessoa implements Dados {
                 int idade = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (idade > 0 && idade <= 40) {
+                if (idade >= 30 && idade <= 70) {
                     treinador.setIdade(idade);
                 } else {
-                    System.out.println("A Idade do Jogador tem que ter entre 1 e 40 anos, inclusive! Tente Novamente...");
+                    System.out.println("A Idade do Treinador tem que ter entre 30 e 70 anos, inclusive! Tente Novamente...");
                     return insereTreinador();
                 }
             } catch (Exception e) {
@@ -142,28 +153,16 @@ public class Treinador extends Pessoa implements Dados {
 //            scanner.close();
         }
 
-        writeToCSV(treinador);
+        writeToTXT(treinador);
 
         return treinador;
     }
 
     // Method to write Treinador data to a CSV file
-    private void writeToCSV(Treinador treinador) {
-        String csvFile = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.csv";
+    private void writeToTXT(Treinador treinador) {
+        checkIfFileExists(txtFilePath);
 
-        try (FileWriter writer = new FileWriter(csvFile, true)) {
-            File file = new File(csvFile);
-
-            // Check if the file exists; if not, creates it
-            if (!file.exists()) {
-                if (file.createNewFile()) {
-                    System.out.println("Ficheiro criado com sucesso!");
-                } else {
-                    System.out.println("Falha ao criar o ficheiro!");
-                    return; // Exit the method if file creation fails
-                }
-            }
-
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
             StringBuilder sb = new StringBuilder();
 
             // Construct the CSV line
@@ -185,38 +184,28 @@ public class Treinador extends Pessoa implements Dados {
     @Override
     public void print() {
         getTreinadores();
-        // Print the table Headers
-        System.out.printf(Treinador.tableHeaders());
 
-        // Print details of all Treinadores using a loop
+        // Print details of all Treinadores
         if (!treinadores.isEmpty()) {
+            // Print the table Headers
+            System.out.printf(tableHeaders());
+
             for (Treinador treinador : treinadores) {
                 System.out.printf(treinador.toString());
             }
         } else {
-            System.out.println("Não existem Treinadores!");
+            System.out.println("\nNão existem Treinadores!\n");
         }
     }
 
     public void getTreinadores() {
-        // Path to file
-        String path = "src/main/java/com/mycompany/footballmanager/DB/treinadores.csv";
+        checkIfFileExists(txtFilePath);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
             String row;
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Treinador> treinadores = new ArrayList<>(); // Create a new list for treinadores
-            File file = new File(path);
 
-            // Check if the file exists; if not, creates it
-            if (!file.exists()) {
-                if (file.createNewFile()) {
-                    System.out.println("Ficheiro criado com sucesso!");
-                } else {
-                    System.out.println("Falha ao criar o ficheiro!");
-                    return; // Exit the method if file creation fails
-                }
-            }
 
             while ((row = br.readLine()) != null) {
                 if (firstLine) {

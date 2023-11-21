@@ -8,11 +8,11 @@ package com.mycompany.footballmanager.Interfaces;
  * @author afonso, milena, tânia
  */
 public interface Dados {
-    public abstract void insert();
+    void insert();
 
-    public abstract void print();
+    void print();
 
-    public abstract void update();
+    void update();
 
-    public abstract void delete();
+    void delete();
 }

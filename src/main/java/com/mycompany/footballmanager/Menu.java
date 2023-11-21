@@ -4,6 +4,8 @@
  */
 package com.mycompany.footballmanager;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -163,6 +165,24 @@ public class Menu {
         }
     }
 
+    // Checks if the file exists; if not, creates it
+    public static void checkIfFileExists(String filepath) {
+        File file = new File(filepath);
+
+        try {
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("Ficheiro criado com sucesso!");
+                } else {
+                    System.out.println("Falha ao criar o ficheiro!");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Ficheiro não foi encontrado" + e.getMessage());
+        }
+    }
+
+
     private static void clearConsole() {
         try {
             final String os = System.getProperty("os.name");
@@ -190,7 +210,7 @@ public class Menu {
 
     private void getData() {
         jogador.getJogadores();
-//        treinador.getTreinadores();
+        treinador.getTreinadores();
     }
 
     public static boolean hasVirgulaString(String text) {

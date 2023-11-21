@@ -6,10 +6,14 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static com.mycompany.footballmanager.Menu.checkIfFileExists;
 import static com.mycompany.footballmanager.Menu.jogadores;
 
 /**
@@ -23,6 +27,7 @@ public class Jogador extends Pessoa implements Dados {
     private int ataque; // de 0 a 100
     private int defesa; // de 0 a 100
     private int n_agressividade; // de 0 a 5
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt"; // File Path
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -84,6 +89,7 @@ public class Jogador extends Pessoa implements Dados {
         int latest = 0;
 
         try {
+            // if the jogadores ArrayList is not empty
             if (!Menu.jogadores.isEmpty()) {
                 // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
                 latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
@@ -94,6 +100,7 @@ public class Jogador extends Pessoa implements Dados {
             jogador.setId(latest + increment);
 
             System.out.println("Inserir Jogador: ");
+            // Nome
             try {
                 System.out.println("Insira o Nome: ");
                 String nome = scanner.nextLine();
@@ -104,26 +111,28 @@ public class Jogador extends Pessoa implements Dados {
                     jogador.setNome(nome);
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage());
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return insereJogador();
             }
 
+            // Idade
             try {
                 System.out.println("Insira a Idade: ");
                 int idade = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (idade > 0 && idade <= 40) {
+                if (idade >= 18 && idade <= 45) {
                     jogador.setIdade(idade);
                 } else {
-                    System.out.println("A Idade do Jogador tem que ter entre 1 e 40 anos, inclusive! Tente Novamente...");
+                    System.out.println("A Idade do Jogador tem que ter entre 18 e 45 anos, inclusive! Tente Novamente...");
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage());
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return insereJogador();
             }
 
+            // Posição
             try {
                 System.out.println("Insira a Posição: ");
                 String posicao = scanner.nextLine().trim();
@@ -135,10 +144,11 @@ public class Jogador extends Pessoa implements Dados {
                     jogador.setPosicao(posicao);
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage());
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return insereJogador();
             }
 
+            // Historico de Lesões
             try {
                 System.out.println("Insira o Historico de Lesões: ");
                 String historico = scanner.nextLine();
@@ -150,7 +160,7 @@ public class Jogador extends Pessoa implements Dados {
                     jogador.setHist_lesoes(historico);
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage());
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return insereJogador();
             }
 
@@ -167,7 +177,7 @@ public class Jogador extends Pessoa implements Dados {
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage());
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return insereJogador();
             }
 
@@ -184,7 +194,7 @@ public class Jogador extends Pessoa implements Dados {
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage());
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return insereJogador();
             }
 
@@ -201,39 +211,27 @@ public class Jogador extends Pessoa implements Dados {
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage());
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return insereJogador();
             }
 
         } catch (Exception e) {
-            System.out.println("Input inválido: " + e.getMessage());
+            System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereJogador();
         } finally {
 //            scanner.close();
         }
 
-        writeToCSV(jogador);
+        writeToTXT(jogador);
 
         return jogador;
     }
 
-    // Method to write Jogador data to a CSV file
-    private void writeToCSV(Jogador jogador) {
-        String txtFile = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt";
+    // Method to write Jogador data to a TXT file
+    private void writeToTXT(Jogador jogador) {
+        checkIfFileExists(txtFilePath);
 
-        try (FileWriter writer = new FileWriter(txtFile, true)) {
-            File file = new File(txtFile);
-
-            // Check if the file exists; if not, creates it
-            if (!file.exists()) {
-                if (file.createNewFile()) {
-                    System.out.println("Ficheiro criado com sucesso!");
-                } else {
-                    System.out.println("Falha ao criar o ficheiro!");
-                    return; // Exit the method if file creation fails
-                }
-            }
-
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
             StringBuilder sb = new StringBuilder();
 
             // Construct the CSV line
@@ -251,45 +249,36 @@ public class Jogador extends Pessoa implements Dados {
             // closes the output stream
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao inserir o Jogador no ficheiro " + e.getMessage());
         }
     }
 
     @Override
     public void print() {
         getJogadores();
-        // Print the table Headers
-        System.out.printf(Jogador.tableHeaders());
+
 
         // Print details of all players using a loop
         if (!jogadores.isEmpty()) {
+            // Print the table Headers
+            System.out.printf(tableHeaders());
+
             for (Jogador jogador : jogadores) {
                 System.out.printf(jogador.toString());
             }
         } else {
-            System.out.println("Não existem Jogadores!");
+            System.out.println("\nNão existem Jogadores!\n");
         }
     }
 
     public void getJogadores() {
-        // Path to file
-        String path = "src/main/java/com/mycompany/footballmanager/DB/jogadores.txt";
+        checkIfFileExists(txtFilePath);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String row;
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
+
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Jogador> jogadores = new ArrayList<>(); // Create a new list for jogadores
-            File file = new File(path);
-
-            // Check if the file exists; if not, creates it
-            if (!file.exists()) {
-                if (file.createNewFile()) {
-                    System.out.println("Ficheiro criado com sucesso!");
-                } else {
-                    System.out.println("Falha ao criar o ficheiro!");
-                    return; // Exit the method if file creation fails
-                }
-            }
+            String row;
 
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
@@ -299,7 +288,7 @@ public class Jogador extends Pessoa implements Dados {
 
                 String[] data = row.split(",");
 
-                // CSV format: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
+                // TXT format: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
                 Jogador jogador = new Jogador();
                 jogador.setId(Integer.parseInt(data[0]));
                 jogador.setNome(data[1]);
