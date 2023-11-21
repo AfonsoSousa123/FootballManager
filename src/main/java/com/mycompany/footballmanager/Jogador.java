@@ -66,16 +66,17 @@ public class Jogador extends Pessoa implements Dados {
             getJogadores();
             jogadores.add(insereJogador());
 
-            System.out.println("Deseja inserir outro Jogador? (sim/nao)");
-            String choice = scanner.nextLine().trim().toLowerCase();
+            try {
+                System.out.println("Deseja inserir outro Jogador? (sim/nao)");
+                String choice = scanner.nextLine().trim().toLowerCase();
 
-            if (!choice.equals("sim")) {
-                insertMore = false;
+                if (!choice.equals("sim")) {
+                    insertMore = false;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
-
-//        scanner.nextLine(); // Consume newline character
-//        scanner.close(); // Close Scanner after use
     }
 
     public Jogador insereJogador() {
@@ -83,45 +84,128 @@ public class Jogador extends Pessoa implements Dados {
         Scanner scanner = new Scanner(System.in);
 
         try {
+            // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
+            int latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+            int increment = 1;
+            jogador.setId(latest + increment); // Automatically increments the ID
+
             System.out.println("Inserir Jogador: ");
-            jogador.setId(getId() + AI++);
+            try {
+                System.out.println("Insira o Nome: ");
+                String nome = scanner.nextLine();
+                if (Menu.hasVirgulaString(nome)) {
+                    System.out.println("O Nome do Jogador não pode conter virgulas! Tente Novamente...");
+                    return insereJogador();
+                } else {
+                    jogador.setNome(nome);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage());
+                return insereJogador();
+            }
 
-            System.out.println("Insira o Nome: ");
-            String nome = scanner.nextLine().trim();
-            jogador.setNome(nome);
+            try {
+                System.out.println("Insira a Idade: ");
+                int idade = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
 
-            System.out.println("Insira a Idade: ");
-            int idade = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-            jogador.setIdade(idade);
+                if (idade > 0 && idade <= 40) {
+                    jogador.setIdade(idade);
+                } else {
+                    System.out.println("A Idade do Jogador tem que ter entre 1 e 40 anos, inclusive! Tente Novamente...");
+                    return insereJogador();
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage());
+                return insereJogador();
+            }
 
-            System.out.println("Insira a Posição: ");
-            String posicao = scanner.nextLine().trim();
-            jogador.setPosicao(posicao);
+            try {
+                System.out.println("Insira a Posição: ");
+                String posicao = scanner.nextLine().trim();
 
-            System.out.println("Insira o Historico: ");
-            String historico = scanner.nextLine();
-            jogador.setHist_lesoes(historico);
+                if (Menu.hasVirgulaString(posicao)) {
+                    System.out.println("A Posição do Jogador não pode conter virgulas! Tente Novamente...");
+                    return insereJogador();
+                } else {
+                    jogador.setPosicao(posicao);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage());
+                return insereJogador();
+            }
 
-            System.out.println("Insira o Ataque: ");
-            int ataque = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-            jogador.setAtaque(ataque);
+            try {
+                System.out.println("Insira o Historico de Lesões: ");
+                String historico = scanner.nextLine();
 
-            System.out.println("Insira o Defesa: ");
-            int defesa = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-            jogador.setDefesa(defesa);
+                if (Menu.hasVirgulaString(historico)) {
+                    System.out.println("O Historico de Lesões do Jogador não pode conter virgulas! Tente Novamente...");
+                    return insereJogador();
+                } else {
+                    jogador.setHist_lesoes(historico);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage());
+                return insereJogador();
+            }
 
-            System.out.println("Insira o Nivel de Agressividade: ");
-            int n_agressividade = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-            jogador.setN_agressividade(n_agressividade);
-//            scanner.nextLine(); // Consume newline character
-//
-//            scanner.close(); // Closing Scanner
+            // Ataque
+            try {
+                System.out.println("Insira o Ataque: ");
+                int ataque = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+
+                if (ataque > 0 && ataque <= 100) {
+                    jogador.setAtaque(ataque);
+                } else {
+                    System.out.println("O Jogador só pode ter entre 1 e 100 valores de Ataque! Tente Novamente...");
+                    return insereJogador();
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage());
+                return insereJogador();
+            }
+
+            // Defesa
+            try {
+                System.out.println("Insira o Defesa: ");
+                int defesa = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+
+                if (defesa > 0 && defesa <= 100) {
+                    jogador.setDefesa(defesa);
+                } else {
+                    System.out.println("O Jogador só pode ter entre 1 e 100 valores de Defesa! Tente Novamente...");
+                    return insereJogador();
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage());
+                return insereJogador();
+            }
+
+            // Nivel de Agressividade
+            try {
+                System.out.println("Insira o Nivel de Agressividade: ");
+                int n_agressividade = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+
+                if (n_agressividade > 0 && n_agressividade <= 5) {
+                    jogador.setN_agressividade(n_agressividade);
+                } else {
+                    System.out.println("O Jogador só pode ter entre 1 e 5 valores de Nivel de Agressividade! Tente Novamente...");
+                    return insereJogador();
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage());
+                return insereJogador();
+            }
+
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage());
+            return insereJogador();
+        } finally {
+//            scanner.close();
         }
 
         writeToCSV(jogador);
@@ -192,7 +276,6 @@ public class Jogador extends Pessoa implements Dados {
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Jogador> jogadores = new ArrayList<>(); // Create a new list for jogadores
             File file = new File(path);
-
 
             // Check if the file exists; if not, creates it
             if (!file.exists()) {

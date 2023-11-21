@@ -15,12 +15,14 @@ public class Menu {
     public static ArrayList<Arbitro> arbitros = new ArrayList<>();
     public static ArrayList<Treinador> treinadores = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
-    private Jogador jogador = new Jogador();
-    private Treinador treinador = new Treinador();
+    public static Jogador jogador = new Jogador();
+    public static Treinador treinador = new Treinador();
 
     public void menu() {
         int option = 0;
         int optionInsert;
+
+        getData(); // gets all the data from the CSV Files
 
         boolean validInput = false;
 
@@ -161,7 +163,7 @@ public class Menu {
         }
     }
 
-    public static void clearConsole() {
+    private static void clearConsole() {
         try {
             final String os = System.getProperty("os.name");
 
@@ -175,7 +177,7 @@ public class Menu {
         }
     }
 
-    private void pressEnterToContinue() {
+    public void pressEnterToContinue() {
         System.out.println("Pressione ENTER para continuar...");
         try {
             System.in.read();
@@ -184,6 +186,15 @@ public class Menu {
         } catch (Exception e) {
             System.out.println("Input inválido, tente novamente" + e.getMessage());
         }
+    }
+
+    private void getData() {
+        jogador.getJogadores();
+//        treinador.getTreinadores();
+    }
+
+    public static boolean hasVirgulaString(String text) {
+        return text.contains(",");
     }
 }
 
