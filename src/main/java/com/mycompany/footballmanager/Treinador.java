@@ -69,30 +69,77 @@ public class Treinador extends Pessoa implements Dados {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            System.out.println("Inserir Treinador: ");
-            treinador.setId(getId() + AI++);
+            // Gets the ID of the latest treinador, using the size of the ArrayList and decrementing 1
+            int latest = treinadores.get(treinadores.size() - 1).getId();
+            int increment = 1;
+            treinador.setId(latest + increment); // Automatically increments the ID
 
-            System.out.println("Insira o Nome: ");
-            String nome = scanner.nextLine().trim();
-            treinador.setNome(nome);
+            System.out.println("Inserir Jogador: ");
+            try {
+                System.out.println("Insira o Nome: ");
+                String nome = scanner.nextLine();
+                if (Menu.hasVirgulaString(nome)) {
+                    System.out.println("O Nome do Jogador não pode conter virgulas! Tente Novamente...");
+                    return insereTreinador();
+                } else {
+                    treinador.setNome(nome);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                return insereTreinador();
+            }
 
-            System.out.println("Insira a Idade: ");
-            int idade = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-            treinador.setIdade(idade);
+            try {
+                System.out.println("Insira a Idade: ");
+                int idade = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
 
-            System.out.println("Insira as Especializações: ");
-            String especializacoes = scanner.nextLine().trim();
-            treinador.setEspecializacoes(especializacoes);
+                if (idade > 0 && idade <= 40) {
+                    treinador.setIdade(idade);
+                } else {
+                    System.out.println("A Idade do Jogador tem que ter entre 1 e 40 anos, inclusive! Tente Novamente...");
+                    return insereTreinador();
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                return insereTreinador();
+            }
 
-            System.out.println("Insira as Taticas Favoritas (_-_-_; _-_-_;): ");
-            String taticas_fav = scanner.nextLine();
-            treinador.setTaticas_fav(taticas_fav);
-//            scanner.nextLine(); // Consume newline character
-//
-//            scanner.close(); // Closing Scanner
+            try {
+                System.out.println("Insira as Especializações: ");
+                String especializacoes = scanner.nextLine().trim();
+
+                if (Menu.hasVirgulaString(especializacoes)) {
+                    System.out.println("As Especializações do Treinador não podem conter virgulas! Tente Novamente...");
+                    return insereTreinador();
+                } else {
+                    treinador.setEspecializacoes(especializacoes);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                return insereTreinador();
+            }
+
+            try {
+                System.out.println("Insira as Táticas Favoritas do Treinador: ");
+                String taticas_fav = scanner.nextLine();
+
+                if (Menu.hasVirgulaString(taticas_fav)) {
+                    System.out.println("As Táticas Favoritas do Treinador não podem conter virgulas! Tente Novamente...");
+                    return insereTreinador();
+                } else {
+                    treinador.setTaticas_fav(taticas_fav);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                return insereTreinador();
+            }
+
         } catch (Exception e) {
-            System.out.println("Input inválido: " + e.getMessage());
+            System.out.println("Input inválido: " + e.getMessage() + "\n");
+            return insereTreinador();
+        } finally {
+//            scanner.close();
         }
 
         writeToCSV(treinador);

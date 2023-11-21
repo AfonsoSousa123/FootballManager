@@ -14,7 +14,7 @@ public class Menu {
     public static ArrayList<Jogador> jogadores = new ArrayList<>();
     public static ArrayList<Arbitro> arbitros = new ArrayList<>();
     public static ArrayList<Treinador> treinadores = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
+    public Scanner scanner = new Scanner(System.in);
     public static Jogador jogador = new Jogador();
     public static Treinador treinador = new Treinador();
 
@@ -53,8 +53,8 @@ public class Menu {
                         System.out.println("|------------------------------|");
                         System.out.println("| MENU INSERIR DADOS:          |");
                         System.out.println("| 1. Inserir Jogador           |");
-                        System.out.println("| 3. Inserir Treinador         |");
-                        System.out.println("| 2. Inserir Arbitro           |");
+                        System.out.println("| 2. Inserir Treinador         |");
+                        System.out.println("| 3. Inserir Arbitro           |");
                         System.out.println("| 4. Inserir Equipa            |");
                         System.out.println("| 5. Inserir Liga              |");
                         System.out.println("| 6. Voltar atrás              |");
@@ -177,7 +177,7 @@ public class Menu {
         }
     }
 
-    public void pressEnterToContinue() {
+    private void pressEnterToContinue() {
         System.out.println("Pressione ENTER para continuar...");
         try {
             System.in.read();

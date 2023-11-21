@@ -17,13 +17,12 @@ import static com.mycompany.footballmanager.Menu.jogadores;
  */
 public class Jogador extends Pessoa implements Dados {
     // BEGIN Variables ----------------------------------------------------------------
-    private static int AI = 1; // Auto Increment
     private int id = 0;
     private String posicao;
     private String hist_lesoes;
     private int ataque; // de 0 a 100
     private int defesa; // de 0 a 100
-    private int n_agressividade; // de 0 a 100
+    private int n_agressividade; // de 0 a 5
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -32,9 +31,9 @@ public class Jogador extends Pessoa implements Dados {
         super.setIdade(random.nextInt(20, 40));
         posicao = "central";
         hist_lesoes = "perna partida";
-        ataque = 10;
-        defesa = 15;
-        n_agressividade = 5;
+        ataque = random.nextInt(1, 100);
+        defesa = random.nextInt(1, 100);
+        n_agressividade = random.nextInt(1, 5);
     }
 
     public Jogador(
@@ -74,7 +73,7 @@ public class Jogador extends Pessoa implements Dados {
                     insertMore = false;
                 }
             } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Erro: " + e.getMessage());
             }
         }
     }
@@ -82,12 +81,17 @@ public class Jogador extends Pessoa implements Dados {
     public Jogador insereJogador() {
         Jogador jogador = new Jogador();
         Scanner scanner = new Scanner(System.in);
+        int latest = 0;
 
         try {
-            // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
-            int latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+            if (!Menu.jogadores.isEmpty()) {
+                // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
+                latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+            }
+
+            // Automatically increments the ID
             int increment = 1;
-            jogador.setId(latest + increment); // Automatically increments the ID
+            jogador.setId(latest + increment);
 
             System.out.println("Inserir Jogador: ");
             try {
@@ -215,10 +219,10 @@ public class Jogador extends Pessoa implements Dados {
 
     // Method to write Jogador data to a CSV file
     private void writeToCSV(Jogador jogador) {
-        String csvFile = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.csv";
+        String txtFile = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt";
 
-        try (FileWriter writer = new FileWriter(csvFile, true)) {
-            File file = new File(csvFile);
+        try (FileWriter writer = new FileWriter(txtFile, true)) {
+            File file = new File(txtFile);
 
             // Check if the file exists; if not, creates it
             if (!file.exists()) {
@@ -269,7 +273,7 @@ public class Jogador extends Pessoa implements Dados {
 
     public void getJogadores() {
         // Path to file
-        String path = "src/main/java/com/mycompany/footballmanager/DB/jogadores.csv";
+        String path = "src/main/java/com/mycompany/footballmanager/DB/jogadores.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String row;
@@ -400,7 +404,7 @@ public class Jogador extends Pessoa implements Dados {
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14d |%n",
+        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-22s |%n",
                 getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
     }
 }
