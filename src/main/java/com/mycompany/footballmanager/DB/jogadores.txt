@@ -3,3 +3,13 @@ ID,Nome,Idade,Posição,Histórico de Lesões,Ataque,Defesa,Nível de Agressivid
 2,Milena,21,Avançado,lesao no braço,78,67,5
 3,Tânia,21,Medio,lesao no ombro,34,89,3
 4,Catarina,23,Guarda-Redes,lesao no pé,12,90,2
+5,Manuela Bins,32,consectetur,qui,65,53,2
+6,Oswaldo Carroll,38,ut,est,70,2,1
+7,Ebba Pouros,26,unde,sunt,52,51,3
+8,Daphney Reichel,37,voluptates,doloribus,24,29,3
+9,Deven Schulist,22,consequatur,doloribus,28,68,4
+10,Joaquin Waters,20,ullam,rerum,82,73,2
+11,Cassie Glover,26,tenetur,voluptatem,98,18,3
+12,Lindsay Bartell,32,voluptatem,illum,92,62,4
+13,Van Rodriguez,31,qui,sed,25,44,4
+14,Lindsay Kerluke,24,ut,rerum,33,88,1

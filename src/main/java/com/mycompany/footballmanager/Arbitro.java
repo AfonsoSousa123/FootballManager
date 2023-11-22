@@ -60,6 +60,12 @@ public class Arbitro extends Pessoa implements Dados {
     public void delete() {
         //
     }
+
+    @Override
+    public void insertFaker() {
+
+    }
+
     // END Interface Methods ----------------------------------------------------------------
 
     // BEGIN Setters ----------------------------------------------------------------

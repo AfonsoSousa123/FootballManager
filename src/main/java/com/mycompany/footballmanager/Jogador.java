@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static com.mycompany.footballmanager.Menu.checkIfFileExists;
-import static com.mycompany.footballmanager.Menu.jogadores;
+import static com.mycompany.footballmanager.Menu.*;
 
 /**
  * @author afonso, milena, tânia
@@ -42,6 +41,7 @@ public class Jogador extends Pessoa implements Dados {
     }
 
     public Jogador(
+            int id,
             String nome,
             int idade,
             String posicao,
@@ -51,6 +51,7 @@ public class Jogador extends Pessoa implements Dados {
             int n_agressividade
     ) {
         super(nome, idade);
+        this.id = id;
         this.posicao = posicao;
         this.hist_lesoes = hist_lesoes;
         this.ataque = ataque;
@@ -257,7 +258,6 @@ public class Jogador extends Pessoa implements Dados {
     public void print() {
         getJogadores();
 
-
         // Print details of all players using a loop
         if (!jogadores.isEmpty()) {
             // Print the table Headers
@@ -321,6 +321,63 @@ public class Jogador extends Pessoa implements Dados {
     }
     // END Interface Methods ----------------------------------------------------------------
 
+    // BEGIN Faker Methods ----------------------------------------------------------------
+
+    @Override
+    public void insertFaker() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Quantos Jogadores quer gerar? ");
+            int numOfChoices = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+
+            if (numOfChoices <= 0 || numOfChoices > 10) {
+                System.out.println("Só pode inserir no maximo 10 de cada vez! Tente Novamente...");
+                insertFaker();
+            }
+
+            for (int i = 0; i < numOfChoices; i++) {
+                // Automatically increments the ID
+                int increment = 1;
+                int latest = 0;
+                // if the jogadores ArrayList is not empty
+                if (!Menu.jogadores.isEmpty()) {
+                    // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
+                    latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+                }
+
+                Jogador jogador = new Jogador(
+                        latest + increment,
+                        randomFullName(),
+                        random.nextInt(20, 40),
+                        randomLorem(),
+                        randomLorem(),
+                        random.nextInt(1, 100),
+                        random.nextInt(1, 100),
+                        random.nextInt(1, 5)
+                );
+                jogadores.add(jogador);
+                writeToTXT(jogador);
+            }
+
+            // Print details of all players using a loop
+            if (!jogadores.isEmpty()) {
+                // Print the table Headers
+                System.out.printf(tableHeaders());
+
+                for (Jogador jogador : jogadores) {
+                    System.out.printf(jogador.toString());
+                }
+            } else {
+                System.out.println("\nNão existem Jogadores!\n");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    // END Faker Methods ----------------------------------------------------------------
 
     // BEGIN Setters ----------------------------------------------------------------
 

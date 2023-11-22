@@ -4,6 +4,8 @@
  */
 package com.mycompany.footballmanager;
 
+import com.github.javafaker.Faker;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class Menu {
     public void menu() {
         int option = 0;
         int optionInsert;
+        int optionInsertRandom;
 
         getData(); // gets all the data from the CSV Files
 
@@ -59,7 +62,8 @@ public class Menu {
                         System.out.println("| 3. Inserir Arbitro           |");
                         System.out.println("| 4. Inserir Equipa            |");
                         System.out.println("| 5. Inserir Liga              |");
-                        System.out.println("| 6. Voltar atrás              |");
+                        System.out.println("| 6. Inserir Random            |");
+                        System.out.println("| 7. Voltar atrás              |");
                         System.out.println("|------------------------------|");
                         System.out.print("Escolha uma opção: ");
 
@@ -86,6 +90,52 @@ public class Menu {
                                     // Liga
                                     break;
                                 case 6:
+                                    // Random Generators
+                                    System.out.println("|------------------------------|");
+                                    System.out.println("| MENU INSERIR RANDOM:         |");
+                                    System.out.println("| 1. Inserir Jogador           |");
+                                    System.out.println("| 2. Inserir Treinador         |");
+                                    System.out.println("| 3. Inserir Arbitro           |");
+                                    System.out.println("| 4. Inserir Equipa            |");
+                                    System.out.println("| 5. Inserir Liga              |");
+                                    System.out.println("| 6. Voltar atrás              |");
+                                    System.out.println("|------------------------------|");
+                                    System.out.print("Escolha uma opção: ");
+
+                                    try {
+                                        optionInsertRandom = scanner.nextInt();
+
+                                        // Insert a data
+                                        switch (optionInsertRandom) {
+                                            case 1:
+                                                // Jogador
+                                                jogador.insertFaker();
+                                                break;
+                                            case 2:
+                                                // Treinador
+                                                break;
+                                            case 3:
+                                                // Arbitro
+                                                break;
+                                            case 4:
+                                                // Equipa
+                                                break;
+                                            case 5:
+                                                // Liga
+                                                break;
+                                            case 6:
+                                                System.out.println("Voltando Atrás...");
+                                                break;
+                                            default:
+                                                printInvalidOptionError();
+                                                validInput = false;
+                                                break;
+                                        }
+                                    } catch (Exception e) {
+                                        printInvalidOptionError();
+                                    }
+                                    break;
+                                case 7:
                                     System.out.println("Voltando Atrás...");
                                     break;
                                 default:
@@ -128,10 +178,12 @@ public class Menu {
                         break;
                     case 9:
                         System.out.println("Saindo do Programa...");
+                        System.out.println(randomChuckNoris());
+
                         // Closes the scanner
                         scanner.close();
                         // Closes the Program
-                        System.exit(1);
+                        System.exit(0); // Sai do programa, com sucesso
                         break;
                     default:
                         printInvalidOptionError();
@@ -215,6 +267,41 @@ public class Menu {
 
     public static boolean hasVirgulaString(String text) {
         return text.contains(",");
+    }
+
+    public static String randomNameJogador() {
+        Faker fakerNameJogador = new Faker();
+        return fakerNameJogador.esports().player();
+    }
+
+    public static String randomFullName() {
+        Faker fakerFullName = new Faker();
+        return fakerFullName.name().fullName();
+    }
+
+    public static String randomFirstName() {
+        Faker fakerFirstName = new Faker();
+        return fakerFirstName.name().firstName();
+    }
+
+    public static String randomLastName() {
+        Faker fakerLastName = new Faker();
+        return fakerLastName.name().lastName();
+    }
+
+    public static String randomChuckNoris() {
+        Faker fakerChuckNoris = new Faker();
+        return fakerChuckNoris.chuckNorris().fact();
+    }
+
+    public static String randomLordOfTheRings() {
+        Faker fakerLordOfTheRings = new Faker();
+        return fakerLordOfTheRings.lordOfTheRings().character();
+    }
+
+    public static String randomLorem() {
+        Faker fakerLorem = new Faker();
+        return fakerLorem.lorem().word();
     }
 }
 

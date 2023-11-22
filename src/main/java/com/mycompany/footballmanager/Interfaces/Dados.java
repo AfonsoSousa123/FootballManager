@@ -15,4 +15,6 @@ public interface Dados {
     void update();
 
     void delete();
+
+    void insertFaker();
 }
