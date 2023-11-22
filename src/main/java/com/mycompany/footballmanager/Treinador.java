@@ -89,8 +89,8 @@ public class Treinador extends Pessoa implements Dados {
             try {
                 System.out.println("Insira o Nome: ");
                 String nome = scanner.nextLine();
-                if (Menu.hasVirgulaString(nome)) {
-                    System.out.println("O Nome do Treinador não pode conter virgulas! Tente Novamente...");
+                if (Menu.hasPontoEVirgulaString(nome)) {
+                    System.out.println("O Nome do Treinador não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereTreinador();
                 } else {
                     treinador.setNome(nome);
@@ -120,8 +120,8 @@ public class Treinador extends Pessoa implements Dados {
                 System.out.println("Insira as Especializações: ");
                 String especializacoes = scanner.nextLine().trim();
 
-                if (Menu.hasVirgulaString(especializacoes)) {
-                    System.out.println("As Especializações do Treinador não podem conter virgulas! Tente Novamente...");
+                if (Menu.hasPontoEVirgulaString(especializacoes)) {
+                    System.out.println("As Especializações do Treinador não podem conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereTreinador();
                 } else {
                     treinador.setEspecializacoes(especializacoes);
@@ -135,8 +135,8 @@ public class Treinador extends Pessoa implements Dados {
                 System.out.println("Insira as Táticas Favoritas do Treinador: ");
                 String taticas_fav = scanner.nextLine();
 
-                if (Menu.hasVirgulaString(taticas_fav)) {
-                    System.out.println("As Táticas Favoritas do Treinador não podem conter virgulas! Tente Novamente...");
+                if (Menu.hasPontoEVirgulaString(taticas_fav)) {
+                    System.out.println("As Táticas Favoritas do Treinador não podem conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereTreinador();
                 } else {
                     treinador.setTaticas_fav(taticas_fav);
@@ -166,10 +166,10 @@ public class Treinador extends Pessoa implements Dados {
             StringBuilder sb = new StringBuilder();
 
             // Construct the CSV line
-            sb.append(treinador.getId()).append(",");
-            sb.append(treinador.getNome()).append(",");
-            sb.append(treinador.getIdade()).append(",");
-            sb.append(treinador.getEspecializacoes()).append(",");
+            sb.append(treinador.getId()).append(";");
+            sb.append(treinador.getNome()).append(";");
+            sb.append(treinador.getIdade()).append(";");
+            sb.append(treinador.getEspecializacoes()).append(";");
             sb.append(treinador.getTaticas_fav()).append("\n");
 
             // Write the CSV line to the file
@@ -213,7 +213,7 @@ public class Treinador extends Pessoa implements Dados {
                     continue; // Skip processing the first line
                 }
 
-                String[] data = row.split(",");
+                String[] data = row.split(";");
 
                 // CSV format: ID, Nome, Idade, Especializações e Taticas Favoritas
                 Treinador treinador = new Treinador();

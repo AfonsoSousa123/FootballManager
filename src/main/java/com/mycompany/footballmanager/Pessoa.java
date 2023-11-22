@@ -6,6 +6,8 @@ package com.mycompany.footballmanager;
 
 import java.util.Random;
 
+import static com.mycompany.footballmanager.Menu.randomFullName;
+
 /**
  * @author afonso, milena, tânia
  */
@@ -19,7 +21,7 @@ public abstract class Pessoa {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Pessoa() {
-        nome = "Pessoa";
+        nome = randomFullName();
         idade = random.nextInt(20, 40);
     }
 

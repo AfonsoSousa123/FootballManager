@@ -37,7 +37,7 @@ public class Jogador extends Pessoa implements Dados {
         hist_lesoes = "perna partida";
         ataque = random.nextInt(1, 100);
         defesa = random.nextInt(1, 100);
-        n_agressividade = random.nextInt(1, 5);
+        n_agressividade = random.nextInt(1, 100);
     }
 
     public Jogador(
@@ -105,8 +105,8 @@ public class Jogador extends Pessoa implements Dados {
             try {
                 System.out.println("Insira o Nome: ");
                 String nome = scanner.nextLine();
-                if (Menu.hasVirgulaString(nome)) {
-                    System.out.println("O Nome do Jogador não pode conter virgulas! Tente Novamente...");
+                if (Menu.hasPontoEVirgulaString(nome)) {
+                    System.out.println("O Nome do Jogador não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereJogador();
                 } else {
                     jogador.setNome(nome);
@@ -138,8 +138,8 @@ public class Jogador extends Pessoa implements Dados {
                 System.out.println("Insira a Posição: ");
                 String posicao = scanner.nextLine().trim();
 
-                if (Menu.hasVirgulaString(posicao)) {
-                    System.out.println("A Posição do Jogador não pode conter virgulas! Tente Novamente...");
+                if (Menu.hasPontoEVirgulaString(posicao)) {
+                    System.out.println("A Posição do Jogador não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereJogador();
                 } else {
                     jogador.setPosicao(posicao);
@@ -154,8 +154,8 @@ public class Jogador extends Pessoa implements Dados {
                 System.out.println("Insira o Historico de Lesões: ");
                 String historico = scanner.nextLine();
 
-                if (Menu.hasVirgulaString(historico)) {
-                    System.out.println("O Historico de Lesões do Jogador não pode conter virgulas! Tente Novamente...");
+                if (Menu.hasPontoEVirgulaString(historico)) {
+                    System.out.println("O Historico de Lesões do Jogador não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereJogador();
                 } else {
                     jogador.setHist_lesoes(historico);
@@ -205,10 +205,10 @@ public class Jogador extends Pessoa implements Dados {
                 int n_agressividade = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (n_agressividade > 0 && n_agressividade <= 5) {
+                if (n_agressividade > 0 && n_agressividade <= 100) {
                     jogador.setN_agressividade(n_agressividade);
                 } else {
-                    System.out.println("O Jogador só pode ter entre 1 e 5 valores de Nivel de Agressividade! Tente Novamente...");
+                    System.out.println("O Jogador só pode ter entre 1 e 100 valores de Nivel de Agressividade! Tente Novamente...");
                     return insereJogador();
                 }
             } catch (Exception e) {
@@ -236,13 +236,13 @@ public class Jogador extends Pessoa implements Dados {
             StringBuilder sb = new StringBuilder();
 
             // Construct the CSV line
-            sb.append(jogador.getId()).append(",");
-            sb.append(jogador.getNome()).append(",");
-            sb.append(jogador.getIdade()).append(",");
-            sb.append(jogador.getPosicao()).append(",");
-            sb.append(jogador.getHist_lesoes()).append(",");
-            sb.append(jogador.getAtaque()).append(",");
-            sb.append(jogador.getDefesa()).append(",");
+            sb.append(jogador.getId()).append(";");
+            sb.append(jogador.getNome()).append(";");
+            sb.append(jogador.getIdade()).append(";");
+            sb.append(jogador.getPosicao()).append(";");
+            sb.append(jogador.getHist_lesoes()).append(";");
+            sb.append(jogador.getAtaque()).append(";");
+            sb.append(jogador.getDefesa()).append(";");
             sb.append(jogador.getN_agressividade()).append("\n");
 
             // Write the CSV line to the file
@@ -286,7 +286,7 @@ public class Jogador extends Pessoa implements Dados {
                     continue; // Skip processing the first line
                 }
 
-                String[] data = row.split(",");
+                String[] data = row.split(";");
 
                 // TXT format: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
                 Jogador jogador = new Jogador();
@@ -332,8 +332,8 @@ public class Jogador extends Pessoa implements Dados {
             int numOfChoices = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
 
-            if (numOfChoices <= 0 || numOfChoices > 10) {
-                System.out.println("Só pode inserir no maximo 10 de cada vez! Tente Novamente...");
+            if (numOfChoices <= 0 || numOfChoices > 11) {
+                System.out.println("Só pode inserir no maximo 11 de cada vez! Tente Novamente...");
                 insertFaker();
             }
 
@@ -348,30 +348,21 @@ public class Jogador extends Pessoa implements Dados {
                 }
 
                 Jogador jogador = new Jogador(
-                        latest + increment,
-                        randomFullName(),
-                        random.nextInt(20, 40),
-                        randomLorem(),
-                        randomLorem(),
-                        random.nextInt(1, 100),
-                        random.nextInt(1, 100),
-                        random.nextInt(1, 5)
+                        latest + increment, // ID automatically increments
+                        randomFullName(), // Random Nome
+                        random.nextInt(20, 40), // Random Idade
+                        randomLorem(), // Random Posição
+                        randomLorem(), // Random Historico de Lesões
+                        random.nextInt(1, 100), // Random Ataque
+                        random.nextInt(1, 100), // Random Defesa
+                        random.nextInt(1, 100) // Random Nivel de Agressividade
                 );
-                jogadores.add(jogador);
-                writeToTXT(jogador);
+                jogadores.add(jogador); // Adds the new Jogador to the Jogadores ArrayList
+                writeToTXT(jogador); // Writes the Jogador to the TXT File
             }
 
-            // Print details of all players using a loop
-            if (!jogadores.isEmpty()) {
-                // Print the table Headers
-                System.out.printf(tableHeaders());
-
-                for (Jogador jogador : jogadores) {
-                    System.out.printf(jogador.toString());
-                }
-            } else {
-                System.out.println("\nNão existem Jogadores!\n");
-            }
+            System.out.print("Jogadores Gerados com sucesso!");
+            System.out.println("--------------------------------");
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
         }
@@ -444,13 +435,13 @@ public class Jogador extends Pessoa implements Dados {
 
     // Print headers
     public static String tableHeaders() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
+        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
                 "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s | %-7s | %-7s | %-22s |%n",
+        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-22s |%n",
                 getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
     }
 }

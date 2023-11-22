@@ -12,8 +12,6 @@ import java.util.LinkedList;
  * @author afonso, milena, tânia
  */
 public class Arbitro extends Pessoa implements Dados {
-    private static int AI = 1; // Auto Increment
-    private int id;
     private String experiencia;
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -69,22 +67,12 @@ public class Arbitro extends Pessoa implements Dados {
     // END Interface Methods ----------------------------------------------------------------
 
     // BEGIN Setters ----------------------------------------------------------------
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;
     }
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-
-    public int getId() {
-        return id;
-    }
-
     @Override
     public String getNome() {
         return super.getNome();
@@ -99,16 +87,4 @@ public class Arbitro extends Pessoa implements Dados {
         return experiencia;
     }
     // END Getters ----------------------------------------------------------------
-
-    // Print headers
-    public static String tableHeaders() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s |%n",
-                "ID", "Nome", "Idade", "Especializações");
-    }
-
-    @Override
-    public String toString() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s |%n",
-                getId(), getNome(), getIdade(), getExperiencia());
-    }
 }

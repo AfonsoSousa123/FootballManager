@@ -41,11 +41,12 @@ public class Menu {
             System.out.println("| 2. Ler Dados de Jogadores            |");
             System.out.println("| 3. Ler Dados de Treinadores          |");
             System.out.println("| 4. Ler Dados das Equipas             |");
-            System.out.println("| 5. Associar Equipa a uma Liga        |");
-            System.out.println("| 6. Estatísticas de uma Equipa        |");
-            System.out.println("| 7. Ver Partidas                      |");
-            System.out.println("| 8. Criar Partida                     |");
-            System.out.println("| 9. Sair                              |");
+            System.out.println("| 6. Ler Dados dos Árbitros            |");
+            System.out.println("| 6. Associar Equipa a uma Liga        |");
+            System.out.println("| 7. Estatísticas de uma Equipa        |");
+            System.out.println("| 8. Ver Partidas                      |");
+            System.out.println("| 9. Criar Partida                     |");
+            System.out.println("| 10. Sair                             |");
             System.out.println("|--------------------------------------|");
             System.out.print("Escolha uma opção: ");
 
@@ -159,26 +160,30 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 4:
-                        // DB.fileReader();
                         // Print Equipas
+                        pressEnterToContinue();
                         break;
                     case 5:
-                        // Associar uma Equipa a uma Liga
+                        // Print Árbitros
+                        pressEnterToContinue();
                         break;
                     case 6:
-                        // Estatisticas de uma Equipa
+                        // Associar uma Equipa a uma Liga
                         break;
                     case 7:
-                        // Ver Partidas
+                        // Estatisticas de uma Equipa
                         break;
                     case 8:
+                        // Ver Partidas
+                        break;
+                    case 9:
                         // Criar Partida
                         printArbitro();
                         pressEnterToContinue();
                         break;
-                    case 9:
+                    case 10:
                         System.out.println("Saindo do Programa...");
-                        System.out.println(randomChuckNoris());
+                        System.out.println(randomChuckNoris()); // Prints a fun fact about ChuckNoris
 
                         // Closes the scanner
                         scanner.close();
@@ -265,8 +270,8 @@ public class Menu {
         treinador.getTreinadores();
     }
 
-    public static boolean hasVirgulaString(String text) {
-        return text.contains(",");
+    public static boolean hasPontoEVirgulaString(String text) {
+        return text.contains(";");
     }
 
     public static String randomNameJogador() {
