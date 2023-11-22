@@ -215,7 +215,7 @@ public class Menu {
         arbitros.add(arbitro2);
 
         // Print the table Headers
-        System.out.printf(arbitro1.tableHeaders());
+//        System.out.printf(arbitro1.tableHeaders());
         // Print details of all players using a loop
         for (Arbitro arbitro : arbitros) {
             arbitro.print();
@@ -297,11 +297,6 @@ public class Menu {
     public static String randomChuckNoris() {
         Faker fakerChuckNoris = new Faker();
         return fakerChuckNoris.chuckNorris().fact();
-    }
-
-    public static String randomLordOfTheRings() {
-        Faker fakerLordOfTheRings = new Faker();
-        return fakerLordOfTheRings.lordOfTheRings().character();
     }
 
     public static String randomLorem() {

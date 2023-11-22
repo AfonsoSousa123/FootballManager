@@ -68,7 +68,7 @@ public class Jogador extends Pessoa implements Dados {
         boolean insertMore = true;
 
         while (insertMore) {
-            getJogadores();
+            getJogadores(); // Updates the Jogadores ArrayList
             jogadores.add(insereJogador());
 
             try {
