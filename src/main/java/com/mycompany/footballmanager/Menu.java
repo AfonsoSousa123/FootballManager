@@ -25,6 +25,8 @@ public class Menu {
     public void menu() {
         int option = 0;
         int optionInsert;
+        int optionEdit;
+        int optionRemove;
         int optionInsertRandom;
 
         getData(); // gets all the data from the CSV Files
@@ -41,12 +43,14 @@ public class Menu {
             System.out.println("| 2. Ler Dados de Jogadores            |");
             System.out.println("| 3. Ler Dados de Treinadores          |");
             System.out.println("| 4. Ler Dados das Equipas             |");
-            System.out.println("| 6. Ler Dados dos Árbitros            |");
-            System.out.println("| 6. Associar Equipa a uma Liga        |");
-            System.out.println("| 7. Estatísticas de uma Equipa        |");
-            System.out.println("| 8. Ver Partidas                      |");
-            System.out.println("| 9. Criar Partida                     |");
-            System.out.println("| 10. Sair                             |");
+            System.out.println("| 5. Ler Dados dos Árbitros            |");
+            System.out.println("| 6. Editar Dados                      |");
+            System.out.println("| 7. Remover Dados                     |");
+            System.out.println("| 8. Associar Equipa a uma Liga        |");
+            System.out.println("| 9. Estatísticas de uma Equipa        |");
+            System.out.println("| 10. Ver Partidas                     |");
+            System.out.println("| 11. Criar Partida                    |");
+            System.out.println("| 12. Sair                             |");
             System.out.println("|--------------------------------------|");
             System.out.print("Escolha uma opção: ");
 
@@ -71,7 +75,6 @@ public class Menu {
                         try {
                             optionInsert = scanner.nextInt();
 
-                            // Insert a data
                             switch (optionInsert) {
                                 case 1:
                                     // Jogador
@@ -168,22 +171,113 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 6:
-                        // Associar uma Equipa a uma Liga
+                        // Editar Dados
+                        System.out.println("|------------------------------|");
+                        System.out.println("| MENU EDITAR:                 |");
+                        System.out.println("| 1. Editar Jogador            |");
+                        System.out.println("| 2. Editar Treinador          |");
+                        System.out.println("| 3. Editar Arbitro            |");
+                        System.out.println("| 4. Editar Equipa             |");
+                        System.out.println("| 5. Editar Liga               |");
+                        System.out.println("| 6. Voltar atrás              |");
+                        System.out.println("|------------------------------|");
+                        System.out.print("Escolha uma opção: ");
+
+                        try {
+                            optionEdit = scanner.nextInt();
+
+                            switch (optionEdit) {
+                                case 1:
+                                    // Jogador
+                                    jogador.updateJogador();
+                                    break;
+                                case 2:
+                                    // Treinador
+                                    break;
+                                case 3:
+                                    // Arbitro
+                                    break;
+                                case 4:
+                                    // Equipa
+                                    break;
+                                case 5:
+                                    // Liga
+                                    break;
+                                case 6:
+                                    System.out.println("Voltando Atrás...");
+                                    break;
+                                default:
+                                    printInvalidOptionError();
+                                    validInput = false;
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            printInvalidOptionError();
+                        }
                         break;
                     case 7:
-                        // Estatisticas de uma Equipa
+                        // Remover Dados
+                        // Editar Dados
+                        System.out.println("|------------------------------|");
+                        System.out.println("| MENU REMOVER:                |");
+                        System.out.println("| 1. Remover Jogador           |");
+                        System.out.println("| 2. Remover Treinador         |");
+                        System.out.println("| 3. Remover Arbitro           |");
+                        System.out.println("| 4. Remover Equipa            |");
+                        System.out.println("| 5. Remover Liga              |");
+                        System.out.println("| 6. Voltar atrás              |");
+                        System.out.println("|------------------------------|");
+                        System.out.print("Escolha uma opção: ");
+
+                        try {
+                            optionRemove = scanner.nextInt();
+
+                            switch (optionRemove) {
+                                case 1:
+                                    // Jogador
+                                    jogador.removeJogador();
+                                    break;
+                                case 2:
+                                    // Treinador
+                                    break;
+                                case 3:
+                                    // Arbitro
+                                    break;
+                                case 4:
+                                    // Equipa
+                                    break;
+                                case 5:
+                                    // Liga
+                                    break;
+                                case 6:
+                                    System.out.println("Voltando Atrás...");
+                                    break;
+                                default:
+                                    printInvalidOptionError();
+                                    validInput = false;
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            printInvalidOptionError();
+                        }
                         break;
                     case 8:
-                        // Ver Partidas
+                        // Associar uma Equipa a uma Liga
                         break;
                     case 9:
+                        // Estatisticas de uma Equipa
+                        break;
+                    case 10:
+                        // Ver Partida
+                        break;
+                    case 11:
                         // Criar Partida
                         printArbitro();
                         pressEnterToContinue();
                         break;
-                    case 10:
+                    case 12:
                         System.out.println("Saindo do Programa...");
-                        System.out.println(randomChuckNoris()); // Prints a fun fact about ChuckNoris
+                        System.out.println(randomChuckNoris()); // Prints a fun fact about ChuckNoris ;)
 
                         // Closes the scanner
                         scanner.close();

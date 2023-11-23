@@ -50,12 +50,12 @@ public class Arbitro extends Pessoa implements Dados {
     }
 
     @Override
-    public void update() {
+    public void update(int id) {
         //
     }
 
     @Override
-    public void delete() {
+    public void delete(int id) {
         //
     }
 

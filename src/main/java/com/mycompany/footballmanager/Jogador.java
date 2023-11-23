@@ -31,10 +31,10 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
-        super.setNome("Zézinho");
+        super.setNome(randomFullName());
         super.setIdade(random.nextInt(20, 40));
-        posicao = "central";
-        hist_lesoes = "perna partida";
+        posicao = randomLorem();
+        hist_lesoes = randomLorem();
         ataque = random.nextInt(1, 100);
         defesa = random.nextInt(1, 100);
         n_agressividade = random.nextInt(1, 100);
@@ -311,18 +311,45 @@ public class Jogador extends Pessoa implements Dados {
     }
 
     @Override
-    public void update() {
-        //
+    public void update(int id) {
+        if (id > 0 && id < (jogadores.size() - 1)) {
+            jogadores.set(id, new Jogador());
+            System.out.println("O Jogador de ID " + id + " foi atualizado com sucesso");
+        } else {
+            System.out.println("ID incorreto! Tente novamente...");
+        }
+    }
+
+    public void updateJogador() {
+        Scanner scanner = new Scanner(System.in);
+        getJogadores(); // Gets an updated list of jogadores
+        print(); // prints the updated list
+
+        System.out.println("Indique o ID do jogador que pretende editar: ");
+        update(scanner.nextInt());
     }
 
     @Override
-    public void delete() {
-        //
+    public void delete(int id) {
+        if (id > 0 && id < (jogadores.size() - 1)) {
+            jogadores.remove(id);
+            System.out.println("O Jogador de ID " + id + " foi removido com sucesso");
+        } else {
+            System.out.println("ID incorreto! Tente novamente...");
+        }
+    }
+
+    public void removeJogador() {
+        Scanner scanner = new Scanner(System.in);
+        getJogadores(); // Gets an updated list of jogadores
+        print(); // prints the updated list
+
+        System.out.println("Indique o ID do jogador que pretende remover: ");
+        delete(scanner.nextInt());
     }
     // END Interface Methods ----------------------------------------------------------------
 
     // BEGIN Faker Methods ----------------------------------------------------------------
-
     @Override
     public void insertFaker() {
         try {

@@ -12,9 +12,9 @@ public interface Dados {
 
     void print();
 
-    void update();
+    void update(int id);
 
-    void delete();
+    void delete(int id);
 
     void insertFaker();
 }

@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static com.mycompany.footballmanager.Menu.checkIfFileExists;
-import static com.mycompany.footballmanager.Menu.treinadores;
+import static com.mycompany.footballmanager.Menu.*;
 
 /**
  * @author afonso, milena, tânia
@@ -29,10 +28,10 @@ public class Treinador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
-        super.setNome("Treinador nome");
+        super.setNome(randomFullName());
         super.setIdade(random.nextInt(30, 60));
-        especializacoes = "Estilo ofensivo";
-        taticas_fav = "3-4-3, 5-6-4";
+        especializacoes = randomLorem();
+        taticas_fav = randomLorem();
     }
 
     public Treinador(
@@ -235,12 +234,12 @@ public class Treinador extends Pessoa implements Dados {
     }
 
     @Override
-    public void update() {
+    public void update(int id) {
         //
     }
 
     @Override
-    public void delete() {
+    public void delete(int id) {
         //
     }
 
