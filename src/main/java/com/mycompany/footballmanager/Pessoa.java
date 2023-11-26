@@ -60,9 +60,9 @@ public abstract class Pessoa {
     public void removeFromTXT(int id, String file) throws IOException {
         checkIfFileExists(file);
 
-        // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario player_data no qual vai ser escrito os dados sem o joador a ser eliminado
+        // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario temp no qual vai ser escrito os dados sem o joador a ser eliminado
         try (Scanner scanner = new Scanner(new File(file))) {
-            File tempFile = File.createTempFile("player_data", ".txt");
+            File tempFile = File.createTempFile("temp", ".txt");
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
