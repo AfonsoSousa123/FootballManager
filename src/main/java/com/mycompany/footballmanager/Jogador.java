@@ -6,10 +6,7 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,6 +16,7 @@ import static com.mycompany.footballmanager.Menu.*;
  * @author afonso, milena, tânia
  */
 public class Jogador extends Pessoa implements Dados {
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt"; // File Path
     // BEGIN Variables ----------------------------------------------------------------
     private int id = 0;
     private String posicao;
@@ -26,7 +24,6 @@ public class Jogador extends Pessoa implements Dados {
     private int ataque; // de 0 a 100
     private int defesa; // de 0 a 100
     private int n_agressividade; // de 0 a 5
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt"; // File Path
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -59,6 +56,12 @@ public class Jogador extends Pessoa implements Dados {
         this.n_agressividade = n_agressividade;
     }
     // END Constructors ----------------------------------------------------------------
+
+    // Print headers
+    public static String tableHeaders() {
+        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
+                "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
+    }
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     @Override
@@ -339,15 +342,50 @@ public class Jogador extends Pessoa implements Dados {
         }
     }
 
-    public void removeJogador() {
+    public void removeFromTXT(int id) throws IOException {
+        checkIfFileExists(txtFilePath);
+
+        // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario player_data no qual vai ser escrito os dados sem o joador a ser eliminado
+        try (Scanner scanner = new Scanner(new File(txtFilePath))) {
+            File tempFile = File.createTempFile("player_data", ".txt");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (!line.startsWith(String.valueOf(id))) {
+                        writer.write(line + "\n");
+                    }
+                }
+            }
+
+            //Garante que o ficheiro é apagado mesmo que o programa feche derrepente
+            tempFile.deleteOnExit();
+
+            //Cria um novo ficheiro com o mesmo nome e caminho do original e apaga o original
+            File originalFile = new File(txtFilePath);
+            originalFile.delete();
+
+            //Renomeia o ficheiro temporario para o ficheiro original fazendo com que os dados guardados no temporário sejam agora do original
+            tempFile.renameTo(originalFile);
+        } catch (IOException e) {
+            System.err.println("Error deleting player: " + e.getMessage());
+        }
+    }
+    // END Interface Methods ----------------------------------------------------------------
+
+    public void removeJogador() throws IOException {
         Scanner scanner = new Scanner(System.in);
         getJogadores(); // Gets an updated list of jogadores
         print(); // prints the updated list
 
         System.out.println("Indique o ID do jogador que pretende remover: ");
-        delete(scanner.nextInt());
+        int playerID = scanner.nextInt();
+        delete(playerID);
+        removeFromTXT(playerID);
     }
-    // END Interface Methods ----------------------------------------------------------------
+
+    // END Faker Methods ----------------------------------------------------------------
+
+    // BEGIN Setters ----------------------------------------------------------------
 
     // BEGIN Faker Methods ----------------------------------------------------------------
     @Override
@@ -395,38 +433,13 @@ public class Jogador extends Pessoa implements Dados {
         }
     }
 
-    // END Faker Methods ----------------------------------------------------------------
-
-    // BEGIN Setters ----------------------------------------------------------------
-
-    private void setId(int id) {
-        this.id = id;
-    }
-
-    public void setPosicao(String posicao) {
-        this.posicao = posicao;
-    }
-
-    public void setHist_lesoes(String hist_lesoes) {
-        this.hist_lesoes = hist_lesoes;
-    }
-
-    public void setAtaque(int ataque) {
-        this.ataque = ataque;
-    }
-
-    public void setDefesa(int defesa) {
-        this.defesa = defesa;
-    }
-
-    public void setN_agressividade(int n_agressividade) {
-        this.n_agressividade = n_agressividade;
-    }
-    // END Setters ----------------------------------------------------------------
-
     // BEGIN Getters ----------------------------------------------------------------
     public int getId() {
         return id;
+    }
+
+    private void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -442,17 +455,34 @@ public class Jogador extends Pessoa implements Dados {
     public String getPosicao() {
         return posicao;
     }
+    // END Setters ----------------------------------------------------------------
+
+    public void setPosicao(String posicao) {
+        this.posicao = posicao;
+    }
 
     public String getHist_lesoes() {
         return hist_lesoes;
+    }
+
+    public void setHist_lesoes(String hist_lesoes) {
+        this.hist_lesoes = hist_lesoes;
     }
 
     public int getAtaque() {
         return ataque;
     }
 
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
+    }
+
     public int getDefesa() {
         return defesa;
+    }
+
+    public void setDefesa(int defesa) {
+        this.defesa = defesa;
     }
 
     public int getN_agressividade() {
@@ -460,10 +490,8 @@ public class Jogador extends Pessoa implements Dados {
     }
     // END Getters ----------------------------------------------------------------
 
-    // Print headers
-    public static String tableHeaders() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
-                "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
+    public void setN_agressividade(int n_agressividade) {
+        this.n_agressividade = n_agressividade;
     }
 
     @Override
