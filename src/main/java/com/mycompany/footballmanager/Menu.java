@@ -9,6 +9,7 @@ import com.github.javafaker.Faker;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -16,11 +17,18 @@ import java.util.Scanner;
  */
 public class Menu {
     public static ArrayList<Jogador> jogadores = new ArrayList<>();
-    public static ArrayList<Arbitro> arbitros = new ArrayList<>();
     public static ArrayList<Treinador> treinadores = new ArrayList<>();
+    public static ArrayList<Arbitro> arbitros = new ArrayList<>();
+    public static ArrayList<Equipa> equipas = new ArrayList<>();
+    public static ArrayList<Partida> partidas = new ArrayList<>();
+    public static ArrayList<Liga> ligas = new ArrayList<>();
     public Scanner scanner = new Scanner(System.in);
+    public static Random random = new Random();
     public static Jogador jogador = new Jogador();
     public static Treinador treinador = new Treinador();
+    public static Equipa equipa = new Equipa();
+    public static Partida partida = new Partida();
+    public static Liga liga = new Liga();
 
     public void menu() {
         int option = 0;
@@ -396,6 +404,21 @@ public class Menu {
     public static String randomLorem() {
         Faker fakerLorem = new Faker();
         return fakerLorem.lorem().word();
+    }
+
+    public static String randomCity() {
+        Faker fakerCity = new Faker();
+        return fakerCity.address().cityName();
+    }
+
+    public static String randomCountry() {
+        Faker fakerCountry = new Faker();
+        return fakerCountry.address().country();
+    }
+
+    public static String randomTeam() {
+        Faker fakerTeam = new Faker();
+        return fakerTeam.team().sport();
     }
 }
 

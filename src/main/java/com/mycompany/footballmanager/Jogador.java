@@ -460,6 +460,7 @@ public class Jogador extends Pessoa implements Dados {
     }
     // END Getters ----------------------------------------------------------------
 
+    // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
         return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
@@ -471,4 +472,5 @@ public class Jogador extends Pessoa implements Dados {
         return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-22s |%n",
                 getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
     }
+    // END toString Methods ----------------------------------------------------------------
 }
