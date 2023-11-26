@@ -6,7 +6,10 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -250,12 +253,12 @@ public class Treinador extends Pessoa implements Dados {
         }
     }
 
-    public void removeFromTXT(int id) throws IOException {
-        checkIfFileExists(txtFilePath);
+    /*public void removeFromTXT(int id, String file) throws IOException {
+        checkIfFileExists(file);
 
         // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario player_data no qual vai ser escrito os dados sem o joador a ser eliminado
-        try (Scanner scanner = new Scanner(new File(txtFilePath))) {
-            File tempFile = File.createTempFile("treinador_data", ".txt");
+        try (Scanner scanner = new Scanner(new File(file))) {
+            File tempFile = File.createTempFile("player_data", ".txt");
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
@@ -269,7 +272,7 @@ public class Treinador extends Pessoa implements Dados {
             tempFile.deleteOnExit();
 
             //Cria um novo ficheiro com o mesmo nome e caminho do original e apaga o original
-            File originalFile = new File(txtFilePath);
+            File originalFile = new File(file);
             originalFile.delete();
 
             //Renomeia o ficheiro temporario para o ficheiro original fazendo com que os dados guardados no temporário sejam agora do original
@@ -277,7 +280,7 @@ public class Treinador extends Pessoa implements Dados {
         } catch (IOException e) {
             System.err.println("Error deleting player: " + e.getMessage());
         }
-    }
+    }*/
 
     public void removeTreinador() throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -287,7 +290,7 @@ public class Treinador extends Pessoa implements Dados {
         System.out.println("Indique o ID do treinador que pretende remover: ");
         int treinadorID = scanner.nextInt();
         delete(treinadorID);
-        removeFromTXT(treinadorID);
+        removeFromTXT(treinadorID, txtFilePath);
     }
 
     // END Interface Methods --------------------------------------------------------
