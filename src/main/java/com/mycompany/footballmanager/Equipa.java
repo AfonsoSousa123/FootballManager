@@ -6,6 +6,8 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,8 +19,9 @@ import static com.mycompany.footballmanager.Menu.*;
  * @author afonso, milena, tânia
  */
 public class Equipa implements Dados {
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/equipas.txt"; // File Path
+
     // BEGIN Variables ----------------------------------------------------------------
-    private static int AI = 1; // Auto Increment
     private int id;
     private String nome;
     private ArrayList<Jogador> plantel;
@@ -30,7 +33,7 @@ public class Equipa implements Dados {
     private int golos_marcados;
     private int golos_sofridos;
 
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/equipas.txt"; // File Path
+//    private Random random = new Random();
     // END Variables ------------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -74,7 +77,7 @@ public class Equipa implements Dados {
             equipas.add(insereEquipa());
 
             try {
-                System.out.println("Deseja inserir outro Jogador? (sim/nao)");
+                System.out.println("Deseja inserir outra Equipa? (sim/nao)");
                 String choice = scanner.nextLine().trim().toLowerCase();
 
                 if (!choice.equals("sim")) {
@@ -261,12 +264,12 @@ public class Equipa implements Dados {
             sb.append(equipa.getGolos_marcados()).append(";");
             sb.append(equipa.getGolos_sofridos()).append("\n");
 
-            // Write the CSV line to the file
+            // Write the line to the file
             writer.append(sb.toString());
             // closes the output stream
             writer.flush();
         } catch (IOException e) {
-            System.out.println("Erro ao inserir o Equipa no ficheiro " + e.getMessage());
+            System.out.println("Erro ao inserir a Equipa no ficheiro " + e.getMessage());
         }
     }
 
@@ -290,50 +293,67 @@ public class Equipa implements Dados {
     public void getEquipas() {
         checkIfFileExists(txtFilePath);
 
-//        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
-//
-//            boolean firstLine = true; // Flag to identify the first line
-//            ArrayList<Equipa> equipas = new ArrayList<>(); // Create a new list for equipas
-//            String row;
-//
-//            while ((row = br.readLine()) != null) {
-//                if (firstLine) {
-//                    firstLine = false; // Set the flag to false after encountering the first line
-//                    continue; // Skip processing the first line
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
+
+            boolean firstLine = true; // Flag to identify the first line
+            ArrayList<Equipa> equipas = new ArrayList<>(); // Create a new list for equipas
+            String row;
+
+            while ((row = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false; // Set the flag to false after encountering the first line
+                    continue; // Skip processing the first line
+                }
+
+                String[] data = row.split(";");
+
+                // TXT format: ID, Nome, Plantel, Treinador, Liga, Cidade, País, Histórico, Golos Marcados, Golos Sofridos
+                Equipa equipa = new Equipa();
+                equipa.setId(Integer.parseInt(data[0]));
+                equipa.setNome(data[1]);
+
+//                // Plantel format:
+//                String[] plantelData = data[2].split(",");
+//                ArrayList<Jogador> plantel = new ArrayList<>();
+//                for (String jogadorData : plantelData) {
+//                    Jogador jogador = new Jogador();
+//                    // Set the properties of the jogador instance using the jogadorData string
+//                    plantel.add(jogador);
 //                }
+//                equipa.setPlantel(plantel);
 //
-//                String[] data = row.split(";");
+//                // Treinador
+//                String[] treinadorData = data[3].split(",");
+//                Treinador treinador = new Treinador();
+//                equipa.setTreinador(data[3]);
 //
-//                // TXT format: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
-//                Equipa jogador = new Equipa();
-//                jogador.setId(Integer.parseInt(data[0]));
-//                jogador.setNome(data[1]);
-//                jogador.setIdade(Integer.parseInt(data[2]));
-//                jogador.setPosicao(data[3]);
-//                jogador.setHist_lesoes(data[4]);
-//                jogador.setAtaque(Integer.parseInt(data[5]));
-//                jogador.setDefesa(Integer.parseInt(data[6]));
-//                jogador.setN_agressividade(Integer.parseInt(data[7]));
-//
-//                // Adds the jogador to the ArrayList
-//                equipas.add(jogador);
-//            }
-//
-//            // Replaces the ArrayList from Menu class with the new ArrayList
-//            Menu.equipas = equipas;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+//                equipa.setLiga(data[4]);
+
+                equipa.setCidade(data[5]);
+                equipa.setPais(data[6]);
+                equipa.setHistorico(data[7]);
+                equipa.setGolos_marcados(Integer.parseInt(data[8]));
+                equipa.setGolos_sofridos(Integer.parseInt(data[9]));
+
+                // Adds the equipa to the ArrayList
+                equipas.add(equipa);
+            }
+
+            // Replaces the ArrayList from Menu class with the new ArrayList
+            Menu.equipas = equipas;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void update(int id) {
-
+        //
     }
 
     @Override
     public void delete(int id) {
-
+        //
     }
 
     // BEGIN Faker Methods ----------------------------------------------------------------
@@ -429,7 +449,6 @@ public class Equipa implements Dados {
     // END Setters ----------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-
     public int getId() {
         return id;
     }

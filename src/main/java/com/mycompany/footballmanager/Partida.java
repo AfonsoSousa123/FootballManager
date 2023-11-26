@@ -4,11 +4,13 @@
  */
 package com.mycompany.footballmanager;
 
+import java.util.Random;
+
 /**
  * @author afonso, milena, tânia
  */
 public class Partida {
-    private static int AI = 1; // Auto Increment
+    // BEGIN Variables ------------------------------------------------------------------
     private int id;
     private String nome; // O nome vai ser a junção dos nomes das equipas que estão jogando
     private Arbitro arbitro;
@@ -19,4 +21,7 @@ public class Partida {
     private String local;
     private int golos_marcados;
     private int golos_sofridos;
+
+    private Random random = new Random();
+    // END Variables ------------------------------------------------------------------
 }

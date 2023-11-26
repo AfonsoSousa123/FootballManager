@@ -18,11 +18,12 @@ import static com.mycompany.footballmanager.Menu.randomFullName;
  * @author afonso, milena, tânia
  */
 public abstract class Pessoa {
-    protected Random random = new Random();
+
     // BEGIN Variables ----------------------------------------------------------------
     private String nome;
     private int idade;
 
+    protected Random random = new Random();
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -82,7 +83,7 @@ public abstract class Pessoa {
             //Renomeia o ficheiro temporario para o ficheiro original fazendo com que os dados guardados no temporário sejam agora do original
             tempFile.renameTo(originalFile);
         } catch (IOException e) {
-            System.err.println("Error deleting player: " + e.getMessage());
+            System.err.println("Erro ao eliminar: " + e.getMessage());
         }
     }
 

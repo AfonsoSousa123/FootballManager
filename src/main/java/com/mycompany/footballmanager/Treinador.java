@@ -19,11 +19,13 @@ import static com.mycompany.footballmanager.Menu.*;
  * @author afonso, milena, tânia
  */
 public class Treinador extends Pessoa implements Dados {
-    private static int AI = 1; // Auto Increment
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.txt";
+
+    // BEGIN Variables ----------------------------------------------------------------
     private int id = 0;
     private String especializacoes;
     private String taticas_fav;
+    // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
@@ -44,12 +46,6 @@ public class Treinador extends Pessoa implements Dados {
         this.taticas_fav = taticas_fav;
     }
     // END Constructors ----------------------------------------------------------------
-
-    // Print headers
-    public static String tableHeaders() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
-                "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
-    }
 
     // BEGIN Interface Methods ---------------------------------------------------------
     @Override
@@ -296,13 +292,12 @@ public class Treinador extends Pessoa implements Dados {
     // END Interface Methods --------------------------------------------------------
 
 
-    // BEGIN Setters ----------------------------------------------------------------
-
     @Override
     public void insertFaker() {
 
     }
 
+    // BEGIN Getters and Setters ----------------------------------------------------------------
     public int getId() {
         return id;
     }
@@ -310,10 +305,6 @@ public class Treinador extends Pessoa implements Dados {
     public void setId(int id) {
         this.id = id;
     }
-
-    // END Setters ------------------------------------------------------------------
-
-    // BEGIN Getters ----------------------------------------------------------------
 
     @Override
     public int getIdade() {
@@ -336,10 +327,16 @@ public class Treinador extends Pessoa implements Dados {
     public String getTaticas_fav() {
         return taticas_fav;
     }
-    // END Getters ----------------------------------------------------------------
 
     public void setTaticas_fav(String taticas_fav) {
         this.taticas_fav = taticas_fav;
+    }
+
+    // END Getters and Setters ----------------------------------------------------------------
+    // Print headers
+    public static String tableHeaders() {
+        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
+                "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
     }
 
     @Override

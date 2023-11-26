@@ -179,6 +179,7 @@ public class Menu {
                                     break;
                                 case 4:
                                     // Equipa
+                                    equipa.insert();
                                     break;
                                 case 5:
                                     // Liga
@@ -207,12 +208,14 @@ public class Menu {
                                                 break;
                                             case 2:
                                                 // Treinador
+                                                treinador.insertFaker();
                                                 break;
                                             case 3:
                                                 // Arbitro
                                                 break;
                                             case 4:
                                                 // Equipa
+                                                equipa.insertFaker();
                                                 break;
                                             case 5:
                                                 // Liga
@@ -254,6 +257,7 @@ public class Menu {
                         break;
                     case 4:
                         // Print Equipas
+                        equipa.print();
                         pressEnterToContinue();
                         break;
                     case 5:
@@ -421,6 +425,7 @@ public class Menu {
     private void getData() {
         jogador.getJogadores();
         treinador.getTreinadores();
+        equipa.getEquipas();
     }
 }
 

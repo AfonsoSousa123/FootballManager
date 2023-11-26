@@ -1,0 +1,2 @@
+ID;Nome;Pais;Equipas;Partidas;Ranking de Equipas
+1;Portuguesa;Portugal;;;34
