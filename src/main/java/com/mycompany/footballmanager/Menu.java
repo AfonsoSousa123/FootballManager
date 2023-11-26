@@ -18,9 +18,74 @@ public class Menu {
     public static ArrayList<Jogador> jogadores = new ArrayList<>();
     public static ArrayList<Arbitro> arbitros = new ArrayList<>();
     public static ArrayList<Treinador> treinadores = new ArrayList<>();
-    public Scanner scanner = new Scanner(System.in);
     public static Jogador jogador = new Jogador();
     public static Treinador treinador = new Treinador();
+    public Scanner scanner = new Scanner(System.in);
+
+    // Checks if the file exists; if not, creates it
+    public static void checkIfFileExists(String filepath) {
+        File file = new File(filepath);
+
+        try {
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    System.out.println("Ficheiro criado com sucesso!");
+                } else {
+                    System.out.println("Falha ao criar o ficheiro!");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Ficheiro não foi encontrado" + e.getMessage());
+        }
+    }
+
+    private static void clearConsole() {
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (final Exception e) {
+            System.out.println("Error clearing console" + e.getMessage());
+        }
+    }
+
+    public static boolean hasPontoEVirgulaString(String text) {
+        return text.contains(";");
+    }
+
+    public static String randomNameJogador() {
+        Faker fakerNameJogador = new Faker();
+        return fakerNameJogador.esports().player();
+    }
+
+    public static String randomFullName() {
+        Faker fakerFullName = new Faker();
+        return fakerFullName.name().fullName();
+    }
+
+    public static String randomFirstName() {
+        Faker fakerFirstName = new Faker();
+        return fakerFirstName.name().firstName();
+    }
+
+    public static String randomLastName() {
+        Faker fakerLastName = new Faker();
+        return fakerLastName.name().lastName();
+    }
+
+    public static String randomChuckNoris() {
+        Faker fakerChuckNoris = new Faker();
+        return fakerChuckNoris.chuckNorris().fact();
+    }
+
+    public static String randomLorem() {
+        Faker fakerLorem = new Faker();
+        return fakerLorem.lorem().word();
+    }
 
     public void menu() {
         int option = 0;
@@ -239,6 +304,7 @@ public class Menu {
                                     break;
                                 case 2:
                                     // Treinador
+                                    treinador.removeTreinador();
                                     break;
                                 case 3:
                                     // Arbitro
@@ -316,38 +382,6 @@ public class Menu {
         }
     }
 
-    // Checks if the file exists; if not, creates it
-    public static void checkIfFileExists(String filepath) {
-        File file = new File(filepath);
-
-        try {
-            if (!file.exists()) {
-                if (file.createNewFile()) {
-                    System.out.println("Ficheiro criado com sucesso!");
-                } else {
-                    System.out.println("Falha ao criar o ficheiro!");
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Ficheiro não foi encontrado" + e.getMessage());
-        }
-    }
-
-
-    private static void clearConsole() {
-        try {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            } else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (final Exception e) {
-            System.out.println("Error clearing console" + e.getMessage());
-        }
-    }
-
     private void pressEnterToContinue() {
         System.out.println("Pressione ENTER para continuar...");
         try {
@@ -362,40 +396,6 @@ public class Menu {
     private void getData() {
         jogador.getJogadores();
         treinador.getTreinadores();
-    }
-
-    public static boolean hasPontoEVirgulaString(String text) {
-        return text.contains(";");
-    }
-
-    public static String randomNameJogador() {
-        Faker fakerNameJogador = new Faker();
-        return fakerNameJogador.esports().player();
-    }
-
-    public static String randomFullName() {
-        Faker fakerFullName = new Faker();
-        return fakerFullName.name().fullName();
-    }
-
-    public static String randomFirstName() {
-        Faker fakerFirstName = new Faker();
-        return fakerFirstName.name().firstName();
-    }
-
-    public static String randomLastName() {
-        Faker fakerLastName = new Faker();
-        return fakerLastName.name().lastName();
-    }
-
-    public static String randomChuckNoris() {
-        Faker fakerChuckNoris = new Faker();
-        return fakerChuckNoris.chuckNorris().fact();
-    }
-
-    public static String randomLorem() {
-        Faker fakerLorem = new Faker();
-        return fakerLorem.lorem().word();
     }
 }
 

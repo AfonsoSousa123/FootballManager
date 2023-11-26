@@ -6,10 +6,7 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,11 +17,10 @@ import static com.mycompany.footballmanager.Menu.*;
  */
 public class Treinador extends Pessoa implements Dados {
     private static int AI = 1; // Auto Increment
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.txt";
     private int id = 0;
     private String especializacoes;
     private String taticas_fav;
-
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.txt";
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
@@ -45,6 +41,12 @@ public class Treinador extends Pessoa implements Dados {
         this.taticas_fav = taticas_fav;
     }
     // END Constructors ----------------------------------------------------------------
+
+    // Print headers
+    public static String tableHeaders() {
+        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
+                "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
+    }
 
     // BEGIN Interface Methods ---------------------------------------------------------
     @Override
@@ -240,12 +242,52 @@ public class Treinador extends Pessoa implements Dados {
 
     @Override
     public void delete(int id) {
-        //
+        if (id > 0 && id < (treinadores.size() - 1)) {
+            treinadores.remove(id);
+            System.out.println("O Jogador de ID " + id + " foi removido com sucesso");
+        } else {
+            System.out.println("ID incorreto! Tente novamente...");
+        }
     }
 
-    @Override
-    public void insertFaker() {
+    public void removeFromTXT(int id) throws IOException {
+        checkIfFileExists(txtFilePath);
 
+        // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario player_data no qual vai ser escrito os dados sem o joador a ser eliminado
+        try (Scanner scanner = new Scanner(new File(txtFilePath))) {
+            File tempFile = File.createTempFile("treinador_data", ".txt");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (!line.startsWith(String.valueOf(id))) {
+                        writer.write(line + "\n");
+                    }
+                }
+            }
+
+            //Garante que o ficheiro é apagado mesmo que o programa feche derrepente
+            tempFile.deleteOnExit();
+
+            //Cria um novo ficheiro com o mesmo nome e caminho do original e apaga o original
+            File originalFile = new File(txtFilePath);
+            originalFile.delete();
+
+            //Renomeia o ficheiro temporario para o ficheiro original fazendo com que os dados guardados no temporário sejam agora do original
+            tempFile.renameTo(originalFile);
+        } catch (IOException e) {
+            System.err.println("Error deleting player: " + e.getMessage());
+        }
+    }
+
+    public void removeTreinador() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        getTreinadores(); // Gets an updated list of treinadores
+        print(); // prints the updated list
+
+        System.out.println("Indique o ID do treinador que pretende remover: ");
+        int treinadorID = scanner.nextInt();
+        delete(treinadorID);
+        removeFromTXT(treinadorID);
     }
 
     // END Interface Methods --------------------------------------------------------
@@ -253,25 +295,22 @@ public class Treinador extends Pessoa implements Dados {
 
     // BEGIN Setters ----------------------------------------------------------------
 
+    @Override
+    public void insertFaker() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setEspecializacoes(String especializacoes) {
-        this.especializacoes = especializacoes;
-    }
-
-    public void setTaticas_fav(String taticas_fav) {
-        this.taticas_fav = taticas_fav;
     }
 
     // END Setters ------------------------------------------------------------------
 
     // BEGIN Getters ----------------------------------------------------------------
-
-    public int getId() {
-        return id;
-    }
 
     @Override
     public int getIdade() {
@@ -287,15 +326,17 @@ public class Treinador extends Pessoa implements Dados {
         return especializacoes;
     }
 
+    public void setEspecializacoes(String especializacoes) {
+        this.especializacoes = especializacoes;
+    }
+
     public String getTaticas_fav() {
         return taticas_fav;
     }
     // END Getters ----------------------------------------------------------------
 
-    // Print headers
-    public static String tableHeaders() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
-                "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
+    public void setTaticas_fav(String taticas_fav) {
+        this.taticas_fav = taticas_fav;
     }
 
     @Override
