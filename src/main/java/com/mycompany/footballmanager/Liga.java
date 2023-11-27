@@ -110,7 +110,7 @@ public class Liga implements Dados {
             // Equipas
             try {
                 boolean insertMoreEquipas = true;
-                ArrayList<Integer> EquipasIDs = new ArrayList<Integer>(); // Cria um arrayList para os ids das Equipas
+                ArrayList<Integer> EquipasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
                 Menu.equipa.print();
 
                 while (insertMoreEquipas) {
@@ -120,9 +120,7 @@ public class Liga implements Dados {
                     scanner.nextLine(); // Consume newline character
 
                     if (idEquipa > 0 && idEquipa <= Menu.equipas.size()) {
-                        for (int i = 0; i < Menu.equipas.size(); i++) {
-                            EquipasIDs.add(idEquipa);
-                        }
+                        EquipasIDs.add(idEquipa);
                     } else {
                         System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
                         return insereLiga();
@@ -150,14 +148,12 @@ public class Liga implements Dados {
 
                 while (insertMoreEquipas) {
 //                    getPartidas();
-                    System.out.println("Escolha um id de uma Equipa: ");
+                    System.out.println("Escolha um id de uma Partida: ");
                     int idPartida = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
                     if (idPartida > 0 && idPartida <= Menu.partidas.size()) {
-                        for (int i = 0; i < Menu.partidas.size(); i++) {
-                            PartidasIDs.add(idPartida);
-                        }
+                        PartidasIDs.add(idPartida);
                     } else {
                         System.out.println("Tem que escolher um ID existente das Partidas! Tente Novamente...");
                         return insereLiga();
@@ -170,7 +166,7 @@ public class Liga implements Dados {
                         insertMoreEquipas = false;
                     }
                 }
-                setEquipas(PartidasIDs);
+                setPartidas(PartidasIDs);
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -189,15 +185,13 @@ public class Liga implements Dados {
                     return insereLiga();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
                 return insereLiga();
             }
 
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereLiga();
-        } finally {
-//            scanner.close();
         }
 
         writeToTXT(liga);
@@ -215,9 +209,19 @@ public class Liga implements Dados {
             // Construct the TXT line
             sb.append(liga.getId()).append(";");
             sb.append(liga.getNome()).append(";");
-//            sb.append(liga.getIdade()).append(";");
-//            sb.append(liga.getEspecializacoes()).append(";");
-//            sb.append(liga.getTaticas_fav()).append("\n");
+            // Append the equipa elements with comma separator
+            for (Integer equipa : liga.getEquipas()) {
+                sb.append(equipa).append(",");
+            }
+            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
+            sb.append(";"); // Para poder ser colocada ponto e virgula
+            // Append the partida elements with comma separator
+            for (Integer partida : liga.getPartidas()) {
+                sb.append(partida).append(",");
+            }
+            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
+            sb.append(";"); // Para poder ser colocada ponto e virgula
+            sb.append(liga.getRankingEquipas()).append("\n");
 
             // Write the TXT line to the file
             writer.append(sb.toString());
@@ -265,7 +269,7 @@ public class Liga implements Dados {
                 Liga liga = new Liga();
                 liga.setId(Integer.parseInt(data[0])); // ID
                 liga.setNome(data[1]); // Nome
-                liga.setNome(data[2]); // Pais
+                liga.setPais(data[2]); // Pais
 
                 String[] equipasIds = data[3].split(","); // gets the ids of the equipas
                 ArrayList<Integer> equipas = new ArrayList<>();
@@ -409,13 +413,13 @@ public class Liga implements Dados {
 
     // Print headers
     public static String tableHeaders() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-14s |%n",
+        return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-14s |%n",
                 "ID", "Nome", "País", "Equipas", "Partidas", "Ranking de Equipas");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-22s |%n",
+        return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-22s |%n",
                 getId(), getNome(), getPais(), getEquipas(), getPartidas(), getRankingEquipas());
     }
 

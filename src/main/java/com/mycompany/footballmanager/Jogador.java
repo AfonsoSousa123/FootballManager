@@ -19,8 +19,6 @@ import static com.mycompany.footballmanager.Menu.*;
  * @author afonso, milena, tânia
  */
 public class Jogador extends Pessoa implements Dados {
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt"; // File Path
-
     // BEGIN Variables ----------------------------------------------------------------
     private int id = 0;
     private String posicao;
@@ -28,6 +26,8 @@ public class Jogador extends Pessoa implements Dados {
     private int ataque; // de 0 a 100
     private int defesa; // de 0 a 100
     private int n_agressividade; // de 0 a 5
+
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt"; // File Path
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
@@ -130,7 +130,7 @@ public class Jogador extends Pessoa implements Dados {
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
                 return insereJogador();
             }
 
@@ -179,7 +179,7 @@ public class Jogador extends Pessoa implements Dados {
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
                 return insereJogador();
             }
 
@@ -196,7 +196,7 @@ public class Jogador extends Pessoa implements Dados {
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
                 return insereJogador();
             }
 
@@ -213,7 +213,7 @@ public class Jogador extends Pessoa implements Dados {
                     return insereJogador();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
                 return insereJogador();
             }
 

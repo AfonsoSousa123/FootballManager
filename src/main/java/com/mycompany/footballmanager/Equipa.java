@@ -20,8 +20,6 @@ import static com.mycompany.footballmanager.Menu.*;
  * @author afonso, milena, tânia
  */
 public class Equipa implements Dados {
-
-
     // BEGIN Variables ----------------------------------------------------------------
     private int id;
     private String nome;
@@ -130,20 +128,19 @@ public class Equipa implements Dados {
                 Menu.jogador.print();
 
                 while (insertMoreJogadores) {
-                    jogador.getJogadores();
+//                    jogador.getJogadores();
                     System.out.println("Escolha o ID do Jogador que pretende adicionar ao Plantel: ");
                     int idJogador = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
                     if (idJogador > 0 && idJogador <= Menu.jogadores.size()) {
-                        for (int i = 0; i < Menu.jogadores.size(); i++) {
-                            JogadoresIDs.add(idJogador);
-                        }
+                        JogadoresIDs.add(idJogador);
                     } else {
                         System.out.println("Tem que escolher um ID existente das Jogadores! Tente Novamente...");
                         return insereEquipa();
                     }
 
+                    System.out.println(JogadoresIDs);
                     System.out.println("Deseja adicionar mais Jogadores ao Plantel? (sim/nao)");
                     String choicePlantel = scanner.nextLine().trim().toLowerCase();
 
@@ -161,6 +158,7 @@ public class Equipa implements Dados {
 
             // Treinador
             try {
+                Menu.treinador.print();
                 System.out.println("Escolha o ID do Treinador que pretende adicionar à Equipa: ");
                 int treinadorID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
@@ -169,6 +167,24 @@ public class Equipa implements Dados {
                     equipa.setIdTreinador(treinadorID);
                 } else {
                     System.out.println("Tem que escolher um ID existente dos Treinadores! Tente Novamente...");
+                    return insereEquipa();
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                return insereEquipa();
+            }
+
+            // Liga
+            try {
+                Menu.liga.print();
+                System.out.println("Escolha o ID da Liga que pretende adicionar à Equipa: ");
+                int ligaID = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+
+                if (ligaID > 0 && ligaID <= Menu.ligas.size()) {
+                    equipa.setIdLiga(ligaID);
+                } else {
+                    System.out.println("Tem que escolher um ID existente das Ligas! Tente Novamente...");
                     return insereEquipa();
                 }
             } catch (Exception e) {
@@ -230,14 +246,14 @@ public class Equipa implements Dados {
                 int golosMarcados = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (golosMarcados > 0 && golosMarcados <= 200) {
+                if (golosMarcados >= 0 && golosMarcados < 5000) {
                     equipa.setGolos_marcados(golosMarcados);
                 } else {
-                    System.out.println("O Jogador só pode ter entre 1 e 100 valores de Nivel de Agressividade! Tente Novamente...");
+                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
                     return insereEquipa();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
                 return insereEquipa();
             }
 
@@ -247,30 +263,29 @@ public class Equipa implements Dados {
                 int golosSofridos = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (golosSofridos > 0 && golosSofridos <= 200) {
+                if (golosSofridos >= 0 && golosSofridos < 5000) {
                     equipa.setGolos_sofridos(golosSofridos);
                 } else {
-                    System.out.println("O Jogador só pode ter entre 1 e 100 valores de Nivel de Agressividade! Tente Novamente...");
+                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
                     return insereEquipa();
                 }
             } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
                 return insereEquipa();
             }
 
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereEquipa();
-        } finally {
-//            scanner.close();
         }
 
+        System.out.println(equipa);
         writeToTXT(equipa);
 
         return equipa;
     }
 
-    // Method to write Jogador data to a TXT file
+    // Method to write Equipa data to a TXT file
     private void writeToTXT(Equipa equipa) {
         checkIfFileExists(txtFilePath);
 
@@ -280,10 +295,12 @@ public class Equipa implements Dados {
             // Construct the TXT line
             sb.append(equipa.getId()).append(";");
             sb.append(equipa.getNome()).append(";");
-            sb.append(equipa.getPlantel()).append(";");
-            for (Integer jogador : equipa.getPlantel()) {
+            // Append the plantel elements with comma separator
+            for (Integer jogador : equipa.getPlantel()) { // Plantel
                 sb.append(jogador).append(",");
             }
+            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
+            sb.append(";"); // Para poder ser colocada ponto e virgula
             sb.append(equipa.getIdTreinador()).append(";");
             sb.append(equipa.getIdLiga()).append(";");
             sb.append(equipa.getCidade()).append(";");
@@ -296,6 +313,8 @@ public class Equipa implements Dados {
             writer.append(sb.toString());
             // closes the output stream
             writer.flush();
+
+            System.out.println("Equipa inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir a Equipa no ficheiro " + e.getMessage());
         }
@@ -470,13 +489,13 @@ public class Equipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s | %-15s | %-10s | %-10s | %-14s | %-14s | %-14s |%n",
+        return String.format("| %-3s | %-25s | %-40s | %-15s | %-15s | %-10s | %-10s | %-30s | %-14s | %-14s |%n",
                 "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais", "Histórico", "Golos Marcados", "Golos Sofridos");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s | %-15s | %-10s | %-10s | %-22s | %-20s | %-22s |%n",
+        return String.format("| %-3s | %-25s | %-40s | %-15s | %-15s | %-10s | %-10s | %-30s | %-22s | %-22s |%n",
                 getId(), getNome(), getPlantel(), getIdTreinador(), getIdLiga(), getCidade(), getPais(), getHistorico(), getGolos_marcados(), getGolos_sofridos());
     }
     // END toString Methods ----------------------------------------------------------------
