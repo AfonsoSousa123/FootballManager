@@ -1,2 +1,2 @@
 ID;Nome;Plantel;Treinador;Liga;Cidade;Pais;Histórico;Golos Marcados;Golos Sofridos
-1;Benfica;;Joger Smidth;Portuguesa;Lisboa;Portugal;Vitorias 1023;359;203
+1;Benfica;;Roger Smidth;Portuguesa;Lisboa;Portugal;Vitorias 1023;359;203

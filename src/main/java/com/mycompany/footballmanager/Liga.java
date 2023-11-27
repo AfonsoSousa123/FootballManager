@@ -33,12 +33,14 @@ public class Liga {
     }
 
     public Liga(
+            int id,
             String nome,
             String pais,
             ArrayList<Equipa> equipas,
             ArrayList<Partida> partidas,
             int ranking_equipas
     ) {
+        this.id = id;
         this.nome = nome;
         this.pais = pais;
         this.ranking_equipas = ranking_equipas;

@@ -312,22 +312,37 @@ public class Equipa implements Dados {
                 equipa.setId(Integer.parseInt(data[0]));
                 equipa.setNome(data[1]);
 
-//                // Plantel format:
-//                String[] plantelData = data[2].split(",");
-//                ArrayList<Jogador> plantel = new ArrayList<>();
-//                for (String jogadorData : plantelData) {
-//                    Jogador jogador = new Jogador();
-//                    // Set the properties of the jogador instance using the jogadorData string
-//                    plantel.add(jogador);
-//                }
-//                equipa.setPlantel(plantel);
-//
-//                // Treinador
-//                String[] treinadorData = data[3].split(",");
-//                Treinador treinador = new Treinador();
-//                equipa.setTreinador(data[3]);
-//
-//                equipa.setLiga(data[4]);
+                // Plantel format:
+                String[] plantelData = data[2].split(",");
+                ArrayList<Jogador> plantel = new ArrayList<>();
+                for (String jogadorData : plantelData) {
+                    Jogador jogador = new Jogador();
+                    // Set the properties of the jogador instance using the jogadorData string
+                    plantel.add(jogador);
+                }
+                equipa.setPlantel(plantel);
+
+                // Treinador
+                String[] treinadorData = data[3].split(",");
+                Treinador treinador = new Treinador(
+                        Integer.parseInt(treinadorData[0]),
+                        treinadorData[1],
+                        Integer.parseInt(treinadorData[2]),
+                        treinadorData[3],
+                        treinadorData[4]
+                );
+                equipa.setTreinador(treinador);
+
+//                // Liga
+//                String[] ligaData = data[4].split(",");
+//                Liga liga = new Liga(
+//                        Integer.parseInt(ligaData[0]),
+//                        ligaData[1],
+//                        Integer.parseInt(ligaData[2]),
+//                        ligaData[3],
+//                        ligaData[4]
+//                );
+//                equipa.setLiga(liga);
 
                 equipa.setCidade(data[5]);
                 equipa.setPais(data[6]);

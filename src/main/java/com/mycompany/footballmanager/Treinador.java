@@ -36,12 +36,14 @@ public class Treinador extends Pessoa implements Dados {
     }
 
     public Treinador(
+            int id,
             String nome,
             int idade,
             String especializacoes,
             String taticas_fav
     ) {
         super(nome, idade);
+        this.id = id;
         this.especializacoes = especializacoes;
         this.taticas_fav = taticas_fav;
     }
