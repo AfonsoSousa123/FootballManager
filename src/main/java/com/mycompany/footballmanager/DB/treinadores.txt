@@ -1,3 +1,4 @@
 ID;Nome;Idade;Especializações;Taticas Favoritas
 1;José Mourinho;58;financeiras;4-2-4
 2;Jorge Jesus;65;mascar pastilha;2-6-2, 3-4-3
+3;Roger Schmidt;56;daadsdasdsa;3-4-3

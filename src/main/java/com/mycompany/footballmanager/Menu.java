@@ -9,13 +9,13 @@ import com.github.javafaker.Faker;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
  * @author afonso, milena, tânia
  */
 public class Menu {
+    // ArrayLists
     public static ArrayList<Jogador> jogadores = new ArrayList<>();
     public static ArrayList<Treinador> treinadores = new ArrayList<>();
     public static ArrayList<Arbitro> arbitros = new ArrayList<>();
@@ -23,13 +23,14 @@ public class Menu {
     public static ArrayList<Partida> partidas = new ArrayList<>();
     public static ArrayList<Liga> ligas = new ArrayList<>();
 
+    // Instances of the Objects
     public static Jogador jogador = new Jogador();
     public static Treinador treinador = new Treinador();
     public static Equipa equipa = new Equipa();
     public static Partida partida = new Partida();
     public static Liga liga = new Liga();
 
-    public static Random random = new Random();
+    // Scanner instances
     public Scanner scanner = new Scanner(System.in);
 
     // Checks if the file exists; if not, creates it
@@ -92,6 +93,11 @@ public class Menu {
         return fakerChuckNoris.chuckNorris().fact();
     }
 
+    public static String randomYoda() {
+        Faker fakerYoda = new Faker();
+        return fakerYoda.yoda().quote();
+    }
+
     public static String randomLorem() {
         Faker fakerLorem = new Faker();
         return fakerLorem.lorem().word();
@@ -110,6 +116,45 @@ public class Menu {
     public static String randomTeam() {
         Faker fakerTeam = new Faker();
         return fakerTeam.team().sport();
+    }
+
+
+    private void printInvalidOptionError() {
+        System.out.println("Opção inválida! Insira um valor válido.");
+    }
+
+    public void printArbitro() {
+        // Instantiate arbitro objects and add them to the list
+        Arbitro arbitro1 = new Arbitro();
+        Arbitro arbitro2 = new Arbitro("Ricardo Sousa", 43, "5 anos");
+
+        arbitros.add(arbitro1);
+        arbitros.add(arbitro2);
+
+        // Print the table Headers
+//        System.out.printf(arbitro1.tableHeaders());
+        // Print details of all players using a loop
+        for (Arbitro arbitro : arbitros) {
+            arbitro.print();
+        }
+    }
+
+    private void pressEnterToContinue() {
+        System.out.println("Pressione ENTER para continuar...");
+        try {
+            System.in.read();
+            scanner.nextLine();
+//            clearConsole();
+        } catch (Exception e) {
+            System.out.println("Input inválido, tente novamente" + e.getMessage());
+        }
+    }
+
+    private void getData() {
+        jogador.getJogadores();
+        treinador.getTreinadores();
+        equipa.getEquipas();
+        liga.getLigas();
     }
 
     public void menu() {
@@ -183,6 +228,7 @@ public class Menu {
                                     break;
                                 case 5:
                                     // Liga
+                                    liga.insert();
                                     break;
                                 case 6:
                                     // Random Generators
@@ -219,6 +265,7 @@ public class Menu {
                                                 break;
                                             case 5:
                                                 // Liga
+//                                                liga.insertFaker();
                                                 break;
                                             case 6:
                                                 System.out.println("Voltando Atrás...");
@@ -372,7 +419,8 @@ public class Menu {
                         break;
                     case 12:
                         System.out.println("Saindo do Programa...");
-                        System.out.println(randomChuckNoris()); // Prints a fun fact about ChuckNoris ;)
+//                        System.out.println(randomChuckNoris()); // Prints a fun fact about ChuckNoris ;)
+                        System.out.println(randomYoda()); // Prints quote fom Yoda
 
                         // Closes the scanner
                         scanner.close();
@@ -389,43 +437,6 @@ public class Menu {
                 validInput = false; // Set flag to false for invalid input
             }
         } while (option > 0 && option < 10);
-    }
-
-    private void printInvalidOptionError() {
-        System.out.println("Opção inválida! Insira um valor válido.");
-    }
-
-    public void printArbitro() {
-        // Instantiate arbitro objects and add them to the list
-        Arbitro arbitro1 = new Arbitro();
-        Arbitro arbitro2 = new Arbitro("Ricardo Sousa", 43, "5 anos");
-
-        arbitros.add(arbitro1);
-        arbitros.add(arbitro2);
-
-        // Print the table Headers
-//        System.out.printf(arbitro1.tableHeaders());
-        // Print details of all players using a loop
-        for (Arbitro arbitro : arbitros) {
-            arbitro.print();
-        }
-    }
-
-    private void pressEnterToContinue() {
-        System.out.println("Pressione ENTER para continuar...");
-        try {
-            System.in.read();
-            scanner.nextLine();
-//            clearConsole();
-        } catch (Exception e) {
-            System.out.println("Input inválido, tente novamente" + e.getMessage());
-        }
-    }
-
-    private void getData() {
-        jogador.getJogadores();
-        treinador.getTreinadores();
-        equipa.getEquipas();
     }
 }
 

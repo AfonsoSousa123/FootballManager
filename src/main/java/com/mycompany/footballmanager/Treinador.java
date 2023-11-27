@@ -19,12 +19,12 @@ import static com.mycompany.footballmanager.Menu.*;
  * @author afonso, milena, tânia
  */
 public class Treinador extends Pessoa implements Dados {
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.txt";
-
     // BEGIN Variables ----------------------------------------------------------------
     private int id = 0;
     private String especializacoes;
     private String taticas_fav;
+
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/treinadores.txt";
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
