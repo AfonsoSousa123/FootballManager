@@ -1,0 +1,2 @@
+ID;Nome;Arbitro;Equipa;Adversário;Data;Resultado;Local;Golos Marcados;Golos Sofridos
+1;Benfica vs Sporting;1;1;2;1-12-2022;2-3;Estadio da Luz;5;5

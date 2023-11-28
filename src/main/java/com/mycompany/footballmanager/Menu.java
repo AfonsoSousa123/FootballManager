@@ -265,7 +265,7 @@ public class Menu {
                                                 break;
                                             case 5:
                                                 // Liga
-//                                                liga.insertFaker();
+                                                liga.insertFaker();
                                                 break;
                                             case 6:
                                                 System.out.println("Voltando Atrás...");

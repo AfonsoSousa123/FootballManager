@@ -5,7 +5,7 @@
 package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
-
+import static com.mycompany.footballmanager.Menu.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-
-import static com.mycompany.footballmanager.Menu.*;
 
 /**
  * @author afonso, milena, tânia
@@ -40,6 +38,7 @@ public class Equipa implements Dados {
     public Equipa() {
         nome = randomTeam();
         cidade = randomCity();
+        plantel = new ArrayList<>();
         pais = randomCountry();
         historico = randomLorem();
         golos_marcados = random.nextInt(0, 200);
@@ -140,16 +139,17 @@ public class Equipa implements Dados {
                         return insereEquipa();
                     }
 
-                    System.out.println(JogadoresIDs);
+                    System.out.println("Inside the While" + JogadoresIDs);
                     System.out.println("Deseja adicionar mais Jogadores ao Plantel? (sim/nao)");
                     String choicePlantel = scanner.nextLine().trim().toLowerCase();
 
                     if (!choicePlantel.equals("sim")) {
                         insertMoreJogadores = false;
-
                     }
                 }
+                System.out.println("Outside the While" + JogadoresIDs);
                 setPlantel(JogadoresIDs);
+                System.out.println("Plantel" + getPlantel());
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -277,10 +277,10 @@ public class Equipa implements Dados {
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereEquipa();
+        } finally {
+            System.out.println(equipa);
+            writeToTXT(equipa);
         }
-
-        System.out.println(equipa);
-        writeToTXT(equipa);
 
         return equipa;
     }
@@ -427,6 +427,10 @@ public class Equipa implements Dados {
         this.plantel = plantel;
     }
 
+    public void setIdJogador(Integer idJogador) {
+        plantel.add(idJogador);
+    }
+
     public int getIdTreinador() {
         return idTreinador;
     }
@@ -459,7 +463,6 @@ public class Equipa implements Dados {
     public void setPais(String pais) {
         this.pais = pais;
     }
-
 
     public String getHistorico() {
         return historico;
@@ -495,7 +498,7 @@ public class Equipa implements Dados {
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-40s | %-15s | %-15s | %-10s | %-10s | %-30s | %-22s | %-22s |%n",
+        return String.format("| %-3s | %-25s | %-40s | %-15s | %-15s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
                 getId(), getNome(), getPlantel(), getIdTreinador(), getIdLiga(), getCidade(), getPais(), getHistorico(), getGolos_marcados(), getGolos_sofridos());
     }
     // END toString Methods ----------------------------------------------------------------
