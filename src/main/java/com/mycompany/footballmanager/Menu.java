@@ -251,21 +251,26 @@ public class Menu {
                                             case 1:
                                                 // Jogador
                                                 jogador.insertFaker();
+                                                pressEnterToContinue();
                                                 break;
                                             case 2:
                                                 // Treinador
                                                 treinador.insertFaker();
+                                                pressEnterToContinue();
                                                 break;
                                             case 3:
                                                 // Arbitro
+                                                pressEnterToContinue();
                                                 break;
                                             case 4:
                                                 // Equipa
                                                 equipa.insertFaker();
+                                                pressEnterToContinue();
                                                 break;
                                             case 5:
                                                 // Liga
                                                 liga.insertFaker();
+                                                pressEnterToContinue();
                                                 break;
                                             case 6:
                                                 System.out.println("Voltando Atrás...");

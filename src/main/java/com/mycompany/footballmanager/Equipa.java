@@ -5,7 +5,7 @@
 package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
-import static com.mycompany.footballmanager.Menu.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+import static com.mycompany.footballmanager.Menu.*;
 
 /**
  * @author afonso, milena, tânia
@@ -127,19 +129,33 @@ public class Equipa implements Dados {
                 Menu.jogador.print();
 
                 while (insertMoreJogadores) {
-//                    jogador.getJogadores();
+                    boolean jogadorExists = false;
+
                     System.out.println("Escolha o ID do Jogador que pretende adicionar ao Plantel: ");
                     int idJogador = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
                     if (idJogador > 0 && idJogador <= Menu.jogadores.size()) {
+//                        for (Equipa eq : Menu.equipas) {
+//                            for (int id : eq.getPlantel()) {
+//                                if (id == jogador.getId()) {
+//                                    jogadorExists = true;
+//                                    break;
+//                                }
+//                            }
+//                            if (jogadorExists) {
+//                                System.out.println("Este Jogador já está numa equipa! Tente Novamente...");
+//                                return insereEquipa();
+//                            }
+//                        }
+//                        if (jogadorExists) {
                         JogadoresIDs.add(idJogador);
+//                            continue;
+//                        }
                     } else {
                         System.out.println("Tem que escolher um ID existente das Jogadores! Tente Novamente...");
                         return insereEquipa();
                     }
-
-                    System.out.println("Inside the While" + JogadoresIDs);
                     System.out.println("Deseja adicionar mais Jogadores ao Plantel? (sim/nao)");
                     String choicePlantel = scanner.nextLine().trim().toLowerCase();
 
@@ -147,9 +163,8 @@ public class Equipa implements Dados {
                         insertMoreJogadores = false;
                     }
                 }
-                System.out.println("Outside the While" + JogadoresIDs);
-                setPlantel(JogadoresIDs);
-                System.out.println("Plantel" + getPlantel());
+                equipa.setPlantel(JogadoresIDs);
+                System.out.println("Plantel" + equipa.getPlantel());
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -301,13 +316,13 @@ public class Equipa implements Dados {
             }
             sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
             sb.append(";"); // Para poder ser colocada ponto e virgula
-            sb.append(equipa.getIdTreinador()).append(";");
-            sb.append(equipa.getIdLiga()).append(";");
-            sb.append(equipa.getCidade()).append(";");
-            sb.append(equipa.getPais()).append(";");
-            sb.append(equipa.getHistorico()).append(";");
-            sb.append(equipa.getGolos_marcados()).append(";");
-            sb.append(equipa.getGolos_sofridos()).append("\n");
+            sb.append(equipa.getIdTreinador()).append(";"); // get Treinador ID
+            sb.append(equipa.getIdLiga()).append(";"); // get Liga
+            sb.append(equipa.getCidade()).append(";"); // get Cidade
+            sb.append(equipa.getPais()).append(";"); // get Pais
+            sb.append(equipa.getHistorico()).append(";"); // get Historico
+            sb.append(equipa.getGolos_marcados()).append(";"); // get Golos Marados
+            sb.append(equipa.getGolos_sofridos()).append("\n"); // get Golos Sofridos
 
             // Write the line to the file
             writer.append(sb.toString());
@@ -423,6 +438,10 @@ public class Equipa implements Dados {
         return plantel;
     }
 
+    public ArrayList<Integer> getPlantelNomes() {
+        return plantel;
+    }
+
     public void setPlantel(ArrayList<Integer> plantel) {
         this.plantel = plantel;
     }
@@ -435,12 +454,25 @@ public class Equipa implements Dados {
         return idTreinador;
     }
 
+    public String getTreinadorName(int id) {
+        for (Treinador treinador : Menu.treinadores) {
+            if (treinador.getId() == id) {
+                return treinador.getNome();
+            }
+        }
+        return "Treinador não encontrado"; // Retorna um valor predefinido se o id não for encontrado
+    }
+
     public void setIdTreinador(int idTreinador) {
         this.idTreinador = idTreinador;
     }
 
     public int getIdLiga() {
         return idLiga;
+    }
+
+    public String getLiga(int idLiga) {
+        return Menu.ligas.get(idLiga).getNome();
     }
 
     public void setIdLiga(int idLiga) {

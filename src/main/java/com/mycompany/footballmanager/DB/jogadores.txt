@@ -3,3 +3,8 @@ ID;Nome;Idade;Posição;Histórico de Lesões;Ataque;Defesa;Nível de Agressivid
 2;Milena;21;Avançado;lesao no braço;78;67;5
 3;Tânia;21;Medio;lesao no ombro;34;89;3
 4;Catarina;23;Guarda-Redes;lesao no pé;12;90;2
+5;Julianne Rolfson;38;saepe;neque;75;27;60
+6;Ellsworth Gibson;33;sequi;cum;42;38;43
+7;Briana Gusikowski;32;suscipit;voluptates;70;4;23
+8;Ryann Rolfson;34;omnis;reprehenderit;35;54;7
+9;Weldon Hudson;30;vel;asperiores;9;96;40

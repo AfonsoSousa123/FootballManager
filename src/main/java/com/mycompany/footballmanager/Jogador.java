@@ -422,7 +422,7 @@ public class Jogador extends Pessoa implements Dados {
                 writeToTXT(jogador); // Writes the Jogador to the TXT File
             }
 
-            System.out.print("Jogadores Gerados com sucesso!");
+            System.out.println("Jogadores Gerados com sucesso!");
             System.out.println("--------------------------------");
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
