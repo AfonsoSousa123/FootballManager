@@ -98,8 +98,7 @@ public class Arbitro extends Pessoa implements Dados {
         printArbitros();
         // Print the table Headers
         System.out.printf(tableHeaders());
-
-
+        
         // Print details of all Arbitros
         if (!Menu.arbitros.isEmpty()) {
 
