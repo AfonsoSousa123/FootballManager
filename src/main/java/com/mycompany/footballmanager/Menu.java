@@ -29,6 +29,7 @@ public class Menu {
     public static Equipa equipa = new Equipa();
     public static Partida partida = new Partida();
     public static Liga liga = new Liga();
+    public static Arbitro arbitro = new Arbitro();
 
     // Scanner instances
     public Scanner scanner = new Scanner(System.in);
@@ -123,21 +124,6 @@ public class Menu {
         System.out.println("Opção inválida! Insira um valor válido.");
     }
 
-    public void printArbitro() {
-        // Instantiate arbitro objects and add them to the list
-        Arbitro arbitro1 = new Arbitro();
-        Arbitro arbitro2 = new Arbitro("Ricardo Sousa", 43, "5 anos");
-
-        arbitros.add(arbitro1);
-        arbitros.add(arbitro2);
-
-        // Print the table Headers
-//        System.out.printf(arbitro1.tableHeaders());
-        // Print details of all players using a loop
-        for (Arbitro arbitro : arbitros) {
-            arbitro.print();
-        }
-    }
 
     private void pressEnterToContinue() {
         System.out.println("Pressione ENTER para continuar...");
@@ -421,7 +407,7 @@ public class Menu {
                         break;
                     case 11:
                         // Criar Partida
-                        printArbitro();
+
                         pressEnterToContinue();
                         break;
                     case 12:
