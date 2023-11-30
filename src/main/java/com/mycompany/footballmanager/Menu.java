@@ -300,6 +300,7 @@ public class Menu {
                         break;
                     case 5:
                         // Print Árbitros
+                        arbitro.print();
                         pressEnterToContinue();
                         break;
                     case 6:
