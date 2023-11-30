@@ -8,3 +8,5 @@ ID;Nome;Idade;Posição;Histórico de Lesões;Ataque;Defesa;Nível de Agressivid
 7;Briana Gusikowski;32;suscipit;voluptates;70;4;23
 8;Ryann Rolfson;34;omnis;reprehenderit;35;54;7
 9;Weldon Hudson;30;vel;asperiores;9;96;40
+10;Teste;45;Avancado;dadasasd;34;23;56
+11;Josefa;23;Defesa;dfgdgd;23;67;34

@@ -6,10 +6,7 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -70,7 +67,7 @@ public class Jogador extends Pessoa implements Dados {
 
         while (insertMore) {
             getJogadores(); // Updates the Jogadores ArrayList
-            jogadores.add(insereJogador());
+            Menu.jogadores.add(insereJogador());
 
             try {
                 System.out.println("Deseja inserir outro Jogador? (sim/nao)");
@@ -234,6 +231,7 @@ public class Jogador extends Pessoa implements Dados {
         checkIfFileExists(txtFilePath);
 
         try (FileWriter writer = new FileWriter(txtFilePath, true)) {
+            BufferedWriter bw = new BufferedWriter(writer);
             StringBuilder sb = new StringBuilder();
 
             // Construct the CSV line
@@ -247,9 +245,9 @@ public class Jogador extends Pessoa implements Dados {
             sb.append(jogador.getN_agressividade()).append("\n");
 
             // Write the CSV line to the file
-            writer.append(sb.toString());
+            bw.append(sb.toString());
             // closes the output stream
-            writer.flush();
+            bw.flush();
         } catch (IOException e) {
             System.out.println("Erro ao inserir o Jogador no ficheiro " + e.getMessage());
         }
@@ -303,6 +301,7 @@ public class Jogador extends Pessoa implements Dados {
                 // Adds the jogador to the ArrayList
                 jogadores.add(jogador);
             }
+            br.close();
 
             // Replaces the ArrayList from Menu class with the new ArrayList
             Menu.jogadores = jogadores;
@@ -339,37 +338,6 @@ public class Jogador extends Pessoa implements Dados {
             System.out.println("ID incorreto! Tente novamente...");
         }
     }
-
-    /*public void removeFromTXT(int id, String file) throws IOException {
-        checkIfFileExists(file);
-
-        // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario player_data no qual vai ser escrito os dados sem o joador a ser eliminado
-        try (Scanner scanner = new Scanner(new File(file))) {
-            File tempFile = File.createTempFile("player_data", ".txt");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (!line.startsWith(String.valueOf(id))) {
-                        writer.write(line + "\n");
-                    }
-                }
-            } catch (IOException e) {
-                System.err.println("Erro : " + e.getMessage());
-            }
-
-            // Garante que o ficheiro é apagado mesmo que o programa feche derrepente
-            tempFile.deleteOnExit();
-
-            // Cria um novo ficheiro com o mesmo nome e caminho do original e apaga o original
-            File originalFile = new File(file);
-            originalFile.delete();
-
-            // Renomeia o ficheiro temporario para o ficheiro original fazendo com que os dados guardados no temporário sejam agora do original
-            tempFile.renameTo(originalFile);
-        } catch (IOException e) {
-            System.err.println("Erro ao remover o Jogador: " + e.getMessage());
-        }
-    }*/
     // END Interface Methods ----------------------------------------------------------------
 
     public void removeJogador() throws IOException {

@@ -6,10 +6,7 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -58,12 +55,11 @@ public class Liga implements Dados {
     @Override
     public void insert() {
         Scanner scanner = new Scanner(System.in);
-
         boolean insertMore = true;
 
         while (insertMore) {
             getLigas();
-            ligas.add(insereLiga());
+            Menu.ligas.add(insereLiga());
 
             System.out.println("Deseja inserir outra Liga? (sim/nao)");
             String choice = scanner.nextLine().trim().toLowerCase();
@@ -114,7 +110,6 @@ public class Liga implements Dados {
                 Menu.equipa.print();
 
                 while (insertMoreEquipas) {
-//                    getEquipas();
                     System.out.println("Escolha um id de uma Equipa: ");
                     int idEquipa = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
@@ -133,7 +128,7 @@ public class Liga implements Dados {
                         insertMoreEquipas = false;
                     }
                 }
-                setEquipas(EquipasIDs);
+                liga.setEquipas(EquipasIDs);
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -147,7 +142,6 @@ public class Liga implements Dados {
 //                Menu.partida.print();
 
                 while (insertMoreEquipas) {
-//                    getPartidas();
                     System.out.println("Escolha um id de uma Partida: ");
                     int idPartida = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
@@ -166,7 +160,7 @@ public class Liga implements Dados {
                         insertMoreEquipas = false;
                     }
                 }
-                setPartidas(PartidasIDs);
+                liga.setPartidas(PartidasIDs);
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -193,7 +187,6 @@ public class Liga implements Dados {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereLiga();
         }
-
         writeToTXT(liga);
 
         return liga;
@@ -204,44 +197,46 @@ public class Liga implements Dados {
         checkIfFileExists(txtFilePath);
 
         try (FileWriter writer = new FileWriter(txtFilePath, true)) {
+            BufferedWriter bw = new BufferedWriter(writer);
             StringBuilder sb = new StringBuilder();
 
             // Construct the TXT line
             sb.append(liga.getId()).append(";");
             sb.append(liga.getNome()).append(";");
             // Append the equipa elements with comma separator
-            for (Integer equipa : liga.getEquipas()) {
-                sb.append(equipa).append(",");
+            for (Integer equipaID : liga.getEquipas()) {
+                sb.append(equipaID).append(",");
             }
             sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
             sb.append(";"); // Para poder ser colocada ponto e virgula
             // Append the partida elements with comma separator
-            for (Integer partida : liga.getPartidas()) {
-                sb.append(partida).append(",");
+            for (Integer partidaID : liga.getPartidas()) {
+                sb.append(partidaID).append(",");
             }
             sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
             sb.append(";"); // Para poder ser colocada ponto e virgula
             sb.append(liga.getRankingEquipas()).append("\n");
 
             // Write the TXT line to the file
-            writer.append(sb.toString());
+            bw.append(sb.toString());
             // closes the output stream
-            writer.flush();
+            bw.flush();
+
+            System.out.println("Liga inserida com Sucesso!!!");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao inserir a Liga no ficheiro " + e.getMessage());
         }
     }
 
     @Override
     public void print() {
         getLigas();
+        // Print the table Headers
+        System.out.printf(tableHeaders());
 
         // Print details of all Ligaes
-        if (!ligas.isEmpty()) {
-            // Print the table Headers
-            System.out.printf(tableHeaders());
-
-            for (Liga liga : ligas) {
+        if (!Menu.ligas.isEmpty()) {
+            for (Liga liga : Menu.ligas) {
                 System.out.printf(liga.toString());
             }
         } else {
@@ -306,42 +301,13 @@ public class Liga implements Dados {
 
     @Override
     public void delete(int id) {
-        if (id > 0 && id < (ligas.size() - 1)) {
-            ligas.remove(id);
+        if (id > 0 && id < (Menu.ligas.size() - 1)) {
+            Menu.ligas.remove(id);
             System.out.println("A Liga com o ID " + id + " foi removida com sucesso");
         } else {
             System.out.println("ID incorreto! Tente novamente...");
         }
     }
-
-    /*public void removeFromTXT(int id, String file) throws IOException {
-        checkIfFileExists(file);
-
-        // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario player_data no qual vai ser escrito os dados sem o joador a ser eliminado
-        try (Scanner scanner = new Scanner(new File(file))) {
-            File tempFile = File.createTempFile("player_data", ".txt");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (!line.startsWith(String.valueOf(id))) {
-                        writer.write(line + "\n");
-                    }
-                }
-            }
-
-            //Garante que o ficheiro é apagado mesmo que o programa feche derrepente
-            tempFile.deleteOnExit();
-
-            //Cria um novo ficheiro com o mesmo nome e caminho do original e apaga o original
-            File originalFile = new File(file);
-            originalFile.delete();
-
-            //Renomeia o ficheiro temporario para o ficheiro original fazendo com que os dados guardados no temporário sejam agora do original
-            tempFile.renameTo(originalFile);
-        } catch (IOException e) {
-            System.err.println("Error deleting player: " + e.getMessage());
-        }
-    }*/
 
     public void removeLiga() throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -356,7 +322,7 @@ public class Liga implements Dados {
 
     @Override
     public void insertFaker() {
-
+        //
     }
 
     // END Interface Methods --------------------------------------------------------

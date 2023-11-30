@@ -119,6 +119,11 @@ public class Menu {
         return fakerTeam.team().sport();
     }
 
+    public static String randomDate() {
+        Faker fakerDate = new Faker();
+        return fakerDate.date().toString();
+    }
+
 
     private void printInvalidOptionError() {
         System.out.println("Opção inválida! Insira um valor válido.");

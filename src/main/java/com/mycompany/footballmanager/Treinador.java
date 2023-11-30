@@ -186,13 +186,12 @@ public class Treinador extends Pessoa implements Dados {
     @Override
     public void print() {
         getTreinadores();
+        // Print the table Headers
+        System.out.printf(tableHeaders());
 
         // Print details of all Treinadores
-        if (!treinadores.isEmpty()) {
-            // Print the table Headers
-            System.out.printf(tableHeaders());
-
-            for (Treinador treinador : treinadores) {
+        if (!Menu.treinadores.isEmpty()) {
+            for (Treinador treinador : Menu.treinadores) {
                 System.out.printf(treinador.toString());
             }
         } else {
@@ -207,7 +206,6 @@ public class Treinador extends Pessoa implements Dados {
             String row;
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Treinador> treinadores = new ArrayList<>(); // Create a new list for treinadores
-
 
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
@@ -228,6 +226,7 @@ public class Treinador extends Pessoa implements Dados {
                 // Adds the treinador to the ArrayList
                 treinadores.add(treinador);
             }
+            br.close();
 
             // Replaces the ArrayList from Menu class with the new ArrayList
             Menu.treinadores = treinadores;
@@ -243,42 +242,13 @@ public class Treinador extends Pessoa implements Dados {
 
     @Override
     public void delete(int id) {
-        if (id > 0 && id < (treinadores.size() - 1)) {
-            treinadores.remove(id);
+        if (id > 0 && id < (Menu.treinadores.size() - 1)) {
+            Menu.treinadores.remove(id);
             System.out.println("O Jogador de ID " + id + " foi removido com sucesso");
         } else {
             System.out.println("ID incorreto! Tente novamente...");
         }
     }
-
-    /*public void removeFromTXT(int id, String file) throws IOException {
-        checkIfFileExists(file);
-
-        // Cria um scanner para ler o ficheiro txt e cria un ficheiro temporario player_data no qual vai ser escrito os dados sem o joador a ser eliminado
-        try (Scanner scanner = new Scanner(new File(file))) {
-            File tempFile = File.createTempFile("player_data", ".txt");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (!line.startsWith(String.valueOf(id))) {
-                        writer.write(line + "\n");
-                    }
-                }
-            }
-
-            //Garante que o ficheiro é apagado mesmo que o programa feche derrepente
-            tempFile.deleteOnExit();
-
-            //Cria um novo ficheiro com o mesmo nome e caminho do original e apaga o original
-            File originalFile = new File(file);
-            originalFile.delete();
-
-            //Renomeia o ficheiro temporario para o ficheiro original fazendo com que os dados guardados no temporário sejam agora do original
-            tempFile.renameTo(originalFile);
-        } catch (IOException e) {
-            System.err.println("Error deleting player: " + e.getMessage());
-        }
-    }*/
 
     public void removeTreinador() throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -293,10 +263,9 @@ public class Treinador extends Pessoa implements Dados {
 
     // END Interface Methods --------------------------------------------------------
 
-
     @Override
     public void insertFaker() {
-
+        //
     }
 
     // BEGIN Getters and Setters ----------------------------------------------------------------

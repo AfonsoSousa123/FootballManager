@@ -6,10 +6,7 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -75,7 +72,7 @@ public class Equipa implements Dados {
 
         while (insertMore) {
             getEquipas(); // Updates the Equipas ArrayList
-            equipas.add(insereEquipa());
+            Menu.equipas.add(insereEquipa());
 
             try {
                 System.out.println("Deseja inserir outra Equipa? (sim/nao)");
@@ -189,23 +186,23 @@ public class Equipa implements Dados {
                 return insereEquipa();
             }
 
-            // Liga
-            try {
-                Menu.liga.print();
-                System.out.println("Escolha o ID da Liga que pretende adicionar à Equipa: ");
-                int ligaID = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
-
-                if (ligaID > 0 && ligaID <= Menu.ligas.size()) {
-                    equipa.setIdLiga(ligaID);
-                } else {
-                    System.out.println("Tem que escolher um ID existente das Ligas! Tente Novamente...");
-                    return insereEquipa();
-                }
-            } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
-                return insereEquipa();
-            }
+//            // Liga
+//            try {
+//                Menu.liga.print();
+//                System.out.println("Escolha o ID da Liga que pretende adicionar à Equipa: ");
+//                int ligaID = scanner.nextInt();
+//                scanner.nextLine(); // Consume newline character
+//
+//                if (ligaID > 0 && ligaID <= Menu.ligas.size()) {
+//                    equipa.setIdLiga(ligaID);
+//                } else {
+//                    System.out.println("Tem que escolher um ID existente das Ligas! Tente Novamente...");
+//                    return insereEquipa();
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Input inválido: " + e.getMessage() + "\n");
+//                return insereEquipa();
+//            }
 
             // Cidade
             try {
@@ -305,6 +302,7 @@ public class Equipa implements Dados {
         checkIfFileExists(txtFilePath);
 
         try (FileWriter writer = new FileWriter(txtFilePath, true)) {
+            BufferedWriter bw = new BufferedWriter(writer);
             StringBuilder sb = new StringBuilder();
 
             // Construct the TXT line
@@ -317,7 +315,6 @@ public class Equipa implements Dados {
             sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
             sb.append(";"); // Para poder ser colocada ponto e virgula
             sb.append(equipa.getIdTreinador()).append(";"); // get Treinador ID
-            sb.append(equipa.getIdLiga()).append(";"); // get Liga
             sb.append(equipa.getCidade()).append(";"); // get Cidade
             sb.append(equipa.getPais()).append(";"); // get Pais
             sb.append(equipa.getHistorico()).append(";"); // get Historico
@@ -325,9 +322,10 @@ public class Equipa implements Dados {
             sb.append(equipa.getGolos_sofridos()).append("\n"); // get Golos Sofridos
 
             // Write the line to the file
-            writer.append(sb.toString());
+            bw.append(sb.toString());
             // closes the output stream
-            writer.flush();
+            bw.flush();
+            bw.close();
 
             System.out.println("Equipa inserida com Sucesso!!!");
         } catch (IOException e) {
@@ -338,12 +336,11 @@ public class Equipa implements Dados {
     @Override
     public void print() {
         getEquipas();
+        // Print the table Headers
+        System.out.printf(tableHeaders());
 
         // Print details of all players using a loop
         if (!equipas.isEmpty()) {
-            // Print the table Headers
-            System.out.printf(tableHeaders());
-
             for (Equipa equipa : equipas) {
                 System.out.printf(equipa.toString());
             }
@@ -356,7 +353,6 @@ public class Equipa implements Dados {
         checkIfFileExists(txtFilePath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
-
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Equipa> equipas = new ArrayList<>(); // Create a new list for equipas
             String row;
@@ -380,7 +376,6 @@ public class Equipa implements Dados {
                 }
                 equipa.setPlantel(plantel); // Plantel
                 equipa.setIdTreinador(Integer.parseInt(data[3])); // Treinador
-                equipa.setIdLiga(Integer.parseInt(data[4])); // Liga
                 equipa.setCidade(data[5]); // Cidade
                 equipa.setPais(data[6]); // Pais
                 equipa.setHistorico(data[7]); // Historico
@@ -390,6 +385,7 @@ public class Equipa implements Dados {
                 // Adds the equipa to the ArrayList
                 equipas.add(equipa);
             }
+            br.close();
 
             // Replaces the ArrayList from Menu class with the new ArrayList
             Menu.equipas = equipas;
@@ -524,14 +520,14 @@ public class Equipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        return String.format("| %-3s | %-25s | %-40s | %-15s | %-15s | %-10s | %-10s | %-30s | %-14s | %-14s |%n",
+        return String.format("| %-3s | %-25s | %-40s | %-20s | %-15s | %-10s | %-10s | %-30s | %-14s | %-14s |%n",
                 "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais", "Histórico", "Golos Marcados", "Golos Sofridos");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-40s | %-15s | %-15s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
-                getId(), getNome(), getPlantel(), getIdTreinador(), getIdLiga(), getCidade(), getPais(), getHistorico(), getGolos_marcados(), getGolos_sofridos());
+        return String.format("| %-3s | %-25s | %-40s | %-20s | %-15s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
+                getId(), getNome(), getPlantel(), getTreinadorName(getIdTreinador()), getLiga(getIdLiga()), getCidade(), getPais(), getHistorico(), getGolos_marcados(), getGolos_sofridos());
     }
     // END toString Methods ----------------------------------------------------------------
 }
