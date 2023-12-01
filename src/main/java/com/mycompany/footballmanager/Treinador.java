@@ -6,10 +6,7 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -67,8 +64,7 @@ public class Treinador extends Pessoa implements Dados {
                 insertMore = false;
             }
         }
-
-//        scanner.nextLine(); // Consume newline character
+        
 //        scanner.close(); // Close Scanner after use
     }
 
@@ -152,19 +148,19 @@ public class Treinador extends Pessoa implements Dados {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereTreinador();
         } finally {
-//            scanner.close();
+            writeToTXT(treinador);
+            System.out.println(treinador);
         }
-
-        writeToTXT(treinador);
 
         return treinador;
     }
 
-    // Method to write Treinador data to a CSV file
+    // Method to write Treinador data to a TXT file
     private void writeToTXT(Treinador treinador) {
         checkIfFileExists(txtFilePath);
 
         try (FileWriter writer = new FileWriter(txtFilePath, true)) {
+            BufferedWriter bw = new BufferedWriter(writer);
             StringBuilder sb = new StringBuilder();
 
             // Construct the CSV line
@@ -175,11 +171,12 @@ public class Treinador extends Pessoa implements Dados {
             sb.append(treinador.getTaticas_fav()).append("\n");
 
             // Write the CSV line to the file
-            writer.append(sb.toString());
+            bw.append(sb.toString());
             // closes the output stream
-            writer.flush();
+            bw.close();
+
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao inserir Treinador no ficheiro treinadores.txt: " + e.getMessage());
         }
     }
 
@@ -231,7 +228,7 @@ public class Treinador extends Pessoa implements Dados {
             // Replaces the ArrayList from Menu class with the new ArrayList
             Menu.treinadores = treinadores;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao ler o ficheiro treinadores.txt: " + e.getMessage());
         }
     }
 

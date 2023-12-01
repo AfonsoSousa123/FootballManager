@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static com.mycompany.footballmanager.Menu.arbitros;
 import static com.mycompany.footballmanager.Menu.checkIfFileExists;
@@ -19,14 +18,15 @@ import static com.mycompany.footballmanager.Menu.checkIfFileExists;
  * @author afonso, milena, tânia
  */
 public class Arbitro extends Pessoa implements Dados {
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
-
+    // BEGIN Variables ----------------------------------------------------------------
     private int id;
     private String experiencia;
 
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
+    // END Variables ----------------------------------------------------------------
+
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
-
         super.setNome("Arbitro nome");
         super.setIdade(random.nextInt(20, 40));
         experiencia = "3 Anos";
@@ -44,7 +44,31 @@ public class Arbitro extends Pessoa implements Dados {
     }
     // END Constructors ----------------------------------------------------------------
 
-    public void printArbitros() {
+    // BEGIN Interface Methods ----------------------------------------------------------------
+    @Override
+    public void insert() {
+        //
+    }
+
+    @Override
+    public void print() {
+        getArbitros();
+        // Print the table Headers
+        System.out.printf(tableHeaders());
+
+        // Print details of all Arbitros
+        if (!Menu.arbitros.isEmpty()) {
+
+            for (Arbitro arbitro : arbitros) {
+                System.out.printf(arbitro.toString());
+            }
+        } else {
+            System.out.println("\nNão existem Arbitros!\n");
+        }
+
+    }
+
+    public void getArbitros() {
         checkIfFileExists(txtFilePath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
@@ -71,42 +95,12 @@ public class Arbitro extends Pessoa implements Dados {
                 // Adds the arbitro to the ArrayList
                 arbitros.add(arbitro);
             }
+            br.close();
 
             // Replaces the ArrayList from Menu class with the new ArrayList
             Menu.arbitros = arbitros;
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    // BEGIN Interface Methods ----------------------------------------------------------------
-    @Override
-    public void insert() {
-        // Simulated database as a list
-        LinkedList<Arbitro> arbitros = new LinkedList<>();
-
-        // Assuming you want to insert 'this' Arbitro object
-        arbitros.add(this);
-
-        // Printing the inserted player for demonstration
-        System.out.println("Player inserted into the database: " + this.toString());
-    }
-
-    @Override
-    public void print() {
-        printArbitros();
-        // Print the table Headers
-        System.out.printf(tableHeaders());
-        
-        // Print details of all Arbitros
-        if (!Menu.arbitros.isEmpty()) {
-
-            for (Arbitro arbitro : arbitros) {
-                System.out.printf(arbitro.toString());
-            }
-        } else {
-            System.out.println("\nNão existem Arbitros!\n");
+            System.out.println("Erro ao ler o ficheiro arbitros.txt: " + e.getMessage());
         }
 
     }
@@ -123,11 +117,11 @@ public class Arbitro extends Pessoa implements Dados {
 
     @Override
     public void insertFaker() {
-
+        //
     }
 
     // END Interface Methods ----------------------------------------------------------------
-    // BEGIN Getters ----------------------------------------------------------------
+    // BEGIN Getters and Setters ----------------------------------------------------------------
     @Override
     public String getNome() {
         return super.getNome();
@@ -145,8 +139,6 @@ public class Arbitro extends Pessoa implements Dados {
     public String getExperiencia() {
         return experiencia;
     }
-    // END Getters ----------------------------------------------------------------
-    // BEGIN Setters ----------------------------------------------------------------
 
     private void setId(int id) {
         this.id = id;
@@ -155,10 +147,7 @@ public class Arbitro extends Pessoa implements Dados {
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;
     }
-
-
-    // END Setters ----------------------------------------------------------------
-
+    // END Getters and Setters ----------------------------------------------------------------
 
     public static String tableHeaders() {
         return String.format("| %-3s | %-25s | %-7s | %-20s |%n",

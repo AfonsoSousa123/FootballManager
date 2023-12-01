@@ -186,8 +186,10 @@ public class Liga implements Dados {
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereLiga();
+        } finally {
+            writeToTXT(liga);
+            System.out.println(liga);
         }
-        writeToTXT(liga);
 
         return liga;
     }
@@ -220,11 +222,11 @@ public class Liga implements Dados {
             // Write the TXT line to the file
             bw.append(sb.toString());
             // closes the output stream
-            bw.flush();
+            bw.close();
 
             System.out.println("Liga inserida com Sucesso!!!");
         } catch (IOException e) {
-            System.out.println("Erro ao inserir a Liga no ficheiro " + e.getMessage());
+            System.out.println("Erro ao inserir Liga no ficheiro ligas.txt: " + e.getMessage());
         }
     }
 
@@ -286,11 +288,12 @@ public class Liga implements Dados {
                 // Adds the liga to the ArrayList
                 ligas.add(liga);
             }
+            br.close();
 
             // Replaces the ArrayList from Menu class with the new ArrayList
             Menu.ligas = ligas;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao ler o ficheiro ligas.txt: " + e.getMessage());
         }
     }
 
