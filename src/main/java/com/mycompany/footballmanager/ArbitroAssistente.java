@@ -5,10 +5,9 @@
 package com.mycompany.footballmanager;
 
 /**
- * @author afons
+ * @author afonso, milena, tânia
  */
 public class ArbitroAssistente extends Arbitro {
-    private static int AI = 1; // Auto Increment
     private int id;
 
     public ArbitroAssistente() {
