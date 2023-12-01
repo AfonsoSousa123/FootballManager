@@ -391,5 +391,4 @@ public class Liga implements Dados {
         return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-22s |%n",
                 getId(), getNome(), getPais(), getEquipas(), getPartidas(), getRankingEquipas());
     }
-
 }

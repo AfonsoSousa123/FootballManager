@@ -86,5 +86,4 @@ public abstract class Pessoa {
             System.err.println("Erro ao eliminar: " + e.getMessage());
         }
     }
-
 }

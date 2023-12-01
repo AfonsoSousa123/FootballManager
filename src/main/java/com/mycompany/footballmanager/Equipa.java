@@ -4,6 +4,7 @@
  */
 package com.mycompany.footballmanager;
 
+
 import com.mycompany.footballmanager.Interfaces.Dados;
 
 import java.io.*;
@@ -16,6 +17,7 @@ import static com.mycompany.footballmanager.Menu.*;
 /**
  * @author afonso, milena, tânia
  */
+
 public class Equipa implements Dados {
     // BEGIN Variables ----------------------------------------------------------------
     private int id;
