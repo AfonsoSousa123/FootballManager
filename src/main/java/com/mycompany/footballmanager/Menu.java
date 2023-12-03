@@ -415,11 +415,12 @@ public class Menu {
                         break;
                     case 11:
                         // Ver Partida
-//                        partida.print();
+                        partida.print();
+                        pressEnterToContinue();
                         break;
                     case 12:
                         // Criar Partida
-//                        partida.insert();
+                        partida.insert();
                         pressEnterToContinue();
                         break;
                     case 13:
@@ -442,7 +443,7 @@ public class Menu {
                 scanner.nextLine(); // Consume invalid input
                 validInput = false; // Set flag to false for invalid input
             }
-        } while (option > 0 && option < 10);
+        } while (option > 0 && option < 13);
     }
 }
 

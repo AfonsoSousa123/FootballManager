@@ -64,7 +64,7 @@ public class Treinador extends Pessoa implements Dados {
                 insertMore = false;
             }
         }
-        
+
 //        scanner.close(); // Close Scanner after use
     }
 
@@ -303,6 +303,7 @@ public class Treinador extends Pessoa implements Dados {
     // END Getters and Setters ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
+        System.out.println("|------------------------------------- TREINADORES --------------------------------------------|");
         return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
                 "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
     }

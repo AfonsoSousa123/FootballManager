@@ -23,6 +23,7 @@ public class Arbitro extends Pessoa implements Dados {
     private String experiencia;
 
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
+
     // END Variables ----------------------------------------------------------------
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
@@ -75,7 +76,6 @@ public class Arbitro extends Pessoa implements Dados {
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Arbitro> arbitros = new ArrayList<>(); // Create a new list for arbitros
 
-
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
                     firstLine = false; // Set the flag to false after encountering the first line
@@ -84,7 +84,7 @@ public class Arbitro extends Pessoa implements Dados {
 
                 String[] data = row.split(";");
 
-                // CSV format: ID, Nome, Idade, Experiencia
+                // TXT format: ID, Nome, Idade, Experiencia
                 Arbitro arbitro = new Arbitro();
                 arbitro.setId(Integer.parseInt(data[0]));
                 arbitro.setNome(data[1]);
@@ -126,7 +126,11 @@ public class Arbitro extends Pessoa implements Dados {
         return super.getNome();
     }
 
-    private int getId() {
+    private void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -139,16 +143,13 @@ public class Arbitro extends Pessoa implements Dados {
         return experiencia;
     }
 
-    private void setId(int id) {
-        this.id = id;
-    }
-
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;
     }
     // END Getters and Setters ----------------------------------------------------------------
 
     public static String tableHeaders() {
+        System.out.println("|----------------------------------- ARBITROS -------------------------------------|");
         return String.format("| %-3s | %-25s | %-7s | %-20s |%n",
                 "ID", "Nome", "Idade", "Experiência");
     }

@@ -33,6 +33,8 @@ public class Liga implements Dados {
     public Liga() {
         nome = randomTeam();
         pais = randomCountry();
+        equipas = new ArrayList<>();
+        partidas = new ArrayList<>();
         ranking_equipas = random.nextInt(1, 50);
     }
 
@@ -110,7 +112,7 @@ public class Liga implements Dados {
                 Menu.equipa.print();
 
                 while (insertMoreEquipas) {
-                    System.out.println("Escolha um id de uma Equipa: ");
+                    System.out.println("Escolha um ID de uma Equipa: ");
                     int idEquipa = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
@@ -142,7 +144,7 @@ public class Liga implements Dados {
 //                Menu.partida.print();
 
                 while (insertMoreEquipas) {
-                    System.out.println("Escolha um id de uma Partida: ");
+                    System.out.println("Escolha um ID de uma Partida: ");
                     int idPartida = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
@@ -175,7 +177,7 @@ public class Liga implements Dados {
                 if (ranking_equipas >= 0 && ranking_equipas <= 100) {
                     liga.setRankingEquipas(ranking_equipas);
                 } else {
-                    System.out.println("O Ranking das Equipas tem que ter entre 30 e 70 anos, inclusive! Tente Novamente...");
+                    System.out.println("O Ranking das Equipas tem que ter entre 0 e 100 anos, inclusive! Tente Novamente...");
                     return insereLiga();
                 }
             } catch (Exception e) {
@@ -382,6 +384,7 @@ public class Liga implements Dados {
 
     // Print headers
     public static String tableHeaders() {
+        System.out.println("|---------------------------------- LIGAS ------------------------------------|");
         return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-14s |%n",
                 "ID", "Nome", "País", "Equipas", "Partidas", "Ranking de Equipas");
     }

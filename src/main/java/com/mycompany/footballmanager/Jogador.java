@@ -306,7 +306,7 @@ public class Jogador extends Pessoa implements Dados {
             // Replaces the ArrayList from Menu class with the new ArrayList
             Menu.jogadores = jogadores;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao ler o ficheiro jogadores.txt: " + e.getMessage());
         }
     }
 
@@ -393,7 +393,7 @@ public class Jogador extends Pessoa implements Dados {
             System.out.println("Jogadores Gerados com sucesso!");
             System.out.println("--------------------------------");
         } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro ao inserir Jogador no ficheiro jogadores.txt: " + e.getMessage());
         }
     }
     // END Faker Methods ----------------------------------------------------------------
@@ -460,6 +460,7 @@ public class Jogador extends Pessoa implements Dados {
     // END Getters and Setters ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
+        System.out.println("|-------------------------------------------------------------- JOGADORES ----------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
                 "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
     }

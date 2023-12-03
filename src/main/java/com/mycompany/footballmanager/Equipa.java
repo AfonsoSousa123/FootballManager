@@ -168,7 +168,7 @@ public class Equipa implements Dados {
                     }
                 }
                 equipa.setPlantel(JogadoresIDs);
-                System.out.println("Plantel" + equipa.getPlantel());
+                System.out.println("Plantel: " + equipa.getPlantel());
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -458,13 +458,13 @@ public class Equipa implements Dados {
         return idTreinador;
     }
 
-    public String getTreinadorNome(int id) {
+    public String getNomeTreinador(int id) {
         for (Treinador treinador : Menu.treinadores) {
             if (treinador.getId() == id) {
                 return treinador.getNome();
             }
         }
-        return "Sem Treinador associada"; // Retorna um valor predefinido se o id não for encontrado
+        return "Sem Treinador associadd"; // Retorna um valor predefinido se o id não for encontrado
     }
 
     public void setIdTreinador(int idTreinador) {
@@ -475,7 +475,7 @@ public class Equipa implements Dados {
         return idLiga;
     }
 
-    public String getLigaNome(int id) {
+    public String getNomeLiga(int id) {
         for (Liga liga : Menu.ligas) {
             if (liga.getId() == id) {
                 return liga.getNome();
@@ -533,6 +533,7 @@ public class Equipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
+        System.out.println("|----------------------------------------------------------------- EQUIPAS --------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
                 "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais", "Histórico", "Golos Marcados", "Golos Sofridos");
     }
@@ -540,7 +541,17 @@ public class Equipa implements Dados {
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
-                getId(), getNome(), getPlantel(), getTreinadorNome(getIdTreinador()), getLigaNome(getIdLiga()), getCidade(), getPais(), getHistorico(), getGolos_marcados(), getGolos_sofridos());
+                getId(),
+                getNome(),
+                getPlantel(),
+                getNomeTreinador(getIdTreinador()),
+                getNomeLiga(getIdLiga()),
+                getCidade(),
+                getPais(),
+                getHistorico(),
+                getGolos_marcados(),
+                getGolos_sofridos()
+        );
     }
     // END toString Methods ----------------------------------------------------------------
 }
