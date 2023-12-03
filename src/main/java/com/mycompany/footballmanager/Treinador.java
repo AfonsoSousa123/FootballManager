@@ -303,14 +303,14 @@ public class Treinador extends Pessoa implements Dados {
     // END Getters and Setters ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|------------------------------------- TREINADORES --------------------------------------------|");
-        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
+        System.out.println("|----------------------------------------- TREINADORES --------------------------------------------------|");
+        return String.format("| %-3s | %-30s | %-7s | %-20s | %-30s |%n",
                 "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s | %-30s |%n",
+        return String.format("| %-3s | %-30s | %-7s | %-20s | %-30s |%n",
                 getId(), getNome(), getIdade(), getEspecializacoes(), getTaticas_fav());
     }
 }

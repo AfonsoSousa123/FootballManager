@@ -361,12 +361,48 @@ public class Liga implements Dados {
         return equipas;
     }
 
+    public ArrayList<String> getNomesEquipas(ArrayList<Integer> equipas) {
+        ArrayList<String> nomesEquipas = new ArrayList<>();
+
+        for (Equipa equipa : Menu.equipas) {
+            for (Integer equipaID : equipas) {
+                if (!equipas.isEmpty()) {
+                    if (equipa.getId() == equipaID) {
+                        nomesEquipas.add(equipa.getNome());
+                    }
+                } else {
+                    nomesEquipas.add("Sem Equipas associados");
+                }
+            }
+        }
+
+        return nomesEquipas;
+    }
+
     public void setEquipas(ArrayList<Integer> equipas) {
         this.equipas = equipas;
     }
 
     public ArrayList<Integer> getPartidas() {
         return partidas;
+    }
+
+    public ArrayList<String> getNomesPartidas(ArrayList<Integer> partidas) {
+        ArrayList<String> nomesPartidas = new ArrayList<>();
+
+        for (Partida partida : Menu.partidas) {
+            for (Integer partidaID : partidas) {
+                if (!partidas.isEmpty()) {
+                    if (partida.getId() == partidaID) {
+                        nomesPartidas.add(partida.getNome());
+                    }
+                } else {
+                    nomesPartidas.add("Sem Partidas associados");
+                }
+            }
+        }
+
+        return nomesPartidas;
     }
 
     public void setPartidas(ArrayList<Integer> partidas) {
@@ -384,14 +420,20 @@ public class Liga implements Dados {
 
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|---------------------------------- LIGAS ------------------------------------|");
-        return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-14s |%n",
+        System.out.println("|---------------------------------------------------------------------------------------------- LIGAS --------------------------------------------------------------------------------------------------------|");
+        return String.format("| %-3s | %-15s | %-10s | %-70s | %-70s | %-20s |%n",
                 "ID", "Nome", "País", "Equipas", "Partidas", "Ranking de Equipas");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-22s |%n",
-                getId(), getNome(), getPais(), getEquipas(), getPartidas(), getRankingEquipas());
+        return String.format("| %-3s | %-15s | %-10s | %-70s | %-70s | %-20s |%n",
+                getId(),
+                getNome(),
+                getPais(),
+                String.join(", ", getNomesEquipas(getEquipas())),
+                String.join(", ", getNomesPartidas(getPartidas())),
+                getRankingEquipas()
+        );
     }
 }

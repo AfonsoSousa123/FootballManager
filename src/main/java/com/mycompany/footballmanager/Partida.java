@@ -168,6 +168,14 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
+            // Nome
+            try {
+                String nomePartida = partida.getNomeEquipa(partida.getEquipa()) + " vs " + partida.getNomeAdversario(partida.getAdversario());
+                partida.setNome(nomePartida);
+            } catch (Exception e) {
+                System.out.println("Erro ao gerar o Nome da Partida: " + e.getMessage() + "\n");
+            }
+
             // Data
             try {
                 System.out.println("Insira a Data: ");
@@ -297,7 +305,7 @@ public class Partida implements Dados {
             sb.append(partida.getResultado()).append(";"); // get Resultado
             sb.append(partida.getLocal()).append(";"); // get Local
             sb.append(partida.getGolos_marcados()).append(";"); // get Golos Marados
-            sb.append(partida.getGolos_sofridos()).append("\n"); // get Golos Sofridos
+            sb.append(partida.getGolos_sofridos()).append(";"); // get Golos Sofridos
             sb.append(partida.getSoma_cartoes()).append("\n"); // get Soma Cartoes
 
             // Write the line to the file
@@ -342,7 +350,7 @@ public class Partida implements Dados {
                 }
                 String[] data = row.split(";");
 
-                // TXT format: ID, Nome, Equipa, Adversario, Data, Resultado, Local, Golos Marcados, Golos Sofridos, Soma Cartoes
+                // TXT format: ID, Nome, Arbitro, Equipa, Adversario, Data, Resultado, Local, Golos Marcados, Golos Sofridos, Soma Cartoes
                 Partida partida = new Partida();
                 partida.setId(Integer.parseInt(data[0])); // ID
                 partida.setNome(data[1]); // Nome
@@ -523,14 +531,14 @@ public class Partida implements Dados {
 
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|------------------------------------------------------------- PARTIDAS -----------------------------------------------------------------------|");
-        return String.format("| %-3s | %-25s | %-40s | %-20s | %-15s | %-10s | %-10s | %-30s | %-14s | %-14s |%n",
-                "ID", "Nome", "Arbitro", "Partida", "Adversario", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos");
+        System.out.println("|----------------------------------------------------------------------------------------------------- PARTIDAS --------------------------------------------------------------------------------------------------------------------------|");
+        return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
+                "ID", "Nome", "Arbitro", "Equipa", "Adversario", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-40s | %-20s | %-15s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
+        return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
                 getId(),
                 getNome(),
                 getNomeArbitro(getArbitro()),
@@ -540,7 +548,8 @@ public class Partida implements Dados {
                 getResultado(),
                 getLocal(),
                 getGolos_marcados(),
-                getGolos_sofridos()
+                getGolos_sofridos(),
+                getSoma_cartoes()
         );
     }
     // END toString Methods ----------------------------------------------------------------

@@ -144,7 +144,9 @@ public class Menu {
     private void getData() {
         jogador.getJogadores();
         treinador.getTreinadores();
+        arbitro.getArbitros();
         equipa.getEquipas();
+        partida.getPartidas();
         liga.getLigas();
     }
 
@@ -161,24 +163,24 @@ public class Menu {
 
 //        boolean sair = false;
         do {
-            System.out.println("|--------------------------------------|");
-            System.out.println("| FOOTBALL MANAGER 23/24:              |");
-            System.out.println("|--------------------------------------|");
-            System.out.println("| MENU PRINCIPAL:                      |");
-            System.out.println("| 1. Inserir Dados                     |");
-            System.out.println("| 2. Ler Dados de Jogadores            |");
-            System.out.println("| 3. Ler Dados de Treinadores          |");
-            System.out.println("| 4. Ler Dados das Equipas             |");
-            System.out.println("| 5. Ler Dados dos Árbitros            |");
-            System.out.println("| 6. Ler Dados das Ligas               |");
-            System.out.println("| 7. Editar Dados                      |");
-            System.out.println("| 8. Remover Dados                     |");
-            System.out.println("| 9. Associar Equipa a uma Liga        |");
-            System.out.println("| 10. Estatísticas de uma Equipa       |");
-            System.out.println("| 11. Ver Partidas                     |");
-            System.out.println("| 12. Criar Partida                    |");
-            System.out.println("| 13. Sair                             |");
-            System.out.println("|--------------------------------------|");
+            System.out.println("|----------------------------------------|");
+            System.out.println("| FOOTBALL MANAGER 23/24:                |");
+            System.out.println("|----------------------------------------|");
+            System.out.println("| MENU PRINCIPAL:                        |");
+            System.out.println("| 1. Inserir Dados                       |");
+            System.out.println("| 2. Ler Dados de Jogadores              |");
+            System.out.println("| 3. Ler Dados de Treinadores            |");
+            System.out.println("| 4. Ler Dados das Equipas               |");
+            System.out.println("| 5. Ler Dados dos Árbitros              |");
+            System.out.println("| 6. Ler Dados das Ligas                 |");
+            System.out.println("| 7. Editar Dados                        |");
+            System.out.println("| 8. Remover Dados                       |");
+            System.out.println("| 9. Associar Equipa/Partida a uma Liga  |");
+            System.out.println("| 10. Estatísticas de uma Equipa         |");
+            System.out.println("| 11. Ver Partidas                       |");
+            System.out.println("| 12. Criar Partida                      |");
+            System.out.println("| 13. Sair                               |");
+            System.out.println("|----------------------------------------|");
             System.out.print("Escolha uma opção: ");
 
             try {

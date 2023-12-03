@@ -438,11 +438,25 @@ public class Equipa implements Dados {
         this.nome = nome;
     }
 
-    public ArrayList<Integer> getPlantel() {
-        return plantel;
+    public ArrayList<String> getNomesJogadores(ArrayList<Integer> plantel) {
+        ArrayList<String> nomesJogadores = new ArrayList<>();
+
+        for (Jogador jogador : Menu.jogadores) {
+            for (Integer jogadorID : plantel) {
+                if (!plantel.isEmpty()) {
+                    if (jogador.getId() == jogadorID) {
+                        nomesJogadores.add(jogador.getNome());
+                    }
+                } else {
+                    nomesJogadores.add("Sem Jogadores associados");
+                }
+            }
+        }
+
+        return nomesJogadores;
     }
 
-    public ArrayList<Integer> getPlantelNomes() {
+    public ArrayList<Integer> getPlantel() {
         return plantel;
     }
 
@@ -533,17 +547,17 @@ public class Equipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|----------------------------------------------------------------- EQUIPAS --------------------------------------------------------------------|");
-        return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
+        System.out.println("|------------------------------------------------------------------------------------------------------------------------------------ EQUIPAS ----------------------------------------------------------------------------------------------------------------------------------------------|");
+        return String.format("| %-3s | %-25s | %-100s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
                 "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais", "Histórico", "Golos Marcados", "Golos Sofridos");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
+        return String.format("| %-3s | %-25s | %-100s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
                 getId(),
                 getNome(),
-                getPlantel(),
+                String.join(", ", getNomesJogadores(getPlantel())),
                 getNomeTreinador(getIdTreinador()),
                 getNomeLiga(getIdLiga()),
                 getCidade(),

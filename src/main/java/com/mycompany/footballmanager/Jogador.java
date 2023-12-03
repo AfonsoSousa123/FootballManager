@@ -460,7 +460,7 @@ public class Jogador extends Pessoa implements Dados {
     // END Getters and Setters ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|-------------------------------------------------------------- JOGADORES ----------------------------------------------------------------|");
+        System.out.println("|------------------------------------------------------------------ JOGADORES -------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
                 "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
     }

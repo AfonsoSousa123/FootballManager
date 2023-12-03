@@ -149,7 +149,7 @@ public class Arbitro extends Pessoa implements Dados {
     // END Getters and Setters ----------------------------------------------------------------
 
     public static String tableHeaders() {
-        System.out.println("|----------------------------------- ARBITROS -------------------------------------|");
+        System.out.println("|---------------------------- ARBITROS ----------------------------|");
         return String.format("| %-3s | %-25s | %-7s | %-20s |%n",
                 "ID", "Nome", "Idade", "Experiência");
     }
