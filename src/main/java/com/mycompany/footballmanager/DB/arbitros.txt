@@ -1,9 +1,9 @@
 ID;Nome;Idade;Experiencia
-1;Tiago Martins;43;5
-2;Carlos Xistra;49;10
-3;Fábio Veríssimo;40;3
-4;Hugo Miguel;46;15
-5;Artur Soares Dias;44;2
-6;Luís Godinho;38;1
-7;Jorge Ferreira;46;4
-8;Manuel Oliveira;46;7
+1;Tiago Martins;43;15
+2;Carlos Xistra;49;15
+3;Fábio Veríssimo;40;14
+4;Hugo Miguel;46;12
+5;Artur Soares Dias;44;11
+6;Luís Godinho;38;10
+7;Jorge Ferreira;46;17
+8;Manuel Oliveira;46;13

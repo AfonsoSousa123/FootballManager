@@ -85,14 +85,14 @@ public class Arbitro extends Pessoa implements Dados {
                 String[] data = row.split(";");
 
                 // TXT format: ID, Nome, Idade, Experiencia
-                Arbitro arbitro = new Arbitro();
-                arbitro.setId(Integer.parseInt(data[0]));
-                arbitro.setNome(data[1]);
-                arbitro.setIdade(Integer.parseInt(data[2]));
-                arbitro.setExperiencia(data[3]);
+                ArbitroPrincipal arbitro_p = new ArbitroPrincipal();
+                arbitro_p.setId(Integer.parseInt(data[0]));
+                arbitro_p.setNome(data[1]);
+                arbitro_p.setIdade(Integer.parseInt(data[2]));
+                arbitro_p.setExperiencia(data[3]);
 
                 // Adds the arbitro to the ArrayList
-                arbitros.add(arbitro);
+                arbitros.add(arbitro_p);
             }
             br.close();
 
