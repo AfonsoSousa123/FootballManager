@@ -48,6 +48,8 @@ public class Liga implements Dados {
     ) {
         this.id = id;
         this.nome = nome;
+        this.equipas = equipas;
+        this.partidas = partidas;
         this.pais = pais;
         this.ranking_equipas = ranking_equipas;
     }
