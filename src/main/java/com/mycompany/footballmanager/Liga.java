@@ -141,7 +141,7 @@ public class Liga implements Dados {
             try {
                 boolean insertMoreEquipas = true;
                 ArrayList<Integer> PartidasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
-//                Menu.partida.print();
+                Menu.partida.print();
 
                 while (insertMoreEquipas) {
                     System.out.println("Escolha um ID de uma Partida: ");
@@ -188,10 +188,10 @@ public class Liga implements Dados {
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereLiga();
-        } finally {
-            writeToTXT(liga);
-            System.out.println(liga);
         }
+
+        writeToTXT(liga);
+        System.out.println(liga);
 
         return liga;
     }

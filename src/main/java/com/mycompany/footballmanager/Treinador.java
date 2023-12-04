@@ -147,10 +147,10 @@ public class Treinador extends Pessoa implements Dados {
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereTreinador();
-        } finally {
-            writeToTXT(treinador);
-            System.out.println(treinador);
         }
+
+        writeToTXT(treinador);
+        System.out.println(treinador);
 
         return treinador;
     }

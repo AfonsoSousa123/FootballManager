@@ -275,14 +275,13 @@ public class Partida implements Dados {
 //                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
 //                return inserePartida();
 //            }
-
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return inserePartida();
-        } finally {
-            writeToTXT(partida);
-            System.out.println(partida);
         }
+
+        writeToTXT(partida);
+        System.out.println(partida);
 
         return partida;
     }

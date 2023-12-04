@@ -296,10 +296,10 @@ public class Equipa implements Dados {
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereEquipa();
-        } finally {
-            writeToTXT(equipa);
-            System.out.println(equipa);
         }
+
+        writeToTXT(equipa);
+        System.out.println(equipa);
 
         return equipa;
     }
@@ -452,7 +452,6 @@ public class Equipa implements Dados {
                 }
             }
         }
-
         return nomesJogadores;
     }
 
