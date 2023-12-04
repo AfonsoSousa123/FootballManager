@@ -238,39 +238,39 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
-            // Golos Marcados
-            try {
-                System.out.println("Insira a quantidade de Golos Marcados: ");
-                int golosMarcados = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
-
-                if (golosMarcados >= 0 && golosMarcados < 5000) {
-                    partida.setGolos_marcados(golosMarcados);
-                } else {
-                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
-                    return inserePartida();
-                }
-            } catch (Exception e) {
-                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-                return inserePartida();
-            }
-
-            // Golos Sofridos
-            try {
-                System.out.println("Insira a quantidade de Golos Sofridos: ");
-                int golosSofridos = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
-
-                if (golosSofridos >= 0 && golosSofridos < 5000) {
-                    partida.setGolos_sofridos(golosSofridos);
-                } else {
-                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
-                    return inserePartida();
-                }
-            } catch (Exception e) {
-                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-                return inserePartida();
-            }
+//            // Golos Marcados
+//            try {
+//                System.out.println("Insira a quantidade de Golos Marcados: ");
+//                int golosMarcados = scanner.nextInt();
+//                scanner.nextLine(); // Consume newline character
+//
+//                if (golosMarcados >= 0 && golosMarcados < 5000) {
+//                    partida.setGolos_marcados(golosMarcados);
+//                } else {
+//                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
+//                    return inserePartida();
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
+//                return inserePartida();
+//            }
+//
+//            // Golos Sofridos
+//            try {
+//                System.out.println("Insira a quantidade de Golos Sofridos: ");
+//                int golosSofridos = scanner.nextInt();
+//                scanner.nextLine(); // Consume newline character
+//
+//                if (golosSofridos >= 0 && golosSofridos < 5000) {
+//                    partida.setGolos_sofridos(golosSofridos);
+//                } else {
+//                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
+//                    return inserePartida();
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
+//                return inserePartida();
+//            }
 
 //            // Soma de Cartoes
 //            try {

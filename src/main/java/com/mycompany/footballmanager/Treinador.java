@@ -26,7 +26,7 @@ public class Treinador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Treinador() {
-        super.setNome(randomFullName());
+        super.setNome(randomName());
         super.setIdade(random.nextInt(30, 60));
         especializacoes = randomLorem();
         taticas_fav = randomLorem();

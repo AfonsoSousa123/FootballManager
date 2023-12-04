@@ -11,8 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.mycompany.footballmanager.Menu.arbitros;
-import static com.mycompany.footballmanager.Menu.checkIfFileExists;
+import static com.mycompany.footballmanager.Menu.*;
 
 /**
  * @author afonso, milena, tânia
@@ -27,9 +26,9 @@ public class Arbitro extends Pessoa implements Dados {
     // END Variables ----------------------------------------------------------------
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
-        super.setNome("Arbitro nome");
+        super.setNome(randomName());
         super.setIdade(random.nextInt(20, 40));
-        experiencia = "3 Anos";
+        experiencia = random.nextInt(1, 20) + " Anos";
     }
 
     public Arbitro(
@@ -150,13 +149,13 @@ public class Arbitro extends Pessoa implements Dados {
 
     public static String tableHeaders() {
         System.out.println("|---------------------------- ARBITROS ----------------------------|");
-        return String.format("| %-3s | %-25s | %-7s | %-20s |%n",
+        return String.format("| %-3s | %-30s | %-7s | %-20s |%n",
                 "ID", "Nome", "Idade", "Experiência");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s |%n",
+        return String.format("| %-3s | %-30s | %-7s | %-20s |%n",
                 getId(), getNome(), getIdade(), getExperiencia());
     }
 }

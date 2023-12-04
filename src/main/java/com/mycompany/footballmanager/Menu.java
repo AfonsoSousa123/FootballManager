@@ -74,9 +74,9 @@ public class Menu {
         return fakerNameJogador.esports().player();
     }
 
-    public static String randomFullName() {
-        Faker fakerFullName = new Faker();
-        return fakerFullName.name().fullName();
+    public static String randomName() {
+        Faker fakerName = new Faker();
+        return fakerName.name().name();
     }
 
     public static String randomFirstName() {

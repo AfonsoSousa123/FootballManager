@@ -29,7 +29,7 @@ public class Jogador extends Pessoa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Jogador() {
-        super.setNome(randomFullName());
+        super.setNome(randomName());
         super.setIdade(random.nextInt(20, 40));
         posicao = randomLorem();
         hist_lesoes = randomLorem();
@@ -217,8 +217,6 @@ public class Jogador extends Pessoa implements Dados {
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereJogador();
-        } finally {
-//            scanner.close();
         }
 
         writeToTXT(jogador);
@@ -234,7 +232,7 @@ public class Jogador extends Pessoa implements Dados {
             BufferedWriter bw = new BufferedWriter(writer);
             StringBuilder sb = new StringBuilder();
 
-            // Construct the CSV line
+            // Construct the TXT line
             sb.append(jogador.getId()).append(";");
             sb.append(jogador.getNome()).append(";");
             sb.append(jogador.getIdade()).append(";");
@@ -244,7 +242,7 @@ public class Jogador extends Pessoa implements Dados {
             sb.append(jogador.getDefesa()).append(";");
             sb.append(jogador.getN_agressividade()).append("\n");
 
-            // Write the CSV line to the file
+            // Write the TXT line to the file
             bw.append(sb.toString());
             // closes the output stream
             bw.flush();
@@ -378,7 +376,7 @@ public class Jogador extends Pessoa implements Dados {
 
                 Jogador jogador = new Jogador(
                         latest + increment, // ID automatically increments
-                        randomFullName(), // Random Nome
+                        randomName(), // Random Nome
                         random.nextInt(20, 40), // Random Idade
                         randomLorem(), // Random Posição
                         randomLorem(), // Random Historico de Lesões
