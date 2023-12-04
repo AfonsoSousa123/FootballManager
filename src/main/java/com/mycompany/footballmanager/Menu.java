@@ -30,6 +30,8 @@ public class Menu {
     public static Partida partida = new Partida();
     public static Liga liga = new Liga();
     public static Arbitro arbitro = new Arbitro();
+    public static ArrayList<ArbitroPrincipal> arbitros_p;
+    public static ArrayList<ArbitroAssistente> arbitros_a;
 
     // Scanner instances
     public Scanner scanner = new Scanner(System.in);
