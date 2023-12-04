@@ -8,7 +8,6 @@ import com.mycompany.footballmanager.Interfaces.Dados;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -21,7 +20,7 @@ public class Partida implements Dados {
     // BEGIN Variables ------------------------------------------------------------------
     private int id;
     private String nome; // O nome vai ser a junção dos nomes das partidas que estão jogando
-    private int arbitro;
+    private ArrayList<Integer> arbitros;
     private int equipa;
     private int adversario;
     private String data; // quando formos inserir usamos um objeto de data para formatar a String para a data pretendida
@@ -38,7 +37,7 @@ public class Partida implements Dados {
     // BEGIN Constructors ----------------------------------------------------------------
     public Partida() {
         nome = randomTeam() + " vs " + randomTeam();
-        arbitro = 0;
+        arbitros = new ArrayList<>();
         equipa = 0;
         adversario = 0;
         data = randomDate();
@@ -51,7 +50,7 @@ public class Partida implements Dados {
 
     public Partida(
             String nome,
-            int arbitro,
+            ArrayList<Integer> arbitros,
             int equipa,
             int adversario,
             String data,
@@ -62,7 +61,7 @@ public class Partida implements Dados {
             int soma_cartoes
     ) {
         this.nome = nome;
-        this.arbitro = arbitro;
+        this.arbitros = arbitros;
         this.equipa = equipa;
         this.adversario = adversario;
         this.data = data;
@@ -115,19 +114,33 @@ public class Partida implements Dados {
             partida.setId(latest + increment);
 
             System.out.println("Inserir Partida: ");
-            // Arbitro
+            // Arbitros
             try {
-                Menu.arbitro.print();
-                System.out.println("Escolha o ID do Arbitro que pretende adicionar à Partida: ");
-                int arbitroID = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
+                boolean insertMoreArbitros = true;
+                ArrayList<Integer> ArbitrosIDs = new ArrayList<>(); // Cria um arrayList para os ids dos Arbitros
+                Menu.arbitro.print(); // imprime os arbitros existentes
 
-                if (arbitroID > 0 && arbitroID <= Menu.equipas.size()) {
-                    partida.setArbitro(arbitroID);
-                } else {
-                    System.out.println("Tem que escolher um ID existente dos Arbitros! Tente Novamente...");
-                    return inserePartida();
+                while (insertMoreArbitros) {
+                    System.out.println("Escolha um ID de um Arbitro: ");
+                    int idArbitro = scanner.nextInt(); // recebe o id do Arbitro
+                    scanner.nextLine(); // Consume newline character
+
+                    if (idArbitro > 0 && idArbitro <= Menu.arbitros.size()) {
+                        ArbitrosIDs.add(idArbitro);
+                    } else {
+                        System.out.println("Tem que escolher um ID existente das Arbitros! Tente Novamente...");
+                        return inserePartida();
+                    }
+
+                    System.out.println("Deseja adicionar mais Arbitros à Partida? (sim/nao)");
+                    String choice = scanner.nextLine().trim().toLowerCase();
+
+                    if (!choice.equals("sim")) {
+                        insertMoreArbitros = false;
+                    }
                 }
+                partida.setArbitrosIDs(ArbitrosIDs); // guarda os ids das Arbitros na Partida
+
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return inserePartida();
@@ -170,7 +183,7 @@ public class Partida implements Dados {
 
             // Nome
             try {
-                String nomePartida = partida.getNomeEquipa(partida.getEquipa()) + " vs " + partida.getNomeAdversario(partida.getAdversario());
+                String nomePartida = partida.getNomeEquipa(partida.getEquipaID()) + " vs " + partida.getNomeAdversario(partida.getAdversarioID());
                 partida.setNome(nomePartida);
             } catch (Exception e) {
                 System.out.println("Erro ao gerar o Nome da Partida: " + e.getMessage() + "\n");
@@ -297,9 +310,14 @@ public class Partida implements Dados {
             // Construct the TXT line
             sb.append(partida.getId()).append(";"); // get ID
             sb.append(partida.getNome()).append(";"); // get Nome ID
-            sb.append(partida.getArbitro()).append(";"); // get Arbitro ID
-            sb.append(partida.getEquipa()).append(";"); // get Equipa
-            sb.append(partida.getAdversario()).append(";"); // get Adversario
+            // Append the equipa elements with comma separator
+            for (Integer arbitroID : partida.getArbitrosIDs()) {
+                sb.append(arbitroID).append(",");
+            }
+            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
+            sb.append(";"); // Para poder ser colocada ponto e virgula
+            sb.append(partida.getEquipaID()).append(";"); // get Equipa
+            sb.append(partida.getAdversarioID()).append(";"); // get Adversario
             sb.append(partida.getData()).append(";"); // get Data
             sb.append(partida.getResultado()).append(";"); // get Resultado
             sb.append(partida.getLocal()).append(";"); // get Local
@@ -353,7 +371,14 @@ public class Partida implements Dados {
                 Partida partida = new Partida();
                 partida.setId(Integer.parseInt(data[0])); // ID
                 partida.setNome(data[1]); // Nome
-                partida.setArbitro(Integer.parseInt(data[2])); // Arbitro
+
+                String[] arbitrosIds = data[2].split(","); // gets the ids of the equipas
+                ArrayList<Integer> arbitros = new ArrayList<>();
+
+                for (String arbitroId : arbitrosIds) {
+                    arbitros.add(Integer.parseInt(arbitroId));
+                }
+                partida.setArbitrosIDs(arbitros); // Arbitros
                 partida.setEquipa(Integer.parseInt(data[3])); // Equipa
                 partida.setAdversario(Integer.parseInt(data[4])); // Adversario
                 partida.setData(data[5]); // Data
@@ -411,24 +436,32 @@ public class Partida implements Dados {
         this.nome = nome;
     }
 
-    public int getArbitro() {
-        return arbitro;
+    public ArrayList<Integer> getArbitrosIDs() {
+        return arbitros;
     }
 
-    public String getNomeArbitro(int id) {
+    public ArrayList<String> getNomesArbitros(ArrayList<Integer> arbitros) {
+        ArrayList<String> nomesArbitros = new ArrayList<>();
+
         for (Arbitro arbitro : Menu.arbitros) {
-            if (arbitro.getId() == id) {
-                return arbitro.getNome();
+            for (Integer arbitroID : arbitros) {
+                if (!arbitros.isEmpty()) {
+                    if (arbitro.getId() == arbitroID) {
+                        nomesArbitros.add(arbitro.getNome());
+                    }
+                } else {
+                    nomesArbitros.add("Sem Arbitros associados");
+                }
             }
         }
-        return "Sem Arbitro associado"; // Retorna um valor predefinido se o id não for encontrado
+        return nomesArbitros;
     }
 
-    public void setArbitro(int arbitro) {
-        this.arbitro = arbitro;
+    public void setArbitrosIDs(ArrayList<Integer> arbitros) {
+        this.arbitros = arbitros;
     }
 
-    public int getEquipa() {
+    public int getEquipaID() {
         return equipa;
     }
 
@@ -445,7 +478,7 @@ public class Partida implements Dados {
         this.equipa = equipa;
     }
 
-    public int getAdversario() {
+    public int getAdversarioID() {
         return adversario;
     }
 
@@ -511,38 +544,36 @@ public class Partida implements Dados {
     }
 
     // END Getters and Setters ----------------------------------------------------------------
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Partida partida)) return false;
-        return
-                getId() == partida.getId() &&
-                        getResultado().equals(partida.getResultado()) &&
-                        getGolos_marcados() == partida.getGolos_marcados() &&
-                        getGolos_sofridos() == partida.getGolos_sofridos() &&
-                        Objects.equals(getNome(), partida.getNome()) &&
-                        Objects.equals(getArbitro(), partida.getArbitro()) &&
-                        Objects.equals(getEquipa(), partida.getEquipa()) &&
-                        Objects.equals(getAdversario(), partida.getAdversario()) &&
-                        Objects.equals(getData(), partida.getData()) &&
-                        Objects.equals(getLocal(), partida.getLocal());
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Partida partida)) return false;
+//        return
+//                getId() == partida.getId() &&
+//                        getResultado().equals(partida.getResultado()) &&
+//                        getGolos_marcados() == partida.getGolos_marcados() &&
+//                        getGolos_sofridos() == partida.getGolos_sofridos() &&
+//                        Objects.equals(getNome(), partida.getNome()) &&
+//                        Objects.equals(getArbitro(), partida.getArbitro()) &&
+//                        Objects.equals(getEquipa(), partida.getEquipa()) &&
+//                        Objects.equals(getAdversario(), partida.getAdversario()) &&
+//                        Objects.equals(getData(), partida.getData()) &&
+//                        Objects.equals(getLocal(), partida.getLocal());
+//    }
 
     // Print headers
     public static String tableHeaders() {
         System.out.println("|----------------------------------------------------------------------------------------------------- PARTIDAS --------------------------------------------------------------------------------------------------------------------------|");
-        return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-                "ID", "Nome", "Arbitro", "Equipa", "Adversario", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
+        return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
+                "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-40s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
+        return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
                 getId(),
                 getNome(),
-                getNomeArbitro(getArbitro()),
-                getNomeEquipa(getEquipa()),
-                getNomeAdversario(getAdversario()),
+                String.join(", ", getNomesArbitros(getArbitrosIDs())),
                 getData(),
                 getResultado(),
                 getLocal(),

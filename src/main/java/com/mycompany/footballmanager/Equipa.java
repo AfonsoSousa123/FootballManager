@@ -463,10 +463,6 @@ public class Equipa implements Dados {
         this.plantel = plantel;
     }
 
-    public void setIdJogador(Integer idJogador) {
-        plantel.add(idJogador);
-    }
-
     public int getIdTreinador() {
         return idTreinador;
     }
@@ -508,7 +504,6 @@ public class Equipa implements Dados {
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
-
 
     public String getPais() {
         return pais;

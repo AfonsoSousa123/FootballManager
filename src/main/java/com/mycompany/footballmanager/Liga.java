@@ -109,11 +109,11 @@ public class Liga implements Dados {
             try {
                 boolean insertMoreEquipas = true;
                 ArrayList<Integer> EquipasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
-                Menu.equipa.print();
+                Menu.equipa.print(); // imprime as equipas existentes
 
                 while (insertMoreEquipas) {
                     System.out.println("Escolha um ID de uma Equipa: ");
-                    int idEquipa = scanner.nextInt();
+                    int idEquipa = scanner.nextInt(); // recebe o id da Equipa
                     scanner.nextLine(); // Consume newline character
 
                     if (idEquipa > 0 && idEquipa <= Menu.equipas.size()) {
@@ -130,7 +130,7 @@ public class Liga implements Dados {
                         insertMoreEquipas = false;
                     }
                 }
-                liga.setEquipas(EquipasIDs);
+                liga.setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -141,7 +141,7 @@ public class Liga implements Dados {
             try {
                 boolean insertMoreEquipas = true;
                 ArrayList<Integer> PartidasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
-                Menu.partida.print();
+                Menu.partida.print(); // imprime as partidas existentes
 
                 while (insertMoreEquipas) {
                     System.out.println("Escolha um ID de uma Partida: ");
@@ -162,7 +162,7 @@ public class Liga implements Dados {
                         insertMoreEquipas = false;
                     }
                 }
-                liga.setPartidas(PartidasIDs);
+                liga.setPartidas(PartidasIDs); // guarda os ids das Partidas na Liga
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -175,7 +175,7 @@ public class Liga implements Dados {
                 scanner.nextLine(); // Consume newline character
 
                 if (ranking_equipas >= 0 && ranking_equipas <= 100) {
-                    liga.setRankingEquipas(ranking_equipas);
+                    liga.setRankingEquipas(ranking_equipas); // guarda o ranking das equipas
                 } else {
                     System.out.println("O Ranking das Equipas tem que ter entre 0 e 100 anos, inclusive! Tente Novamente...");
                     return insereLiga();
