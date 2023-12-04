@@ -24,6 +24,7 @@ public class ArbitroPrincipal extends Arbitro {
         super.setNome("Arbitro principal nome");
         super.setIdade(random.nextInt(30, 60));
         super.setExperiencia(random.nextInt(1, 15) + " Anos");
+        super.setFuncao("Principal");
     }
 
     public static ArrayList<ArbitroPrincipal> getArbitrosPrincipais() {
@@ -41,12 +42,13 @@ public class ArbitroPrincipal extends Arbitro {
                 }
 
                 String[] data = row.split(";");
-                
+
                 ArbitroPrincipal arbitro_p = new ArbitroPrincipal();
                 arbitro_p.setId(Integer.parseInt(data[0]));
                 arbitro_p.setNome(data[1]);
                 arbitro_p.setIdade(Integer.parseInt(data[2]));
                 arbitro_p.setExperiencia(data[3]);
+                arbitro_p.setFuncao(data[4]);
 
                 arbitros.add(arbitro_p);
             }
@@ -66,6 +68,7 @@ public class ArbitroPrincipal extends Arbitro {
         return id;
     }
 
+
     // Print headers
     public static String tableHeaders() {
         return String.format("| %-3s | %-20s | %-7s | %-20s |%n",
@@ -74,7 +77,7 @@ public class ArbitroPrincipal extends Arbitro {
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s |%n",
-                getId(), getNome(), getIdade(), getExperiencia());
+        return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
+                getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
     }
 }

@@ -1,11 +1,11 @@
-ID;Nome;Idade;Experiencia
-9;Rui Licínio;49;5
-10;Paulo Soares;47;6
-11;André Campos;40;2
-12;Rui Teixeira;42;7
-13;Bruno Rodrigues;39;3
-14;Pedro Mota;43;3
-15;Paulo Brás;38;2
-16;Pedro Ribeiro;47;6
-17;Bruno Jesus;41;1
-18;Tiago Costa;38;1
+ID;Nome;Idade;Experiencia;Função
+9;Rui Licínio;49;5;Assistente
+10;Paulo Soares;47;6;Assistente
+11;André Campos;40;2;Assistente
+12;Rui Teixeira;42;7;Assistente
+13;Bruno Rodrigues;39;3;Assistente
+14;Pedro Mota;43;3;Assistente
+15;Paulo Brás;38;2;Assistente
+16;Pedro Ribeiro;47;6;Assistente
+17;Bruno Jesus;41;1;Assistente
+18;Tiago Costa;38;1;Assistente

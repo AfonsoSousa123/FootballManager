@@ -23,6 +23,7 @@ public class ArbitroAssistente extends Arbitro {
         super.setNome("Arbitro principal nome");
         super.setIdade(random.nextInt(30, 60));
         super.setExperiencia(random.nextInt(1, 15) + " Anos");
+        super.setFuncao("Assistente");
     }
 
     public static ArrayList<ArbitroAssistente> getArbitrosAssistentes() {
@@ -40,12 +41,13 @@ public class ArbitroAssistente extends Arbitro {
                 }
 
                 String[] data = row.split(";");
-                
+
                 ArbitroAssistente arbitro_a = new ArbitroAssistente();
                 arbitro_a.setId(Integer.parseInt(data[0]));
                 arbitro_a.setNome(data[1]);
                 arbitro_a.setIdade(Integer.parseInt(data[2]));
                 arbitro_a.setExperiencia(data[3]);
+                arbitro_a.setFuncao(data[4]);
 
                 arbitros.add(arbitro_a);
             }
@@ -67,13 +69,13 @@ public class ArbitroAssistente extends Arbitro {
 
     // Print headers
     public static String tableHeaders() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s |%n",
+        return String.format("| %-3s | %-20s | %-10s | %-20s |%n",
                 "ID", "Nome", "Idade", "Especializações");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-20s | %-7s | %-20s |%n",
-                getId(), getNome(), getIdade(), getExperiencia());
+        return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
+                getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
     }
 }
