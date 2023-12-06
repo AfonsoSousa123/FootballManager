@@ -2,3 +2,9 @@ ID;Nome;Idade;Especializações;Taticas Favoritas
 1;José Mourinho;58;financeiras;4-2-4
 2;Jorge Jesus;65;mascar pastilha;2-6-2, 3-4-3
 3;Roger Schmidt;56;daadsdasdsa;3-4-3
+4;Reece Steuber;44;et;2-1-3
+5;Chauncey Schaefer;56;mollitia;3-2-2
+6;Dante Gorczany;34;qui;2-2-1
+7;Myra Lueilwitz;53;laboriosam;2-1-2
+8;Demetris Hessel Jr.;53;hic;2-1-3
+S

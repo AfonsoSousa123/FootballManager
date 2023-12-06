@@ -78,7 +78,6 @@ public class Arbitro extends Pessoa implements Dados {
         } else {
             System.out.println("\nNão existem Arbitros!\n");
         }
-
     }
 
     /*public void getArbitros() {
