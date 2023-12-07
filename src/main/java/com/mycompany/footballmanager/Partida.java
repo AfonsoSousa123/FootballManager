@@ -544,22 +544,13 @@ public class Partida implements Dados {
     }
 
     // END Getters and Setters ----------------------------------------------------------------
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof Partida partida)) return false;
-//        return
-//                getId() == partida.getId() &&
-//                        getResultado().equals(partida.getResultado()) &&
-//                        getGolos_marcados() == partida.getGolos_marcados() &&
-//                        getGolos_sofridos() == partida.getGolos_sofridos() &&
-//                        Objects.equals(getNome(), partida.getNome()) &&
-//                        Objects.equals(getArbitro(), partida.getArbitro()) &&
-//                        Objects.equals(getEquipa(), partida.getEquipa()) &&
-//                        Objects.equals(getAdversario(), partida.getAdversario()) &&
-//                        Objects.equals(getData(), partida.getData()) &&
-//                        Objects.equals(getLocal(), partida.getLocal());
-//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Partida partida)) return false;
+        return equipa == partida.equipa && adversario == partida.adversario;
+    }
 
     // Print headers
     public static String tableHeaders() {
