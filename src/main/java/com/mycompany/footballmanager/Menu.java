@@ -252,6 +252,7 @@ public class Menu {
                                                 break;
                                             case 3:
                                                 // Arbitro
+                                                arbitro.insertFaker();
                                                 pressEnterToContinue();
                                                 break;
                                             case 4:

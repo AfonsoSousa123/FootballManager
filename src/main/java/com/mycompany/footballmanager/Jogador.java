@@ -359,7 +359,7 @@ public class Jogador extends Pessoa implements Dados {
             int numOfChoices = scanner.nextInt();
             scanner.nextLine(); // Consume newline character
 
-            if (numOfChoices <= 0 || numOfChoices > 11) {
+            if (numOfChoices < 0 || numOfChoices > 11) {
                 System.out.println("Só pode inserir no maximo 11 de cada vez! Tente Novamente...");
                 insertFaker();
             }
@@ -385,10 +385,11 @@ public class Jogador extends Pessoa implements Dados {
                         random.nextInt(1, 100) // Random Nivel de Agressividade
                 );
                 jogadores.add(jogador); // Adds the new Jogador to the Jogadores ArrayList
+
                 writeToTXT(jogador); // Writes the Jogador to the TXT File
             }
 
-            System.out.println("Jogadores Gerados com sucesso!");
+            System.out.println(numOfChoices + " Jogadores Gerados com sucesso!");
             System.out.println("--------------------------------");
         } catch (Exception e) {
             System.out.println("Erro ao inserir Jogador no ficheiro jogadores.txt: " + e.getMessage());

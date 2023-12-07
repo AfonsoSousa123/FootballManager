@@ -29,7 +29,15 @@ public class Treinador extends Pessoa implements Dados {
         super.setNome(randomName());
         super.setIdade(random.nextInt(30, 60));
         especializacoes = randomLorem();
-        taticas_fav = randomLorem();
+        taticas_fav = random.nextInt(1, 4) + "-" + random.nextInt(1, 3) + "-" + random.nextInt(1, 4);
+    }
+
+    public Treinador(int id) {
+        super.setNome(randomName());
+        super.setIdade(random.nextInt(30, 60));
+        this.id = id;
+        especializacoes = randomLorem();
+        taticas_fav = random.nextInt(1, 4) + "-" + random.nextInt(1, 3) + "-" + random.nextInt(1, 4);
     }
 
     public Treinador(
@@ -75,7 +83,7 @@ public class Treinador extends Pessoa implements Dados {
 
         try {
             if (!Menu.treinadores.isEmpty()) {
-                // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
+                // Gets the ID of the latest treinador, using the size of the ArrayList and decrementing 1
                 latest = Menu.treinadores.get(Menu.treinadores.size() - 1).getId();
             }
 
@@ -241,7 +249,7 @@ public class Treinador extends Pessoa implements Dados {
     public void delete(int id) {
         if (id > 0 && id < (Menu.treinadores.size() - 1)) {
             Menu.treinadores.remove(id);
-            System.out.println("O Jogador de ID " + id + " foi removido com sucesso");
+            System.out.println("O Treinador de ID " + id + " foi removido com sucesso");
         } else {
             System.out.println("ID incorreto! Tente novamente...");
         }
@@ -262,7 +270,39 @@ public class Treinador extends Pessoa implements Dados {
 
     @Override
     public void insertFaker() {
-        //
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Quantos Treinadores quer gerar? ");
+            int numOfChoices = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+
+            if (numOfChoices < 0 || numOfChoices > 5) {
+                System.out.println("Só pode inserir no maximo 5 de cada vez! Tente Novamente...");
+                insertFaker();
+            }
+
+            for (int i = 0; i < numOfChoices; i++) {
+                // Automatically increments the ID
+                int increment = 1;
+                int latest = 0;
+                // if the treinadores ArrayList is not empty
+                if (!Menu.treinadores.isEmpty()) {
+                    // Gets the ID of the latest treinador, using the size of the ArrayList and decrementing 1
+                    latest = Menu.treinadores.get(Menu.treinadores.size() - 1).getId();
+                }
+
+                Treinador treinador = new Treinador(latest + increment);
+                treinadores.add(treinador); // Adds the new Treinador to the Treinadores ArrayList
+
+                writeToTXT(treinador); // Writes the Treinador to the TXT File
+            }
+
+            System.out.println(numOfChoices + " Treinadores Gerados com sucesso!");
+            System.out.println("--------------------------------");
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir Treinador no ficheiro treinadores.txt: " + e.getMessage());
+        }
     }
 
     // BEGIN Getters and Setters ----------------------------------------------------------------
