@@ -10,3 +10,25 @@ ID;Nome;Idade;Posição;Histórico de Lesões;Ataque;Defesa;Nível de Agressivid
 9;Weldon Hudson;30;vel;asperiores;9;96;40
 10;Teste;45;Avancado;dadasasd;34;23;56
 11;Josefa;23;Defesa;dfgdgd;23;67;34
+12;David Brown;32;qui;numquam;18;2;62
+13;Lucio Steuber;34;sint;minus;61;64;41
+14;Sonny Monahan;36;fugiat;hic;67;43;9
+15;Ross Kilback;37;nobis;est;25;32;2
+16;Brendan Zboncak;28;fugiat;non;49;64;67
+17;Reynold Mante;22;placeat;dicta;11;18;15
+18;Kelley Cormier;34;consequuntur;sed;84;68;87
+19;Kitty Okuneva;35;vero;autem;45;79;8
+20;Dr. Garnet Kuhlman;24;doloremque;debitis;32;26;84
+21;Damian Rogahn I;23;quam;aut;94;62;4
+22;Rose Durgan;21;ipsum;dolore;4;19;77
+23;Ms. Lina Ortiz;28;officia;dolore;83;29;84
+24;Shirley Casper;26;qui;itaque;55;69;39
+25;Alejandrin Zieme;29;eos;reiciendis;79;23;50
+26;Brooks Mills II;24;amet;asperiores;9;2;22
+27;Isobel King;25;sit;magnam;61;69;42
+28;Bart Doyle;22;quibusdam;dolor;57;57;1
+29;Dolores Dare;30;dicta;itaque;22;10;99
+30;Miss Skyla Beier;22;nihil;commodi;29;72;90
+31;Linnea O'Keefe;24;quibusdam;animi;73;6;35
+32;Mr. Alisa Padberg;26;magnam;et;21;79;95
+33;Mathilde Trantow;28;autem;tenetur;21;25;98

@@ -22,6 +22,8 @@ public class Menu {
     public static ArrayList<Equipa> equipas = new ArrayList<>();
     public static ArrayList<Partida> partidas = new ArrayList<>();
     public static ArrayList<Liga> ligas = new ArrayList<>();
+    public static ArrayList<ArbitroPrincipal> arbitros_p;
+    public static ArrayList<ArbitroAssistente> arbitros_a;
 
     // Instances of the Objects
     public static Jogador jogador = new Jogador();
@@ -30,8 +32,6 @@ public class Menu {
     public static Partida partida = new Partida();
     public static Liga liga = new Liga();
     public static Arbitro arbitro = new Arbitro();
-    public static ArrayList<ArbitroPrincipal> arbitros_p;
-    public static ArrayList<ArbitroAssistente> arbitros_a;
 
     // Scanner instances
     public Scanner scanner = new Scanner(System.in);
@@ -431,7 +431,7 @@ public class Menu {
                     case 13:
                         System.out.println("Saindo do Programa...");
 //                        System.out.println(randomChuckNoris()); // Prints a fun fact about ChuckNoris ;)
-                        System.out.println(randomYoda()); // Prints quote fom Yoda
+                        System.out.println("Yoda Quote: " + randomYoda()); // Prints quote fom Yoda
 
                         // Closes the scanner
                         scanner.close();

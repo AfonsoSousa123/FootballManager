@@ -95,6 +95,7 @@ public class Partida implements Dados {
                 System.out.println("Erro: " + e.getMessage());
             }
         }
+        scanner.close();
     }
 
     public Partida inserePartida() {
@@ -170,7 +171,10 @@ public class Partida implements Dados {
                 int adversario = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (adversario > 0 && adversario <= Menu.equipas.size()) {
+                if (partida.getNomeAdversario(adversario).equals(partida.getNomeEquipa(partida.equipa))) {
+                    System.out.println("Uma equipa não pode jogar contra si propria! Tente Novamente...");
+                    return inserePartida();
+                } else if (adversario > 0 && adversario <= Menu.equipas.size()) {
                     partida.setAdversario(adversario);
                 } else {
                     System.out.println("Tem que escolher um Adversario existente nas Equipas! Tente Novamente...");
@@ -545,6 +549,7 @@ public class Partida implements Dados {
 
     // END Getters and Setters ----------------------------------------------------------------
 
+    // Verifica se o nome da Equipa é igual ao do Adversario
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

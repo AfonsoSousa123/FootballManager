@@ -49,6 +49,7 @@ public class Equipa implements Dados {
     }
 
     public Equipa(
+            int id,
             String nome,
             ArrayList<Integer> plantel,
             int idTreinador,
@@ -59,6 +60,7 @@ public class Equipa implements Dados {
             int golos_marcados,
             int golos_sofridos
     ) {
+        this.id = id;
         this.plantel = plantel;
         this.idTreinador = idTreinador;
         this.idLiga = idLiga;
@@ -415,7 +417,91 @@ public class Equipa implements Dados {
     // BEGIN Faker Methods ----------------------------------------------------------------
     @Override
     public void insertFaker() {
-        //
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Quantas Equipas quer gerar? ");
+            int numOfChoices = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+
+            if (numOfChoices < 0 || numOfChoices > 2) {
+                System.out.println("Só pode inserir no maximo 2 de cada vez! Tente Novamente...");
+                insertFaker();
+            }
+
+            for (int i = 0; i < numOfChoices; i++) {
+                // Automatically increments the ID
+                int increment = 1;
+                int latest = 0;
+                // if the equipas ArrayList is not empty
+                if (!Menu.equipas.isEmpty()) {
+                    // Gets the ID of the latest equipa, using the size of the ArrayList and decrementing 1
+                    latest = Menu.equipas.get(Menu.equipas.size() - 1).getId();
+                }
+
+                Equipa equipa = new Equipa(
+                        latest + increment, // ID automatically increments
+                        randomTeam(), // Random Nome
+                        generateJogadores(11), // Plantel
+                        random.nextInt(0, Menu.treinadores.size()), // Treinador ID
+                        random.nextInt(0, Menu.ligas.size()), // Liga ID
+                        randomCity(), // Cidade
+                        randomCountry(), // Pais
+                        randomHistorico(), // Historico
+                        random.nextInt(0, 200), // Golos Marcados
+                        random.nextInt(0, 200) // Golos Sofridos
+                );
+                equipas.add(equipa); // Adds the new Equipa to the Equipaes ArrayList
+
+                writeToTXT(equipa); // Writes the Equipa to the TXT File
+            }
+
+            System.out.println(numOfChoices + " Equipas Geradas com sucesso!");
+            System.out.println("--------------------------------");
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir Equipa no ficheiro equipas.txt: " + e.getMessage());
+        }
+    }
+
+    private ArrayList<Integer> generateJogadores(int numJogadores) {
+        ArrayList<Integer> randomPlantel = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < numJogadores; i++) {
+                // Automatically increments the ID
+                int increment = 1;
+                int latest = 0;
+                // if the jogadores ArrayList is not empty
+                if (!Menu.jogadores.isEmpty()) {
+                    // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
+                    latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+                }
+
+                Jogador jogador = new Jogador(
+                        latest + increment, // ID automatically increments
+                        randomName(), // Random Nome
+                        random.nextInt(20, 40), // Random Idade
+                        randomLorem(), // Random Posição
+                        randomLorem(), // Random Historico de Lesões
+                        random.nextInt(1, 100), // Random Ataque
+                        random.nextInt(1, 100), // Random Defesa
+                        random.nextInt(1, 100) // Random Nivel de Agressividade
+                );
+                randomPlantel.add(jogador.getId()); // Adds the jogadores Ids to the randomPlantel
+                jogadores.add(jogador); // Adds the new Jogador to the Jogadores ArrayList
+
+                jogador.writeToTXT(jogador); // Writes the Jogador to the TXT File
+            }
+            System.out.println("Plantel inserido e associado com sucesso");
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir Jogador no ficheiro jogadores.txt: " + e.getMessage());
+        }
+
+        return randomPlantel;
+    }
+
+    private String randomHistorico() {
+        return "Vitorias: " + random.nextInt(1, 1000) + " Derrotas: " + random.nextInt(1, 1000);
     }
 
     // END Faker Methods ----------------------------------------------------------------
@@ -473,7 +559,7 @@ public class Equipa implements Dados {
                 return treinador.getNome();
             }
         }
-        return "Sem Treinador associadd"; // Retorna um valor predefinido se o id não for encontrado
+        return "Sem Treinador associado"; // Retorna um valor predefinido se o id não for encontrado
     }
 
     public void setIdTreinador(int idTreinador) {
@@ -541,14 +627,14 @@ public class Equipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|------------------------------------------------------------------------------------------------------------------------------------ EQUIPAS ----------------------------------------------------------------------------------------------------------------------------------------------|");
-        return String.format("| %-3s | %-25s | %-100s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
+        System.out.println("|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPAS ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+        return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s | %-30s | %-14s | %-22s |%n",
                 "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais", "Histórico", "Golos Marcados", "Golos Sofridos");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-100s | %-20s | %-20s | %-10s | %-10s | %-30s | %-14s | %-22s |%n",
+        return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s | %-30s | %-14s | %-22s |%n",
                 getId(),
                 getNome(),
                 String.join(", ", getNomesJogadores(getPlantel())),

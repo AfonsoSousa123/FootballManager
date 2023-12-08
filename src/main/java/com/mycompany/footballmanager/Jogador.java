@@ -225,7 +225,7 @@ public class Jogador extends Pessoa implements Dados {
     }
 
     // Method to write Jogador data to a TXT file
-    private void writeToTXT(Jogador jogador) {
+    public void writeToTXT(Jogador jogador) {
         checkIfFileExists(txtFilePath);
 
         try (FileWriter writer = new FileWriter(txtFilePath, true)) {
