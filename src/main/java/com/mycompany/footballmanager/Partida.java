@@ -549,12 +549,16 @@ public class Partida implements Dados {
 
     // END Getters and Setters ----------------------------------------------------------------
 
+    // BEGIN Other Methods ----------------------------------------------------------------
     // Verifica se o nome da Equipa é igual ao do Adversario
     @Override
     public boolean equals(Object o) {
+        // verifica se o objeto é ele proprio
         if (this == o) return true;
+        // verifica se o objeto é nullo
+        if (o == null) return false;
         if (!(o instanceof Partida partida)) return false;
-        return equipa == partida.equipa && adversario == partida.adversario;
+        return (equipa == partida.equipa && adversario == partida.adversario);
     }
 
     // Print headers
@@ -578,5 +582,5 @@ public class Partida implements Dados {
                 getSoma_cartoes()
         );
     }
-    // END toString Methods ----------------------------------------------------------------
+    // END Other Methods ----------------------------------------------------------------
 }
