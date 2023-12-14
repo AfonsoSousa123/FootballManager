@@ -118,8 +118,14 @@ public class Liga implements Dados {
                     int idEquipa = scanner.nextInt(); // recebe o id da Equipa
                     scanner.nextLine(); // Consume newline character
 
-                    if (idEquipa > 0 && idEquipa <= Menu.equipas.size()) {
+                    if (
+                            idEquipa > 0 && idEquipa <= Menu.equipas.size() &&
+                                    (Menu.equipas.get(idEquipa).getPais().equals(liga.getPais()))
+                    ) {
                         EquipasIDs.add(idEquipa);
+                    } else if (!(Menu.equipas.get(idEquipa).getPais().equals(liga.getPais()))) {
+                        System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
+                        return insereLiga();
                     } else {
                         System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
                         return insereLiga();
@@ -240,7 +246,7 @@ public class Liga implements Dados {
         // Print the table Headers
         System.out.printf(tableHeaders());
 
-        // Print details of all Ligaes
+        // Print details of all Ligas
         if (!Menu.ligas.isEmpty()) {
             for (Liga liga : Menu.ligas) {
                 System.out.printf(liga.toString());
@@ -334,6 +340,56 @@ public class Liga implements Dados {
 
     // END Interface Methods --------------------------------------------------------
 
+    public void associarEquipa() {
+        Scanner scanner = new Scanner(System.in);
+
+        Menu.liga.print(); // imprime as ligas existentes
+        System.out.println("Selecione a Liga que pretende associar: ");
+        int idLiga = scanner.nextInt();
+        scanner.nextLine();
+
+        try {
+            boolean insertMoreEquipas = true;
+            ArrayList<Integer> EquipasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
+
+            // Propagar as equipas existentes na liga selecionada para poder adicionar mais equipas
+
+            Menu.equipa.print(); // imprime as equipas existentes
+
+            while (insertMoreEquipas) {
+                System.out.println("Escolha um ID de uma Equipa: ");
+                int idEquipa = scanner.nextInt(); // recebe o id da Equipa
+                scanner.nextLine(); // Consume newline character
+
+                if (
+                        (idEquipa > 0) && (idEquipa <= Menu.equipas.size()) &&
+                                (Menu.equipas.get(idEquipa).getPais().equals(ligas.get(idLiga).getPais()))
+                ) {
+                    EquipasIDs.add(idEquipa);
+                } else if (!(Menu.equipas.get(idEquipa).getPais().equals(ligas.get(idLiga).getPais()))) {
+                    System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
+                    associarEquipa();
+                } else {
+                    System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
+                    associarEquipa();
+                }
+
+                System.out.println("Deseja adicionar mais Equipas à Liga? (sim/nao)");
+                String choice = scanner.nextLine().trim().toLowerCase();
+
+                if (!choice.equals("sim")) {
+                    insertMoreEquipas = false;
+                }
+            }
+            System.out.println("Equipas:" + ligas.get(idLiga).getEquipas());
+//            liga.setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
+
+        } catch (Exception e) {
+            System.out.println("Input inválido: " + e.getMessage() + "\n");
+            associarEquipa();
+        }
+    }
+
     // BEGIN Getters and Setters ----------------------------------------------------------------
     public int getId() {
         return id;
@@ -383,6 +439,10 @@ public class Liga implements Dados {
 
     public void setEquipas(ArrayList<Integer> equipas) {
         this.equipas = equipas;
+    }
+
+    public Liga addEquipa(int id) {
+        return ligas.get(id);
     }
 
     public ArrayList<Integer> getPartidas() {

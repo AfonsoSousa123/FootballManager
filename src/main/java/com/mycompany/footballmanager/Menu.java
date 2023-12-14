@@ -412,6 +412,7 @@ public class Menu {
                         break;
                     case 9:
                         // Associar uma Equipa a uma Liga
+                        liga.associarEquipa();
                         break;
                     case 10:
                         // Estatisticas de uma Equipa
