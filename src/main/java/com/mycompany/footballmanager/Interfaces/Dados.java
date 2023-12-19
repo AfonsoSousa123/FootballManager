@@ -8,13 +8,21 @@ package com.mycompany.footballmanager.Interfaces;
  * @author afonso, milena, tânia
  */
 public interface Dados {
-    void insert();
+    default void insert() {
+        //
+    }
 
     void print();
 
-    void update(int id);
+    default void update(int id) {
+        //
+    }
 
-    void delete(int id);
+    default void delete(int id) {
+        //
+    }
 
-    void insertFaker();
+    default void insertFaker() {
+        //
+    }
 }

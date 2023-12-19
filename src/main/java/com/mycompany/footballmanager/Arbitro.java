@@ -21,8 +21,8 @@ public class Arbitro extends Pessoa implements Dados {
     private String funcao;
 
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
-
     // END Variables ----------------------------------------------------------------
+
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
         super.setNome(randomName());
@@ -44,11 +44,6 @@ public class Arbitro extends Pessoa implements Dados {
     // END Constructors ----------------------------------------------------------------
 
     // BEGIN Interface Methods ----------------------------------------------------------------
-    @Override
-    public void insert() {
-        //
-    }
-
     public ArrayList<Arbitro> getArbitros() {
         Menu.arbitros_p = ArbitroPrincipal.getArbitrosPrincipais();
         Menu.arbitros_a = ArbitroAssistente.getArbitrosAssistentes();
@@ -118,18 +113,8 @@ public class Arbitro extends Pessoa implements Dados {
     }*/
 
     @Override
-    public void update(int id) {
-        //
-    }
-
-    @Override
-    public void delete(int id) {
-        //
-    }
-
-    @Override
     public void insertFaker() {
-        //
+        // FALTA FAZER
     }
 
     // END Interface Methods ----------------------------------------------------------------

@@ -134,10 +134,10 @@ public class Liga implements Dados {
                     int idEquipa = scanner.nextInt(); // recebe o id da Equipa
                     scanner.nextLine(); // Consume newline character
 
-                    if (
-                            idEquipa > 0 && idEquipa <= Menu.equipas.size() &&
-                                    (Menu.equipas.get(idEquipa).getPais().equals(liga.getPais()))
-                    ) {
+                    if ((idEquipa > 0) &&
+                        (idEquipa <= Menu.equipas.size()) &&
+                        (Menu.equipas.get(idEquipa).getPais().equals(liga.getPais())))
+                    {
                         EquipasIDs.add(idEquipa);
                     } else if (!(Menu.equipas.get(idEquipa).getPais().equals(liga.getPais()))) {
                         System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
@@ -324,11 +324,6 @@ public class Liga implements Dados {
     }
 
     @Override
-    public void update(int id) {
-        //
-    }
-
-    @Override
     public void delete(int id) {
         if (id > 0 && id < (Menu.ligas.size() - 1)) {
             Menu.ligas.remove(id);
@@ -348,12 +343,6 @@ public class Liga implements Dados {
         delete(ligaID);
 //        removeFromTXT(ligaID, txtFilePath);
     }
-
-    @Override
-    public void insertFaker() {
-        //
-    }
-
     // END Interface Methods --------------------------------------------------------
 
     public void associarEquipa() {
@@ -377,10 +366,10 @@ public class Liga implements Dados {
                 int idEquipa = scanner.nextInt(); // recebe o id da Equipa
                 scanner.nextLine(); // Consume newline character
 
-                if (
-                        (idEquipa > 0) && (idEquipa <= Menu.equipas.size()) &&
-                                (Menu.equipas.get(idEquipa).getPais().equals(ligas.get(idLiga).getPais()))
-                ) {
+                if ((idEquipa > 0) &&
+                    (idEquipa < Menu.equipas.size()) &&
+                    (Menu.equipas.get(idEquipa).getPais().equals(ligas.get(idLiga).getPais()))) 
+                {
                     EquipasIDs.add(idEquipa);
                 } else if (!(Menu.equipas.get(idEquipa).getPais().equals(ligas.get(idLiga).getPais()))) {
                     System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");

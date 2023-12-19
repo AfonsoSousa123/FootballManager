@@ -4,17 +4,26 @@
  */
 package com.mycompany.footballmanager;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * @author afonso, milena, tânia
  */
-public class EstatisticasEquipa extends Equipa {
+public class EstatisticasEquipa {
+    // BEGIN Variables ------------------------------------------------------------------
+    private int id;
     private int desempenhoMedio;
     private int numVitorias;
     private int numDerrotas;
     private int numEmpates;
+    private int golosMarcados;
+    private int golosSofridos;
 
+    private Random random = new Random();
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/equipaStats.txt"; // File Path
+    // END Variables ------------------------------------------------------------------
+
+    // BEGIN Constructors ----------------------------------------------------------------
     public EstatisticasEquipa() {
         desempenhoMedio = random.nextInt(1, 100);
         numVitorias = random.nextInt(1, 100);
@@ -22,19 +31,24 @@ public class EstatisticasEquipa extends Equipa {
         numEmpates = random.nextInt(1, 100);
     }
 
-    public EstatisticasEquipa(int desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates) {
+    public EstatisticasEquipa(int id, int desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates, int golosMarcados, int golosSofridos) {
+        this.id = id;
         this.desempenhoMedio = desempenhoMedio;
         this.numVitorias = numVitorias;
         this.numDerrotas = numDerrotas;
         this.numEmpates = numEmpates;
+        this.golosMarcados = golosMarcados;
+        this.golosSofridos = golosSofridos;
+    }
+    // END Constructors ----------------------------------------------------------------
+
+    // BEGIN Getters and Setters ----------------------------------------------------------------
+    public int getId() {
+        return id;
     }
 
-    public EstatisticasEquipa(int id, String nome, ArrayList<Integer> plantel, int idTreinador, int idLiga, String cidade, String pais, String historico, int golos_marcados, int golos_sofridos, int desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates) {
-        super(id, nome, plantel, idTreinador, idLiga, cidade, pais, historico, golos_marcados, golos_sofridos);
-        this.desempenhoMedio = desempenhoMedio;
-        this.numVitorias = numVitorias;
-        this.numDerrotas = numDerrotas;
-        this.numEmpates = numEmpates;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getDesempenhoMedio() {
@@ -69,6 +83,23 @@ public class EstatisticasEquipa extends Equipa {
         this.numEmpates = numEmpates;
     }
 
+    public int getGolosMarcados() {
+        return golosMarcados;
+    }
+
+    public void setGolosMarcados(int golosMarcados) {
+        this.golosMarcados = golosMarcados;
+    }
+
+    public int getGolosSofridos() {
+        return golosSofridos;
+    }
+
+    public void setGolosSofridos(int golosSofridos) {
+        this.golosSofridos = golosSofridos;
+    }
+    // END Getters and Setters ----------------------------------------------------------------
+
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
@@ -84,8 +115,8 @@ public class EstatisticasEquipa extends Equipa {
                 getNumVitorias(),
                 getNumEmpates(),
                 getNumDerrotas(),
-                getGolos_marcados(),
-                getGolos_sofridos()
+                getGolosMarcados(),
+                getGolosSofridos()
         );
     }
     // END toString Methods ----------------------------------------------------------------

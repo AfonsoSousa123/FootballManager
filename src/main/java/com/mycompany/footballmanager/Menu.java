@@ -408,7 +408,6 @@ public class Menu {
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             printInvalidOptionError();
-
                         }
                         break;
                     case 9:
@@ -417,17 +416,15 @@ public class Menu {
                         break;
                     case 10:
                         // Estatisticas de uma Equipa
-                        EquipaStats.print();
+                        //EquipaStats.print();
                         break;
                     case 11:
                         // Ver Partida
                         partida.print();
-                        pressEnterToContinue();
                         break;
                     case 12:
                         // Criar Partida
                         partida.insert();
-                        pressEnterToContinue();
                         break;
                     case 13:
                         System.out.println("Saindo do Programa...");
@@ -447,7 +444,7 @@ public class Menu {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 printInvalidOptionError();
-                scanner.nextLine(); // Consume invalid input
+//                scanner.nextLine(); // Consume invalid input
                 menu();
             }
         } while (option > 0 && option < 13);
