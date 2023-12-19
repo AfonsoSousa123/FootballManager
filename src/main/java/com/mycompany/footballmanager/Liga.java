@@ -93,6 +93,22 @@ public class Liga implements Dados {
             liga.setId(latest + increment);
 
             System.out.println("Inserir Liga: ");
+            // Nome
+            try {
+                System.out.println("Insira o Nome: ");
+                String nome = scanner.nextLine();
+                if (Menu.hasPontoEVirgulaString(nome)) {
+                    System.out.println("O Nome da Liga não pode conter ponto e virgulas ';' ! Tente Novamente...");
+                    return insereLiga();
+                } else {
+                    liga.setNome(nome);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                return insereLiga();
+            }
+
+            // Pais
             try {
                 System.out.println("Insira o País: ");
                 String pais = scanner.nextLine();
@@ -382,7 +398,8 @@ public class Liga implements Dados {
                 }
             }
             System.out.println("Equipas:" + ligas.get(idLiga).getEquipas());
-//            liga.setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
+            ligas.get(idLiga).setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
+//            liga.setEquipas(EquipasIDs);
 
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");

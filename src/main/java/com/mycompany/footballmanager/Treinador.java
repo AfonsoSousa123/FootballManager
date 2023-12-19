@@ -220,7 +220,7 @@ public class Treinador extends Pessoa implements Dados {
 
                 String[] data = row.split(";");
 
-                // CSV format: ID, Nome, Idade, Especializações e Taticas Favoritas
+                // TXT format: ID, Nome, Idade, Especializações e Taticas Favoritas
                 Treinador treinador = new Treinador();
                 treinador.setId(Integer.parseInt(data[0]));
                 treinador.setNome(data[1]);

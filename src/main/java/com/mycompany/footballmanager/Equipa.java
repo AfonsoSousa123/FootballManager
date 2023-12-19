@@ -31,7 +31,7 @@ public class Equipa implements Dados {
     private int golos_marcados;
     private int golos_sofridos;
 
-    private Random random = new Random();
+    protected Random random = new Random();
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/equipas.txt"; // File Path
     // END Variables ------------------------------------------------------------------
 

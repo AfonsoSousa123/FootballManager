@@ -15,6 +15,13 @@ public class EstatisticasEquipa extends Equipa {
     private int numDerrotas;
     private int numEmpates;
 
+    public EstatisticasEquipa() {
+        desempenhoMedio = random.nextInt(1, 100);
+        numVitorias = random.nextInt(1, 100);
+        numDerrotas = random.nextInt(1, 100);
+        numEmpates = random.nextInt(1, 100);
+    }
+
     public EstatisticasEquipa(int desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates) {
         this.desempenhoMedio = desempenhoMedio;
         this.numVitorias = numVitorias;
@@ -62,4 +69,24 @@ public class EstatisticasEquipa extends Equipa {
         this.numEmpates = numEmpates;
     }
 
+    // BEGIN toString Methods ----------------------------------------------------------------
+    // Print headers
+    public static String tableHeaders() {
+        System.out.println("|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ESTATISTICAS DA EQUIPA ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+        return String.format("| %-3s | %-25s | %-20s | %-25s | %-20s | %-25s |%n",
+                "Desempenho Medio", "Vitorias", "Empates", "Derrotas", "Golos Marcados", "Golos Sofridos");
+    }
+
+    @Override
+    public String toString() {
+        return String.format("| %-3s | %-25s | %-20s | %-25s | %-20s | %-25s |%n",
+                getDesempenhoMedio(),
+                getNumVitorias(),
+                getNumEmpates(),
+                getNumDerrotas(),
+                getGolos_marcados(),
+                getGolos_sofridos()
+        );
+    }
+    // END toString Methods ----------------------------------------------------------------
 }

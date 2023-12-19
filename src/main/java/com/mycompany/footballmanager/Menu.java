@@ -32,6 +32,7 @@ public class Menu {
     public static Partida partida = new Partida();
     public static Liga liga = new Liga();
     public static Arbitro arbitro = new Arbitro();
+    public static EstatisticasEquipa EquipaStats = new EstatisticasEquipa();
 
     // Scanner instances
     public Scanner scanner = new Scanner(System.in);
@@ -416,7 +417,7 @@ public class Menu {
                         break;
                     case 10:
                         // Estatisticas de uma Equipa
-//                        estatisticas.print();
+                        EquipaStats.print();
                         break;
                     case 11:
                         // Ver Partida
