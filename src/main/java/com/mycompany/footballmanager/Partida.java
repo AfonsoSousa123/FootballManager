@@ -75,6 +75,23 @@ public class Partida implements Dados {
     // END Constructors ----------------------------------------------------------------
 
     // BEGIN Interface Methods ----------------------------------------------------------------
+    public void simulaPartida(Partida partida) {
+        if (partida.getEquipaID() > partida.getAdversarioID()) {
+            System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por" + partida.getResultado() +" !");
+        } else if (partida.getEquipaID() < partida.getAdversarioID()) {
+            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por" + partida.getResultado() +" !");
+        } else {
+            System.out.println("Houve Empate entre as Equipas");
+        }
+    }
+    public String caraCoroa() {
+        if (random.nextInt(2) == 1) {
+            return "COROA";
+        } else {
+            return "CARA";
+        }
+    }
+
     @Override
     public void insert() {
         Scanner scanner = new Scanner(System.in);
@@ -403,24 +420,6 @@ public class Partida implements Dados {
             System.out.println("Erro ao ler o ficheiro partidas.txt: " + e.getMessage());
         }
     }
-
-    @Override
-    public void update(int id) {
-        //
-    }
-
-    @Override
-    public void delete(int id) {
-        //
-    }
-
-    // BEGIN Faker Methods ----------------------------------------------------------------
-    @Override
-    public void insertFaker() {
-        //
-    }
-
-    // END Faker Methods ----------------------------------------------------------------
     // END Interface Methods ----------------------------------------------------------------
 
     // BEGIN Getters and Setters ----------------------------------------------------------------
@@ -476,6 +475,15 @@ public class Partida implements Dados {
             }
         }
         return "Sem Equipa associada"; // Retorna um valor predefinido se o id não for encontrado
+    }
+
+    public Equipa getEquipaValues(int id) {
+        for (Equipa equipa : Menu.equipas) {
+            if (equipa.getId() == id) {
+                return equipa;
+            }
+        }
+        return Menu.equipa;
     }
 
     public void setEquipa(int equipa) {
