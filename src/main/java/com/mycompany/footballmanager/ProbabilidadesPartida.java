@@ -18,7 +18,7 @@ public class ProbabilidadesPartida {
         int numJogadores = equipa.getPlantel().size();
         double taticasTreinador = calculaTaticasTreinador(equipa);
 //        double experienciaArbitro = arbitro.getExperiencia();
-        String teamPosition = calculateTeamPosition(equipa);
+//        String teamPosition = calculateTeamPosition(equipa);
         double factorJogaPrimeiro = JogaPrimeiro ? 1.1 : 1.0;
 
         // Return the calculated probability
@@ -30,60 +30,58 @@ public class ProbabilidadesPartida {
     }
 
     private static double calculaDesempenhoMedio(Equipa equipa) {
-        // Calculate the average performance of each player based on their statistics and injury history
-        // For example:
+        // Calcula o desemsenho medio de cada jogador baseado no seu historico de lesoes
         double totalPerformance = 0.0;
-        // for (Jogador jogador : equipa.getPlantel()) {
-        //     double performance = (jogador.getGoals() + jogador.getAssists()) / (jogador.getGamesPlayed() + 1);
-        //     double injuryImpact = jogador.getInjuryHistory().size() * 0.1;
-        //     totalPerformance += performance - injuryImpact;
-        // }
-        double avgPerformance = totalPerformance / equipa.getPlantel().size();
+//         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
+//             double desempenho = (jogador.getGoals() + jogador.getAssists()) / (jogador.getGamesPlayed() + 1);
+//             double impactoDaLesao = jogador.getHist_lesoes().size() * 0.1;
+//             totalPerformance += desempenho - impactoDaLesao;
+//         }
 
-        // Return the calculated average performance
-        return avgPerformance;
+        // Retorna o desempenho medio
+        return totalPerformance / equipa.getPlantel().size();
     }
 
     private static double calculaTaticasTreinador(Equipa equipa) {
         // Calculate the impact of the coach's tactics on the team's performance
         // For example:
-        // double attackingPlayers = 0.0;
-        // double defendingPlayers = 0.0;
-        // for (Jogador jogador : equipa.getPlantel()) {
-        //     if (jogador.getPosition().equals("Atacante")) {
-        //         attackingPlayers += 1.0;
-        //     } else if (jogador.getPosition().equals("Defesa")) {
-        //         defendingPlayers += 1.0;
-        //     }
-        // }
-        // double coachTactics = attackingPlayers / (attackingPlayers + defendingPlayers);
+         double attackingPlayers = 0.0;
+         double defendingPlayers = 0.0;
+         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
+             if (jogador.getPosicao().equals("Atacante")) {
+                 attackingPlayers += 1.0;
+             } else if (jogador.getPosicao().equals("Defesa")) {
+                 defendingPlayers += 1.0;
+             }
+         }
+         double coachTactics = attackingPlayers / (attackingPlayers + defendingPlayers);
 
-        // Return the calculated coach tactics
+//         Return the calculated coach tactics
         return coachTactics;
     }
 
-    private static String calculateTeamPosition(Equipa equipa) {
-        // Calculate the team's position and adjust the probability based on the number of attacking players
-        // For example:
-         double attackingPlayers = 0.0;
-         double defendingPlayers = 0.0;
-//         for (Jogador jogador : equipa.getJogadores()) {
-//             if (jogador.getPosicao().equals("Atacante")) {
-//                 attackingPlayers += 1.0;
-//             } else if (jogador.getPosicao().equals("Defesa")) {
-//                 defendingPlayers += 1.0;
-//             }
+//    private static String calculateTeamPosition(Equipa equipa) {
+//        // Calculate the team's position and adjust the probability based on the number of attacking players
+//        // For example:
+//         double attackingPlayers = 0.0;
+//         double defendingPlayers = 0.0;
+////         for (Jogador jogador : equipa.getJogadores()) {
+////             if (jogador.getPosicao().equals("Atacante")) {
+////                 attackingPlayers += 1.0;
+////             } else if (jogador.getPosicao().equals("Defesa")) {
+////                 defendingPlayers += 1.0;
+////             }
+////         }
+//         if (attackingPlayers > defendingPlayers) {
+//             return "Atacante";
+//         } else if (defendingPlayers > attackingPlayers) {
+//             return "Defesa";
+//         } else {
+//             return "Equilibrada";
 //         }
-         if (attackingPlayers > defendingPlayers) {
-             return "Atacante";
-         } else if (defendingPlayers > attackingPlayers) {
-             return "Defesa";
-         } else {
-             return "Equilibrada";
-         }
-
-        // Return the calculated team position
-        return posicaoEquipa;
-    }
+//
+//        // Return the calculated team position
+//        return posicaoEquipa;
+//    }
 }
 

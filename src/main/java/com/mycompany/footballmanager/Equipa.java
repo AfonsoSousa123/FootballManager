@@ -49,10 +49,7 @@ public class Equipa implements Dados {
             int idTreinador,
             int idLiga,
             String cidade,
-            String pais,
-            String historico,
-            int golos_marcados,
-            int golos_sofridos
+            String pais
     ) {
         this.id = id;
         this.plantel = plantel;
@@ -132,7 +129,7 @@ public class Equipa implements Dados {
                     int idJogador = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
-                    if (idJogador > 0 && idJogador <= Menu.jogadores.size()) {
+                    if ((idJogador > 0) && (idJogador <= Menu.jogadores.size())) {
 //                        for (Equipa eq : Menu.equipas) {
 //                            for (int id : eq.getPlantel()) {
 //                                if (id == jogador.getId()) {
@@ -175,7 +172,7 @@ public class Equipa implements Dados {
                 int treinadorID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (treinadorID > 0 && treinadorID <= Menu.treinadores.size()) {
+                if ((treinadorID > 0) && (treinadorID <= Menu.treinadores.size())) {
                     equipa.setIdTreinador(treinadorID);
                 } else {
                     System.out.println("Tem que escolher um ID existente dos Treinadores! Tente Novamente...");
@@ -344,7 +341,7 @@ public class Equipa implements Dados {
 
                 String[] data = row.split(";");
 
-                // TXT format: ID, Nome, Plantel, Treinador, Liga, Cidade, País, Histórico, Golos Marcados, Golos Sofridos
+                // TXT format: ID, Nome, Plantel, Treinador, Liga, Cidade, País
                 Equipa equipa = new Equipa();
                 equipa.setId(Integer.parseInt(data[0])); // ID
                 equipa.setNome(data[1]); // Nome
@@ -403,10 +400,7 @@ public class Equipa implements Dados {
                     random.nextInt(0, Menu.treinadores.size()), // Treinador ID
                     random.nextInt(0, Menu.ligas.size()), // Liga ID
                     randomCity(), // Cidade
-                    randomCountry(), // Pais
-                    randomHistorico(), // Historico
-                    random.nextInt(0, 200), // Golos Marcados
-                    random.nextInt(0, 200) // Golos Sofridos
+                    randomCountry() // Pais
                 );
                 equipas.add(equipa); // Adds the new Equipa to the Equipaes ArrayList
 
@@ -456,11 +450,6 @@ public class Equipa implements Dados {
 
         return randomPlantel;
     }
-
-    private String randomHistorico() {
-        return "Vitorias: " + random.nextInt(1, 1000) + " Derrotas: " + random.nextInt(1, 1000);
-    }
-
     // END Faker Methods ----------------------------------------------------------------
     // END Interface Methods ----------------------------------------------------------------
 
@@ -496,6 +485,21 @@ public class Equipa implements Dados {
             }
         }
         return nomesJogadores;
+    }
+
+    public ArrayList<Jogador> getJogadoresValues(ArrayList<Integer> plantel) {
+        ArrayList<Jogador> jogadoresSelecionados = new ArrayList<>();
+
+        for (Jogador jogador : Menu.jogadores) {
+            for (Integer jogadorID : plantel) {
+                if (!plantel.isEmpty()) {
+                    if (jogador.getId() == jogadorID) {
+                        jogadoresSelecionados.add(jogador);
+                    }
+                }
+            }
+        }
+        return jogadoresSelecionados;
     }
 
     public ArrayList<Integer> getPlantel() {
@@ -560,7 +564,7 @@ public class Equipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPAS ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+        System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPAS --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s |%n",
                 "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais");
     }
