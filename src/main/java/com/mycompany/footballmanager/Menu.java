@@ -22,6 +22,8 @@ public class Menu {
     public static ArrayList<Equipa> equipas = new ArrayList<>();
     public static ArrayList<Partida> partidas = new ArrayList<>();
     public static ArrayList<Liga> ligas = new ArrayList<>();
+    public static ArrayList<ArbitroPrincipal> arbitros_p;
+    public static ArrayList<ArbitroAssistente> arbitros_a;
 
     // Instances of the Objects
     public static Jogador jogador = new Jogador();
@@ -30,6 +32,7 @@ public class Menu {
     public static Partida partida = new Partida();
     public static Liga liga = new Liga();
     public static Arbitro arbitro = new Arbitro();
+    public static EstatisticasEquipa EquipaStats = new EstatisticasEquipa();
 
     // Scanner instances
     public Scanner scanner = new Scanner(System.in);
@@ -74,9 +77,9 @@ public class Menu {
         return fakerNameJogador.esports().player();
     }
 
-    public static String randomFullName() {
-        Faker fakerFullName = new Faker();
-        return fakerFullName.name().fullName();
+    public static String randomName() {
+        Faker fakerName = new Faker();
+        return fakerName.name().name();
     }
 
     public static String randomFirstName() {
@@ -144,7 +147,9 @@ public class Menu {
     private void getData() {
         jogador.getJogadores();
         treinador.getTreinadores();
+        arbitro.getArbitros();
         equipa.getEquipas();
+        partida.getPartidas();
         liga.getLigas();
     }
 
@@ -157,33 +162,29 @@ public class Menu {
 
         getData(); // gets all the data from the TXT Files
 
-        boolean validInput = false;
-
-//        boolean sair = false;
         do {
-            System.out.println("|--------------------------------------|");
-            System.out.println("| FOOTBALL MANAGER 23/24:              |");
-            System.out.println("|--------------------------------------|");
-            System.out.println("| MENU PRINCIPAL:                      |");
-            System.out.println("| 1. Inserir Dados                     |");
-            System.out.println("| 2. Ler Dados de Jogadores            |");
-            System.out.println("| 3. Ler Dados de Treinadores          |");
-            System.out.println("| 4. Ler Dados das Equipas             |");
-            System.out.println("| 5. Ler Dados dos Árbitros            |");
-            System.out.println("| 6. Ler Dados das Ligas               |");
-            System.out.println("| 7. Editar Dados                      |");
-            System.out.println("| 8. Remover Dados                     |");
-            System.out.println("| 9. Associar Equipa a uma Liga        |");
-            System.out.println("| 10. Estatísticas de uma Equipa       |");
-            System.out.println("| 11. Ver Partidas                     |");
-            System.out.println("| 12. Criar Partida                    |");
-            System.out.println("| 13. Sair                             |");
-            System.out.println("|--------------------------------------|");
+            System.out.println("|----------------------------------------|");
+            System.out.println("| FOOTBALL MANAGER 23/24:                |");
+            System.out.println("|----------------------------------------|");
+            System.out.println("| MENU PRINCIPAL:                        |");
+            System.out.println("| 1. Inserir Dados                       |");
+            System.out.println("| 2. Ler Dados de Jogadores              |");
+            System.out.println("| 3. Ler Dados de Treinadores            |");
+            System.out.println("| 4. Ler Dados das Equipas               |");
+            System.out.println("| 5. Ler Dados dos Árbitros              |");
+            System.out.println("| 6. Ler Dados das Ligas                 |");
+            System.out.println("| 7. Editar Dados                        |");
+            System.out.println("| 8. Remover Dados                       |");
+            System.out.println("| 9. Associar Equipa/Partida a uma Liga  |");
+            System.out.println("| 10. Estatísticas de uma Equipa         |");
+            System.out.println("| 11. Ver Partidas                       |");
+            System.out.println("| 12. Criar Partida                      |");
+            System.out.println("| 13. Sair                               |");
+            System.out.println("|----------------------------------------|");
             System.out.print("Escolha uma opção: ");
 
             try {
                 option = scanner.nextInt();
-                validInput = true;
 
                 switch (option) {
                     case 1:
@@ -248,6 +249,7 @@ public class Menu {
                                                 break;
                                             case 3:
                                                 // Arbitro
+                                                arbitro.insertFaker();
                                                 pressEnterToContinue();
                                                 break;
                                             case 4:
@@ -265,12 +267,13 @@ public class Menu {
                                                 break;
                                             default:
                                                 printInvalidOptionError();
-                                                validInput = false;
+                                                menu();
                                                 break;
                                         }
                                     } catch (Exception e) {
                                         System.out.println(e.getMessage());
                                         printInvalidOptionError();
+                                        menu();
                                     }
                                     break;
                                 case 6:
@@ -278,12 +281,13 @@ public class Menu {
                                     break;
                                 default:
                                     printInvalidOptionError();
-                                    validInput = false;
+                                    menu();
                                     break;
                             }
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             printInvalidOptionError();
+                            menu();
                         }
 
                         break;
@@ -350,7 +354,7 @@ public class Menu {
                                     break;
                                 default:
                                     printInvalidOptionError();
-                                    validInput = false;
+                                    menu();
                                     break;
                             }
                         } catch (Exception e) {
@@ -398,34 +402,34 @@ public class Menu {
                                     break;
                                 default:
                                     printInvalidOptionError();
-                                    validInput = false;
+                                    menu();
                                     break;
                             }
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             printInvalidOptionError();
-
                         }
                         break;
                     case 9:
                         // Associar uma Equipa a uma Liga
+                        liga.associarEquipa();
                         break;
                     case 10:
                         // Estatisticas de uma Equipa
+                        //EquipaStats.print();
                         break;
                     case 11:
                         // Ver Partida
-//                        partida.print();
+                        partida.print();
                         break;
                     case 12:
                         // Criar Partida
-//                        partida.insert();
-                        pressEnterToContinue();
+                        partida.insert();
                         break;
                     case 13:
                         System.out.println("Saindo do Programa...");
 //                        System.out.println(randomChuckNoris()); // Prints a fun fact about ChuckNoris ;)
-                        System.out.println(randomYoda()); // Prints quote fom Yoda
+                        System.out.println("Yoda Quote: " + randomYoda()); // Prints quote fom Yoda
 
                         // Closes the scanner
                         scanner.close();
@@ -434,15 +438,16 @@ public class Menu {
                         break;
                     default:
                         printInvalidOptionError();
+                        menu();
                         break;
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 printInvalidOptionError();
-                scanner.nextLine(); // Consume invalid input
-                validInput = false; // Set flag to false for invalid input
+//                scanner.nextLine(); // Consume invalid input
+                menu();
             }
-        } while (option > 0 && option < 10);
+        } while (option > 0 && option < 13);
     }
 }
 

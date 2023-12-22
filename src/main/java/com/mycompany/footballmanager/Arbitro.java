@@ -6,13 +6,10 @@ package com.mycompany.footballmanager;
 
 import com.mycompany.footballmanager.Interfaces.Dados;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.mycompany.footballmanager.Menu.arbitros;
-import static com.mycompany.footballmanager.Menu.checkIfFileExists;
+import static com.mycompany.footballmanager.Menu.randomName;
 
 /**
  * @author afonso, milena, tânia
@@ -21,14 +18,19 @@ public class Arbitro extends Pessoa implements Dados {
     // BEGIN Variables ----------------------------------------------------------------
     private int id;
     private String experiencia;
+    private String funcao;
+
+    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
+    // END Variables ----------------------------------------------------------------
 
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
     // END Variables ----------------------------------------------------------------
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
-        super.setNome("Arbitro nome");
+        super.setNome(randomName());
         super.setIdade(random.nextInt(20, 40));
-        experiencia = "3 Anos";
+        experiencia = random.nextInt(1, 20) + " Anos";
+        funcao = "";
     }
 
     public Arbitro(
@@ -44,9 +46,18 @@ public class Arbitro extends Pessoa implements Dados {
     // END Constructors ----------------------------------------------------------------
 
     // BEGIN Interface Methods ----------------------------------------------------------------
-    @Override
-    public void insert() {
-        //
+    public ArrayList<Arbitro> getArbitros() {
+        Menu.arbitros_p = ArbitroPrincipal.getArbitrosPrincipais();
+        Menu.arbitros_a = ArbitroAssistente.getArbitrosAssistentes();
+
+        // Combine as listas de ArbitroPrincipal e ArbitroAssistente em uma única lista
+        ArrayList<Arbitro> arbitros = new ArrayList<>(Menu.arbitros_p);
+        arbitros.addAll(Menu.arbitros_a);
+
+        // Atualiza a lista de arbitros na classe Menu
+        Menu.arbitros = arbitros;
+
+        return arbitros;
     }
 
     @Override
@@ -64,17 +75,15 @@ public class Arbitro extends Pessoa implements Dados {
         } else {
             System.out.println("\nNão existem Arbitros!\n");
         }
-
     }
 
-    public void getArbitros() {
+    /*public void getArbitros() {
         checkIfFileExists(txtFilePath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
             String row;
             boolean firstLine = true; // Flag to identify the first line
             ArrayList<Arbitro> arbitros = new ArrayList<>(); // Create a new list for arbitros
-
 
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
@@ -84,15 +93,16 @@ public class Arbitro extends Pessoa implements Dados {
 
                 String[] data = row.split(";");
 
-                // CSV format: ID, Nome, Idade, Experiencia
-                Arbitro arbitro = new Arbitro();
-                arbitro.setId(Integer.parseInt(data[0]));
-                arbitro.setNome(data[1]);
-                arbitro.setIdade(Integer.parseInt(data[2]));
-                arbitro.setExperiencia(data[3]);
+                // TXT format: ID, Nome, Idade, Experiencia
+                ArbitroPrincipal arbitro_p = new ArbitroPrincipal();
+                arbitro_p.setId(Integer.parseInt(data[0]));
+                arbitro_p.setNome(data[1]);
+                arbitro_p.setIdade(Integer.parseInt(data[2]));
+                arbitro_p.setExperiencia(data[3]);
+                arbitro_p.setFuncao((data[4]));
 
                 // Adds the arbitro to the ArrayList
-                arbitros.add(arbitro);
+                arbitros.add(arbitro_p);
             }
             br.close();
 
@@ -102,21 +112,11 @@ public class Arbitro extends Pessoa implements Dados {
             System.out.println("Erro ao ler o ficheiro arbitros.txt: " + e.getMessage());
         }
 
-    }
-
-    @Override
-    public void update(int id) {
-        //
-    }
-
-    @Override
-    public void delete(int id) {
-        //
-    }
+    }*/
 
     @Override
     public void insertFaker() {
-        //
+        // FALTA FAZER
     }
 
     // END Interface Methods ----------------------------------------------------------------
@@ -126,7 +126,11 @@ public class Arbitro extends Pessoa implements Dados {
         return super.getNome();
     }
 
-    private int getId() {
+    private void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -139,24 +143,30 @@ public class Arbitro extends Pessoa implements Dados {
         return experiencia;
     }
 
-    private void setId(int id) {
-        this.id = id;
-    }
-
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;
+    }
+
+
+    public String getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(String funcao) {
+        this.funcao = funcao;
     }
     // END Getters and Setters ----------------------------------------------------------------
 
     public static String tableHeaders() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s |%n",
-                "ID", "Nome", "Idade", "Experiência");
+        System.out.println("|---------------------------- ARBITROS ----------------------------|");
+        return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
+                "ID", "Nome", "Idade", "Experiência", "Função");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s |%n",
-                getId(), getNome(), getIdade(), getExperiencia());
+        return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
+                getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
     }
 }
 

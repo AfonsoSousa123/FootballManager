@@ -33,6 +33,8 @@ public class Liga implements Dados {
     public Liga() {
         nome = randomTeam();
         pais = randomCountry();
+        equipas = new ArrayList<>();
+        partidas = new ArrayList<>();
         ranking_equipas = random.nextInt(1, 50);
     }
 
@@ -46,6 +48,8 @@ public class Liga implements Dados {
     ) {
         this.id = id;
         this.nome = nome;
+        this.equipas = equipas;
+        this.partidas = partidas;
         this.pais = pais;
         this.ranking_equipas = ranking_equipas;
     }
@@ -89,6 +93,22 @@ public class Liga implements Dados {
             liga.setId(latest + increment);
 
             System.out.println("Inserir Liga: ");
+            // Nome
+            try {
+                System.out.println("Insira o Nome: ");
+                String nome = scanner.nextLine();
+                if (Menu.hasPontoEVirgulaString(nome)) {
+                    System.out.println("O Nome da Liga não pode conter ponto e virgulas ';' ! Tente Novamente...");
+                    return insereLiga();
+                } else {
+                    liga.setNome(nome);
+                }
+            } catch (Exception e) {
+                System.out.println("Input inválido: " + e.getMessage() + "\n");
+                return insereLiga();
+            }
+
+            // Pais
             try {
                 System.out.println("Insira o País: ");
                 String pais = scanner.nextLine();
@@ -107,15 +127,21 @@ public class Liga implements Dados {
             try {
                 boolean insertMoreEquipas = true;
                 ArrayList<Integer> EquipasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
-                Menu.equipa.print();
+                Menu.equipa.print(); // imprime as equipas existentes
 
                 while (insertMoreEquipas) {
-                    System.out.println("Escolha um id de uma Equipa: ");
-                    int idEquipa = scanner.nextInt();
+                    System.out.println("Escolha um ID de uma Equipa: ");
+                    int idEquipa = scanner.nextInt(); // recebe o id da Equipa
                     scanner.nextLine(); // Consume newline character
 
-                    if (idEquipa > 0 && idEquipa <= Menu.equipas.size()) {
+                    if ((idEquipa > 0) &&
+                        (idEquipa <= Menu.equipas.size()) &&
+                        (Menu.equipas.get(idEquipa).getPais().equals(liga.getPais())))
+                    {
                         EquipasIDs.add(idEquipa);
+                    } else if (!(Menu.equipas.get(idEquipa).getPais().equals(liga.getPais()))) {
+                        System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
+                        return insereLiga();
                     } else {
                         System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
                         return insereLiga();
@@ -128,7 +154,7 @@ public class Liga implements Dados {
                         insertMoreEquipas = false;
                     }
                 }
-                liga.setEquipas(EquipasIDs);
+                liga.setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -139,10 +165,10 @@ public class Liga implements Dados {
             try {
                 boolean insertMoreEquipas = true;
                 ArrayList<Integer> PartidasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
-//                Menu.partida.print();
+                Menu.partida.print(); // imprime as partidas existentes
 
                 while (insertMoreEquipas) {
-                    System.out.println("Escolha um id de uma Partida: ");
+                    System.out.println("Escolha um ID de uma Partida: ");
                     int idPartida = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
@@ -160,7 +186,7 @@ public class Liga implements Dados {
                         insertMoreEquipas = false;
                     }
                 }
-                liga.setPartidas(PartidasIDs);
+                liga.setPartidas(PartidasIDs); // guarda os ids das Partidas na Liga
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -173,9 +199,9 @@ public class Liga implements Dados {
                 scanner.nextLine(); // Consume newline character
 
                 if (ranking_equipas >= 0 && ranking_equipas <= 100) {
-                    liga.setRankingEquipas(ranking_equipas);
+                    liga.setRankingEquipas(ranking_equipas); // guarda o ranking das equipas
                 } else {
-                    System.out.println("O Ranking das Equipas tem que ter entre 30 e 70 anos, inclusive! Tente Novamente...");
+                    System.out.println("O Ranking das Equipas tem que ter entre 0 e 100 anos, inclusive! Tente Novamente...");
                     return insereLiga();
                 }
             } catch (Exception e) {
@@ -186,10 +212,10 @@ public class Liga implements Dados {
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereLiga();
-        } finally {
-            writeToTXT(liga);
-            System.out.println(liga);
         }
+
+        writeToTXT(liga);
+        System.out.println(liga);
 
         return liga;
     }
@@ -236,7 +262,7 @@ public class Liga implements Dados {
         // Print the table Headers
         System.out.printf(tableHeaders());
 
-        // Print details of all Ligaes
+        // Print details of all Ligas
         if (!Menu.ligas.isEmpty()) {
             for (Liga liga : Menu.ligas) {
                 System.out.printf(liga.toString());
@@ -298,11 +324,6 @@ public class Liga implements Dados {
     }
 
     @Override
-    public void update(int id) {
-        //
-    }
-
-    @Override
     public void delete(int id) {
         if (id > 0 && id < (Menu.ligas.size() - 1)) {
             Menu.ligas.remove(id);
@@ -322,13 +343,58 @@ public class Liga implements Dados {
         delete(ligaID);
 //        removeFromTXT(ligaID, txtFilePath);
     }
-
-    @Override
-    public void insertFaker() {
-        //
-    }
-
     // END Interface Methods --------------------------------------------------------
+
+    public void associarEquipa() {
+        Scanner scanner = new Scanner(System.in);
+
+        Menu.liga.print(); // imprime as ligas existentes
+        System.out.println("Selecione a Liga que pretende associar: ");
+        int idLiga = scanner.nextInt();
+        scanner.nextLine();
+
+        try {
+            boolean insertMoreEquipas = true;
+            ArrayList<Integer> EquipasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
+
+            // Propagar as equipas existentes na liga selecionada para poder adicionar mais equipas
+
+            Menu.equipa.print(); // imprime as equipas existentes
+
+            while (insertMoreEquipas) {
+                System.out.println("Escolha um ID de uma Equipa: ");
+                int idEquipa = scanner.nextInt(); // recebe o id da Equipa
+                scanner.nextLine(); // Consume newline character
+
+                if ((idEquipa > 0) &&
+                    (idEquipa < Menu.equipas.size()) &&
+                    (Menu.equipas.get(idEquipa).getPais().equals(ligas.get(idLiga).getPais()))) 
+                {
+                    EquipasIDs.add(idEquipa);
+                } else if (!(Menu.equipas.get(idEquipa).getPais().equals(ligas.get(idLiga).getPais()))) {
+                    System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
+                    associarEquipa();
+                } else {
+                    System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
+                    associarEquipa();
+                }
+
+                System.out.println("Deseja adicionar mais Equipas à Liga? (sim/nao)");
+                String choice = scanner.nextLine().trim().toLowerCase();
+
+                if (!choice.equals("sim")) {
+                    insertMoreEquipas = false;
+                }
+            }
+            System.out.println("Equipas:" + ligas.get(idLiga).getEquipas());
+            ligas.get(idLiga).setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
+//            liga.setEquipas(EquipasIDs);
+
+        } catch (Exception e) {
+            System.out.println("Input inválido: " + e.getMessage() + "\n");
+            associarEquipa();
+        }
+    }
 
     // BEGIN Getters and Setters ----------------------------------------------------------------
     public int getId() {
@@ -359,12 +425,52 @@ public class Liga implements Dados {
         return equipas;
     }
 
+    public ArrayList<String> getNomesEquipas(ArrayList<Integer> equipas) {
+        ArrayList<String> nomesEquipas = new ArrayList<>();
+
+        for (Equipa equipa : Menu.equipas) {
+            for (Integer equipaID : equipas) {
+                if (!equipas.isEmpty()) {
+                    if (equipa.getId() == equipaID) {
+                        nomesEquipas.add(equipa.getNome());
+                    }
+                } else {
+                    nomesEquipas.add("Sem Equipas associados");
+                }
+            }
+        }
+
+        return nomesEquipas;
+    }
+
     public void setEquipas(ArrayList<Integer> equipas) {
         this.equipas = equipas;
     }
 
+    public Liga addEquipa(int id) {
+        return ligas.get(id);
+    }
+
     public ArrayList<Integer> getPartidas() {
         return partidas;
+    }
+
+    public ArrayList<String> getNomesPartidas(ArrayList<Integer> partidas) {
+        ArrayList<String> nomesPartidas = new ArrayList<>();
+
+        for (Partida partida : Menu.partidas) {
+            for (Integer partidaID : partidas) {
+                if (!partidas.isEmpty()) {
+                    if (partida.getId() == partidaID) {
+                        nomesPartidas.add(partida.getNome());
+                    }
+                } else {
+                    nomesPartidas.add("Sem Partidas associados");
+                }
+            }
+        }
+
+        return nomesPartidas;
     }
 
     public void setPartidas(ArrayList<Integer> partidas) {
@@ -382,13 +488,20 @@ public class Liga implements Dados {
 
     // Print headers
     public static String tableHeaders() {
-        return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-14s |%n",
+        System.out.println("|---------------------------------------------------------------------------------------------- LIGAS --------------------------------------------------------------------------------------------------------|");
+        return String.format("| %-3s | %-15s | %-10s | %-70s | %-70s | %-20s |%n",
                 "ID", "Nome", "País", "Equipas", "Partidas", "Ranking de Equipas");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-15s | %-10s | %-30s | %-30s | %-22s |%n",
-                getId(), getNome(), getPais(), getEquipas(), getPartidas(), getRankingEquipas());
+        return String.format("| %-3s | %-15s | %-10s | %-70s | %-70s | %-20s |%n",
+                getId(),
+                getNome(),
+                getPais(),
+                String.join(", ", getNomesEquipas(getEquipas())),
+                String.join(", ", getNomesPartidas(getPartidas())),
+                getRankingEquipas()
+        );
     }
 }
