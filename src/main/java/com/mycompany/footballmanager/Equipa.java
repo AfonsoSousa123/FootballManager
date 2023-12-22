@@ -58,7 +58,6 @@ public class Equipa implements Dados {
         this.nome = nome;
         this.cidade = cidade;
         this.pais = pais;
-    }
     // END Constructors ----------------------------------------------------------------
 
     // BEGIN Interface Methods ----------------------------------------------------------------

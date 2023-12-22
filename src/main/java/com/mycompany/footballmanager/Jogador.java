@@ -14,6 +14,8 @@ import java.util.Set;
 
 import static com.mycompany.footballmanager.Menu.*;
 
+import static com.mycompany.footballmanager.Menu.*;
+
 /**
  * @author afonso, milena, tânia
  */
