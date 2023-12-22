@@ -23,8 +23,6 @@ public class Arbitro extends Pessoa implements Dados {
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
     // END Variables ----------------------------------------------------------------
 
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
-    // END Variables ----------------------------------------------------------------
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
         super.setNome(randomName());
