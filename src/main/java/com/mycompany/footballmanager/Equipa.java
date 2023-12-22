@@ -432,7 +432,7 @@ public class Equipa implements Dados {
                     latest + increment, // ID automatically increments
                     randomName(), // Random Nome
                     random.nextInt(20, 40), // Random Idade
-                    randomLorem(), // Random Posição
+                    Menu.jogador.getRandomPosicao(), // Random Posição
                     randomLorem(), // Random Historico de Lesões
                     random.nextInt(1, 100), // Random Ataque
                     random.nextInt(1, 100), // Random Defesa

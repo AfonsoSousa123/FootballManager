@@ -8,7 +8,9 @@ import com.mycompany.footballmanager.Interfaces.Dados;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 import static com.mycompany.footballmanager.Menu.*;
 
@@ -18,11 +20,31 @@ import static com.mycompany.footballmanager.Menu.*;
 public class Jogador extends Pessoa implements Dados {
     // BEGIN Variables ----------------------------------------------------------------
     private int id = 0;
-    private String posicao;
+    private Posicao posicao;
+
+    // Para mapear as os enums para umas Strings mais user-friendly
+    private static final HashMap<String, Posicao> posicaoMap = new HashMap<>();
+    static {
+        posicaoMap.put("Avancado", Posicao.AVANCADO);
+        posicaoMap.put("Medio", Posicao.MEDIO);
+        posicaoMap.put("Central", Posicao.CENTRAL);
+        posicaoMap.put("Defesa", Posicao.DEFESA);
+        posicaoMap.put("Guarda Redes", Posicao.GUARDA_REDES);
+    }
+
+    // O mapa
+    private static final HashMap<Posicao, String> posicaoMapInvertida = new HashMap<>();
+    static {
+        posicaoMapInvertida.put(Posicao.AVANCADO, "Avancado");
+        posicaoMapInvertida.put(Posicao.MEDIO, "Medio");
+        posicaoMapInvertida.put(Posicao.CENTRAL, "Central");
+        posicaoMapInvertida.put(Posicao.DEFESA, "Defesa");
+        posicaoMapInvertida.put(Posicao.GUARDA_REDES, "Guarda Redes");
+    }
     private String hist_lesoes;
     private int ataque; // de 0 a 100
     private int defesa; // de 0 a 100
-    private int n_agressividade; // de 0 a 5
+    private int n_agressividade; // de 0 a 100
 
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/jogadores.txt"; // File Path
     // END Variables ----------------------------------------------------------------
@@ -31,7 +53,7 @@ public class Jogador extends Pessoa implements Dados {
     public Jogador() {
         super.setNome(randomName());
         super.setIdade(random.nextInt(20, 40));
-        posicao = randomLorem();
+        posicao = getRandomPosicao();
         hist_lesoes = randomLorem();
         ataque = random.nextInt(1, 100);
         defesa = random.nextInt(1, 100);
@@ -42,7 +64,7 @@ public class Jogador extends Pessoa implements Dados {
             int id,
             String nome,
             int idade,
-            String posicao,
+            Posicao posicao,
             String hist_lesoes,
             int ataque,
             int defesa,
@@ -133,14 +155,18 @@ public class Jogador extends Pessoa implements Dados {
 
             // Posição
             try {
-                System.out.println("Insira a Posição: ");
+                System.out.println("Escolha entre estas Posicoes: Avancado, Medio, Central, Defesa ou Guarda Redes");
+                System.out.println("Insira a Posicao: ");
                 String posicao = scanner.nextLine().trim();
 
                 if (Menu.hasPontoEVirgulaString(posicao)) {
                     System.out.println("A Posição do Jogador não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereJogador();
+                } else if (!posicaoMap.containsKey(posicao)) {
+                    System.out.println("Inseriu uma Posicao incorreta! Tente Novamente!");
+                    return insereJogador();
                 } else {
-                    jogador.setPosicao(posicao);
+                    jogador.setPosicaoInsert(posicao);
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -296,7 +322,7 @@ public class Jogador extends Pessoa implements Dados {
                 jogador.setDefesa(Integer.parseInt(data[6]));
                 jogador.setN_agressividade(Integer.parseInt(data[7]));
 
-                // Adds the jogador to the ArrayList
+                // Adiciona o jogador à ArrayList
                 jogadores.add(jogador);
             }
             br.close();
@@ -375,14 +401,14 @@ public class Jogador extends Pessoa implements Dados {
                 }
 
                 Jogador jogador = new Jogador(
-                        latest + increment, // ID automatically increments
-                        randomName(), // Random Nome
-                        random.nextInt(20, 40), // Random Idade
-                        randomLorem(), // Random Posição
-                        randomLorem(), // Random Historico de Lesões
-                        random.nextInt(1, 100), // Random Ataque
-                        random.nextInt(1, 100), // Random Defesa
-                        random.nextInt(1, 100) // Random Nivel de Agressividade
+                    latest + increment, // ID automatically increments
+                    randomName(), // Random Nome
+                    random.nextInt(20, 40), // Random Idade
+                    getRandomPosicao(), // Random Posição
+                    randomLorem(), // Random Historico de Lesões
+                    random.nextInt(1, 100), // Random Ataque
+                    random.nextInt(1, 100), // Random Defesa
+                    random.nextInt(1, 100) // Random Nivel de Agressividade
                 );
                 jogadores.add(jogador); // Adds the new Jogador to the Jogadores ArrayList
 
@@ -394,6 +420,20 @@ public class Jogador extends Pessoa implements Dados {
         } catch (Exception e) {
             System.out.println("Erro ao inserir Jogador no ficheiro jogadores.txt: " + e.getMessage());
         }
+    }
+
+    public Posicao getRandomPosicao() {
+        Set<String> posicaoKeys = posicaoMap.keySet(); // Guarda as posicoes num Set
+
+        // Converte as para um array
+        String[] posicaoArray = posicaoKeys.toArray(new String[0]);
+
+        // Escolhe um indice aleatorio, dentro do alcance das posicoes
+        int randomIndex = random.nextInt(posicaoArray.length);
+
+        // Retira aleatoriamente uma posicao
+        String randomPosicaoKey = posicaoArray[randomIndex];
+        return posicaoMap.get(randomPosicaoKey);
     }
     // END Faker Methods ----------------------------------------------------------------
 
@@ -416,12 +456,22 @@ public class Jogador extends Pessoa implements Dados {
         return super.getIdade();
     }
 
-    public String getPosicao() {
+    public void setPosicao(String posicao) {
+        this.posicao = Posicao.valueOf(posicao);
+    }
+
+    public void setPosicaoInsert(String posicao) {
+        if (posicaoMap.containsKey(posicao)) {
+            this.posicao = posicaoMap.get(posicao);
+        }
+    }
+
+    public Posicao getPosicao() {
         return posicao;
     }
 
-    public void setPosicao(String posicao) {
-        this.posicao = posicao;
+    public String getPosicaoFormatted(Posicao posicao) {
+        return posicaoMapInvertida.getOrDefault(posicao, "Sem Posicao!");
     }
 
     public String getHist_lesoes() {
@@ -467,6 +517,6 @@ public class Jogador extends Pessoa implements Dados {
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-22s |%n",
-                getId(), getNome(), getIdade(), getPosicao(), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
+                getId(), getNome(), getIdade(), getPosicaoFormatted(getPosicao()), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
     }
 }
