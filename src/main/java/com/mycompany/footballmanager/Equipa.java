@@ -88,6 +88,7 @@ public class Equipa implements Dados {
         Equipa equipa = new Equipa();
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
+        int treinadoresSize = Menu.treinadores.get(treinadores.size() - 1).getId();
 
         try {
             // if the equipas ArrayList is not empty
@@ -129,7 +130,8 @@ public class Equipa implements Dados {
                     int idJogador = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
-                    if ((idJogador > 0) && (idJogador <= Menu.jogadores.size())) {
+
+                    if ((idJogador > 0) && (idJogador <= latest)) {
 //                        for (Equipa eq : Menu.equipas) {
 //                            for (int id : eq.getPlantel()) {
 //                                if (id == jogador.getId()) {
@@ -172,7 +174,8 @@ public class Equipa implements Dados {
                 int treinadorID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if ((treinadorID > 0) && (treinadorID <= Menu.treinadores.size())) {
+
+                if ((treinadorID > 0) && (treinadorID <= treinadoresSize)) {
                     equipa.setIdTreinador(treinadorID);
                 } else {
                     System.out.println("Tem que escolher um ID existente dos Treinadores! Tente Novamente...");
