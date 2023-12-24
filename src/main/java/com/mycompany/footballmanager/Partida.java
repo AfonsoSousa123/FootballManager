@@ -145,9 +145,11 @@ public class Partida implements Dados {
                     int idArbitro = scanner.nextInt(); // recebe o id do Arbitro
                     scanner.nextLine(); // Consume newline character
 
-
                     if (idArbitro > 0 && idArbitro <= arbitrosSize) {
                         ArbitrosIDs.add(idArbitro);
+                    } else if (ArbitrosIDs.size() > 4) {
+                        System.out.println("Chegou ao limite de Arbitros por Partida!");
+                        continue;
                     } else {
                         System.out.println("Tem que escolher um ID existente das Arbitros! Tente Novamente...");
                         return inserePartida();
@@ -174,7 +176,6 @@ public class Partida implements Dados {
                 int equipaID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-
                 if (equipaID > 0 && equipaID <= equipasSize) {
                     partida.setEquipa(equipaID);
                 } else {
@@ -188,14 +189,20 @@ public class Partida implements Dados {
 
             // Adversário
             try {
-                System.out.println("Escolha o Adversario que pretende adicionar à Partida: ");
+                System.out.println(
+                    "Escolha o Adversario que pretende jogar contra a Equipa: " +
+                    Menu.equipas.get(partida.equipa - 1).getNome()
+                );
                 int adversario = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
                 if (partida.getNomeAdversario(adversario).equals(partida.getNomeEquipa(partida.equipa))) {
                     System.out.println("Uma equipa não pode jogar contra si propria! Tente Novamente...");
                     return inserePartida();
-                } else if (adversario > 0 && adversario <= equipasSize) {
+                } else if (partida.getEquipaValues(adversario).getIdLiga() != partida.getEquipaValues(partida.equipa).getIdLiga()) {
+                    System.out.println("As equipas têm que ser da mesma Liga! Tente Novamente...");
+                    return inserePartida();
+                }  else if (adversario > 0 && adversario <= equipasSize) {
                     partida.setAdversario(adversario);
                 } else {
                     System.out.println("Tem que escolher um Adversario existente nas Equipas! Tente Novamente...");
