@@ -17,7 +17,7 @@ import static com.mycompany.footballmanager.Menu.statsEquipas;
 public class EstatisticasEquipa {
     // BEGIN Variables ------------------------------------------------------------------
     private int id;
-    private int desempenhoMedio;
+    private double desempenhoMedio;
     private int numVitorias;
     private int numDerrotas;
     private int numEmpates;
@@ -30,7 +30,7 @@ public class EstatisticasEquipa {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public EstatisticasEquipa() {
-        desempenhoMedio = random.nextInt(1, 100);
+        desempenhoMedio = random.nextDouble(0, 100);
         numVitorias = random.nextInt(1, 100);
         numDerrotas = random.nextInt(1, 100);
         numEmpates = random.nextInt(1, 100);
@@ -38,7 +38,7 @@ public class EstatisticasEquipa {
         golosSofridos = random.nextInt(1, 500);
     }
 
-    public EstatisticasEquipa(int id, int desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates, int golosMarcados, int golosSofridos) {
+    public EstatisticasEquipa(int id, double desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates, int golosMarcados, int golosSofridos) {
         this.id = id;
         this.desempenhoMedio = desempenhoMedio;
         this.numVitorias = numVitorias;
@@ -139,11 +139,11 @@ public class EstatisticasEquipa {
         this.id = id;
     }
 
-    public int getDesempenhoMedio() {
+    public double getDesempenhoMedio() {
         return desempenhoMedio;
     }
 
-    public void setDesempenhoMedio(int desempenhoMedio) {
+    public void setDesempenhoMedio(double desempenhoMedio) {
         this.desempenhoMedio = desempenhoMedio;
     }
 
