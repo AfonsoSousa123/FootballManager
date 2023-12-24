@@ -82,7 +82,7 @@ public class Liga implements Dados {
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
         int partidaSize = Menu.partidas.get(Menu.partidas.size() - 1).getId();
-        int equipaSize = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+        int equipaSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
 
         try {
             if (!Menu.ligas.isEmpty()) {
