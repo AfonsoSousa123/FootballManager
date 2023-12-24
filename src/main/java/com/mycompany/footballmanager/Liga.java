@@ -127,7 +127,7 @@ public class Liga implements Dados {
                 boolean insertMoreEquipas = true;
                 ArrayList<Integer> EquipasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
                 Menu.equipa.print(); // imprime as equipas existentes
-                int equipaSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
+                int equipasSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
 
                 while (insertMoreEquipas) {
                     System.out.println("Escolha um ID de uma Equipa: ");
@@ -135,7 +135,7 @@ public class Liga implements Dados {
                     scanner.nextLine(); // Consume newline character
 
                     if ((idEquipa > 0) &&
-                        (idEquipa <= equipaSize) &&
+                        (idEquipa <= equipasSize) &&
                         (Menu.equipas.get(idEquipa - 1).getPais().equals(liga.getPais())))
                     {
                         EquipasIDs.add(idEquipa);
@@ -264,6 +264,59 @@ public class Liga implements Dados {
         }
     }
 
+    public void updateToTXT(Liga ligaToUpdate) {
+        checkIfFileExists(txtFilePath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
+            ArrayList<String> lines = new ArrayList<>();
+            String row;
+
+            while ((row = br.readLine()) != null) {
+                lines.add(row); // Read existing lines from the file into a list
+            }
+
+            for (int i = 0; i < lines.size(); i++) {
+                String[] data = lines.get(i).split(";");
+                int ligaIdFromFile = Integer.parseInt(data[0]); // ID
+
+                if (ligaIdFromFile == ligaToUpdate.getId()) {
+                    // Update the line related to the Liga being updated
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ligaToUpdate.getId()).append(";"); // Update ID
+                    sb.append(ligaToUpdate.getNome()).append(";"); // Update Nome
+                    sb.append(ligaToUpdate.getPais()).append(";"); // Update Pais
+                    // Append the equipa elements with comma separator
+                    for (Integer equipaID : ligaToUpdate.getEquipas()) {
+                        sb.append(equipaID).append(",");
+                    }
+                    sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
+                    sb.append(";"); // Para poder ser colocada ponto e virgula
+                    // Append the partida elements with comma separator
+                    for (Integer partidaID : ligaToUpdate.getPartidas()) {
+                        sb.append(partidaID).append(",");
+                    }
+                    sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
+                    sb.append(";"); // Para poder ser colocada ponto e virgula
+                    sb.append(ligaToUpdate.getRankingEquipas()).append("\n");
+
+                    lines.set(i, sb.toString()); // Set the updated line in the list
+                    break; // Exit loop as the update is done
+                }
+            }
+
+            // Write the modified lines back to the file
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(txtFilePath))) {
+                for (String line : lines) {
+                    bw.write(line);
+                    bw.newLine(); // Add a newline after each line
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no ficheiro ligas.txt: " + e.getMessage());
+        }
+    }
+
     @Override
     public void print() {
         getLigas();
@@ -356,18 +409,25 @@ public class Liga implements Dados {
     public void associarEquipa() {
         Scanner scanner = new Scanner(System.in);
 
-        Menu.liga.print(); // imprime as ligas existentes
-        System.out.println("Selecione a Liga que pretende associar: ");
-        int idLiga = scanner.nextInt();
-        scanner.nextLine();
-
         try {
+            getLigas();
+            Menu.liga.print(); // imprime as ligas existentes
+            System.out.println("Selecione a Liga que pretende associar: ");
+            int idLiga = scanner.nextInt();
+            scanner.nextLine();
+            int ligaSize = Menu.ligas.get(Menu.ligas.size() - 1).getId();
+            int idLigaAjustado = (idLiga - 1);
+
+            if ((idLiga < 0) && (idLiga > ligaSize)) {
+                System.out.println("Tem que escolher um ID existente das Ligas! Tente Novamente...");
+                associarEquipa();
+            }
+
             boolean insertMoreEquipas = true;
             ArrayList<Integer> EquipasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
             // Propagar as equipas existentes na liga selecionada para poder adicionar mais equipas
             Menu.equipa.print(); // imprime as equipas existentes
-            int equipaSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
-            int idLigaAjustado = (idLiga - 1);
+            int equipasSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
 
             while (insertMoreEquipas) {
                 System.out.println("Escolha um ID de uma Equipa: ");
@@ -376,12 +436,14 @@ public class Liga implements Dados {
                 int idEquipaAjustado = (idEquipa - 1);
 
                 if ((idEquipa > 0) &&
-                    (idEquipa <= equipaSize) &&
-                    (Menu.equipas.get(idEquipaAjustado).getPais().equals(ligas.get(idLigaAjustado).getPais())))
+                    (idEquipa <= equipasSize) &&
+                    (Menu.equipas.get(idEquipaAjustado).getPais().equals(Menu.ligas.get(idLigaAjustado).getPais())))
                 {
                     EquipasIDs.add(idEquipa); // Adiciona a Equipa selecionada ao ArrayList de Integers
                     Menu.equipas.get(idEquipaAjustado).setIdLiga(idLiga); // Associa a Liga selecionada à equipa
-                } else if (!(Menu.equipas.get(idEquipaAjustado).getPais().equals(ligas.get(idLigaAjustado).getPais()))) {
+                    System.out.println("Equipa da Liga: " + Menu.equipas.get(idEquipaAjustado).getNomeLiga(Menu.equipas.get(idEquipaAjustado).getIdLiga()));
+//                    Menu.equipa.writeToTXT(Menu.equipas.get(idEquipaAjustado)); // Atualiza no ficheiro
+                } else if (!(Menu.equipas.get(idEquipaAjustado).getPais().equals(Menu.ligas.get(idLigaAjustado).getPais()))) {
                     System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
                     associarEquipa();
                 } else {
@@ -396,8 +458,12 @@ public class Liga implements Dados {
                     insertMoreEquipas = false;
                 }
             }
-            System.out.println("Equipas:" + ligas.get(idLiga).getEquipas());
-            ligas.get(idLiga).setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
+            Menu.ligas.get(idLigaAjustado).setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
+//            updateToTXT(Menu.ligas.get(idLigaAjustado)); // Atualiza o Ficheiro
+
+            System.out.println("------------------------------------------------------------------------------------");
+            System.out.println("Equipas associadas a Liga " + Menu.ligas.get(idLigaAjustado).getNome() +
+                ": " + Menu.ligas.get(idLigaAjustado).getNomesEquipas(Menu.ligas.get(idLigaAjustado).getEquipas()));
 
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");

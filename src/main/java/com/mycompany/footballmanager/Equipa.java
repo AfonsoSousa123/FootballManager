@@ -280,7 +280,7 @@ public class Equipa implements Dados {
     }
 
     // Method to write Equipa data to a TXT file
-    private void writeToTXT(Equipa equipa) {
+    public void writeToTXT(Equipa equipa) {
         checkIfFileExists(txtFilePath);
 
         try (FileWriter writer = new FileWriter(txtFilePath, true)) {
@@ -306,7 +306,6 @@ public class Equipa implements Dados {
             // closes the output stream
             bw.close();
 
-            System.out.println("Equipa inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir Equipa no ficheiro equipas.txt: " + e.getMessage());
         }
