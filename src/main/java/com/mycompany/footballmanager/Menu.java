@@ -24,6 +24,7 @@ public class Menu {
     public static ArrayList<Liga> ligas = new ArrayList<>();
     public static ArrayList<ArbitroPrincipal> arbitros_p;
     public static ArrayList<ArbitroAssistente> arbitros_a;
+    public static ArrayList<EstatisticasEquipa> statsEquipas = new ArrayList<>();
 
     // Instances of the Objects
     public static Jogador jogador = new Jogador();
@@ -32,7 +33,7 @@ public class Menu {
     public static Partida partida = new Partida();
     public static Liga liga = new Liga();
     public static Arbitro arbitro = new Arbitro();
-    public static EstatisticasEquipa EquipaStats = new EstatisticasEquipa();
+    public static EstatisticasEquipa statsEquipa = new EstatisticasEquipa();
 
     // Scanner instances
     public Scanner scanner = new Scanner(System.in);

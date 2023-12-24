@@ -565,7 +565,9 @@ public class Partida implements Dados {
         if (this == o) return true;
         // verifica se o objeto é nullo
         if (o == null) return false;
+        // verifica se o objeto é instancia de Partida
         if (!(o instanceof Partida partida)) return false;
+        // Compara a equipa com o adversario
         return (equipa == partida.equipa && adversario == partida.adversario);
     }
 
