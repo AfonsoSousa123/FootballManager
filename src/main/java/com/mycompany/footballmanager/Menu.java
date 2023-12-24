@@ -8,6 +8,8 @@ import com.github.javafaker.Faker;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -55,6 +57,16 @@ public class Menu {
         }
     }
 
+    public static boolean validarData(String dataStr) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        try {
+            LocalDate data = LocalDate.parse(dataStr, formato);
+            return true; // Se a conversão foi bem-sucedida, a data é válida
+        } catch (Exception e) {
+            return false; // Se ocorreu uma exceção, a data é inválida
+        }
+    }
     private static void clearConsole() {
         try {
             final String os = System.getProperty("os.name");

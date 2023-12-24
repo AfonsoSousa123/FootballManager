@@ -81,6 +81,8 @@ public class Liga implements Dados {
         Liga liga = new Liga();
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
+        int partidaSize = Menu.partidas.get(Menu.partidas.size() - 1).getId();
+        int equipaSize = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
 
         try {
             if (!Menu.ligas.isEmpty()) {
@@ -134,8 +136,9 @@ public class Liga implements Dados {
                     int idEquipa = scanner.nextInt(); // recebe o id da Equipa
                     scanner.nextLine(); // Consume newline character
 
+
                     if ((idEquipa > 0) &&
-                        (idEquipa <= Menu.equipas.size()) &&
+                        (idEquipa  <= equipaSize) &&
                         (Menu.equipas.get(idEquipa).getPais().equals(liga.getPais())))
                     {
                         EquipasIDs.add(idEquipa);
@@ -167,12 +170,13 @@ public class Liga implements Dados {
                 ArrayList<Integer> PartidasIDs = new ArrayList<>(); // Cria um arrayList para os ids das Equipas
                 Menu.partida.print(); // imprime as partidas existentes
 
+
                 while (insertMoreEquipas) {
                     System.out.println("Escolha um ID de uma Partida: ");
                     int idPartida = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
-                    if (idPartida > 0 && idPartida <= Menu.partidas.size()) {
+                    if (idPartida > 0 && idPartida <= partidaSize) {
                         PartidasIDs.add(idPartida);
                     } else {
                         System.out.println("Tem que escolher um ID existente das Partidas! Tente Novamente...");

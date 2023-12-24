@@ -119,6 +119,7 @@ public class Partida implements Dados {
         Partida partida = new Partida();
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
+        int equipasSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
 
         try {
             // if the partidas ArrayList is not empty
@@ -137,13 +138,15 @@ public class Partida implements Dados {
                 boolean insertMoreArbitros = true;
                 ArrayList<Integer> ArbitrosIDs = new ArrayList<>(); // Cria um arrayList para os ids dos Arbitros
                 Menu.arbitro.print(); // imprime os arbitros existentes
+                int arbitrosSize = Menu.arbitros.get(Menu.arbitros.size() - 1).getId();
 
                 while (insertMoreArbitros) {
                     System.out.println("Escolha um ID de um Arbitro: ");
                     int idArbitro = scanner.nextInt(); // recebe o id do Arbitro
                     scanner.nextLine(); // Consume newline character
 
-                    if (idArbitro > 0 && idArbitro <= Menu.arbitros.size()) {
+
+                    if (idArbitro > 0 && idArbitro <= arbitrosSize) {
                         ArbitrosIDs.add(idArbitro);
                     } else {
                         System.out.println("Tem que escolher um ID existente das Arbitros! Tente Novamente...");
@@ -171,7 +174,8 @@ public class Partida implements Dados {
                 int equipaID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (equipaID > 0 && equipaID <= Menu.equipas.size()) {
+
+                if (equipaID > 0 && equipaID <= equipasSize) {
                     partida.setEquipa(equipaID);
                 } else {
                     System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
@@ -191,7 +195,7 @@ public class Partida implements Dados {
                 if (partida.getNomeAdversario(adversario).equals(partida.getNomeEquipa(partida.equipa))) {
                     System.out.println("Uma equipa não pode jogar contra si propria! Tente Novamente...");
                     return inserePartida();
-                } else if (adversario > 0 && adversario <= Menu.equipas.size()) {
+                } else if (adversario > 0 && adversario <= equipasSize) {
                     partida.setAdversario(adversario);
                 } else {
                     System.out.println("Tem que escolher um Adversario existente nas Equipas! Tente Novamente...");
@@ -215,9 +219,8 @@ public class Partida implements Dados {
                 System.out.println("Insira a Data: ");
                 String data = scanner.nextLine();
 
-                // FALTA FAZER A VALIDAÇÃO DA DATA!!!
-                if (Menu.hasPontoEVirgulaString(data)) {
-                    System.out.println("A Data não pode conter ponto e virgulas ';' ! Tente Novamente...");
+                if (!validarData(data)) {
+                    System.out.println("A data não está de acordo com o formato: DD-MM-AAAA, tente novamente ");
                     return inserePartida();
                 } else {
                     partida.setData(data);
