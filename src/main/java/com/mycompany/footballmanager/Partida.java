@@ -149,10 +149,10 @@ public class Partida implements Dados {
                         ArbitrosIDs.add(idArbitro);
                     } else if (ArbitrosIDs.size() > 4) {
                         System.out.println("Chegou ao limite de Arbitros por Partida!");
-                        continue;
+                        break;
                     } else {
                         System.out.println("Tem que escolher um ID existente das Arbitros! Tente Novamente...");
-                        return inserePartida();
+                        continue;
                     }
 
                     System.out.println("Deseja adicionar mais Arbitros à Partida? (sim/nao)");
@@ -226,7 +226,7 @@ public class Partida implements Dados {
                 System.out.println("Insira a Data: ");
                 String data = scanner.nextLine();
 
-                if (!validarData(data)) {
+                if (!Menu.validarData(data)) {
                     System.out.println("A data não está de acordo com o formato: DD-MM-AAAA, tente novamente ");
                     return inserePartida();
                 } else {
@@ -296,23 +296,6 @@ public class Partida implements Dados {
 //                    partida.setGolos_sofridos(golosSofridos);
 //                } else {
 //                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
-//                    return inserePartida();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return inserePartida();
-//            }
-
-//            // Soma de Cartoes
-//            try {
-//                System.out.println("Insira soma de Golos Marcados: ");
-//                int golosMarcados = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosMarcados >= 0 && golosMarcados < 5000) {
-//                    partida.setGolos_marcados(golosMarcados);
-//                } else {
-//                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
 //                    return inserePartida();
 //                }
 //            } catch (Exception e) {

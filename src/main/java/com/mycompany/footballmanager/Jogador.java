@@ -34,7 +34,7 @@ public class Jogador extends Pessoa implements Dados {
         posicaoMap.put("Guarda Redes", Posicao.GUARDA_REDES);
     }
 
-    // O mapa
+    // O mapa invertido ao apresentado em cima
     private static final HashMap<Posicao, String> posicaoMapInvertida = new HashMap<>();
     static {
         posicaoMapInvertida.put(Posicao.AVANCADO, "Avancado");

@@ -32,3 +32,19 @@ ID;Nome;Idade;Posição;Histórico de Lesões;Ataque;Defesa;Nivel de Agressivida
 31;Linnea O'Keefe;24;AVANCADO;lesao no ombro;73;6;35
 32;Mr. Alisa Padberg;26;CENTRAL;lesao no joelho;21;79;95
 33;Mathilde Trantow;28;AVANCADO;lesao no ombro;21;25;98
+34;Einar Greenfelder;29;CENTRAL;eaque;63;15;27
+35;Easter Klocko;34;DEFESA;in;97;65;77
+36;Elda Brekke;27;GUARDA_REDES;rerum;12;72;27
+37;Dayton Rippin;34;GUARDA_REDES;totam;44;32;11
+38;Stuart Mayert II;24;MEDIO;quae;16;10;34
+39;Demarco Hahn;26;MEDIO;aut;72;48;82
+40;Adelle Walsh;20;CENTRAL;optio;59;35;68
+41;Wyatt Graham;39;DEFESA;qui;43;84;90
+42;Janick Hagenes;36;DEFESA;rem;55;20;81
+43;Leora Oberbrunner;25;CENTRAL;autem;54;68;50
+44;Miss Rosemarie Lang;34;MEDIO;laboriosam;29;59;10
+45;Maximillia Hirthe V;25;CENTRAL;voluptas;26;64;29
+46;Zakary Bayer;22;CENTRAL;dicta;84;60;7
+47;Greg Rempel;25;MEDIO;atque;97;94;59
+48;Fiona D'Amore III;28;DEFESA;dignissimos;6;29;52
+49;Jaron Feeney;34;MEDIO;qui;53;37;69

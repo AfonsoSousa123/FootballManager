@@ -4,9 +4,12 @@
  */
 package com.mycompany.footballmanager;
 
+import com.mycompany.footballmanager.Interfaces.Dados;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import static com.mycompany.footballmanager.Menu.*;
 import static com.mycompany.footballmanager.Menu.statsEquipas;
@@ -14,9 +17,10 @@ import static com.mycompany.footballmanager.Menu.statsEquipas;
 /**
  * @author afonso, milena, tânia
  */
-public class EstatisticasEquipa {
+public class EstatisticasEquipa implements Dados {
     // BEGIN Variables ------------------------------------------------------------------
     private int id;
+    private int equipaID;
     private double desempenhoMedio;
     private int numVitorias;
     private int numDerrotas;
@@ -30,6 +34,7 @@ public class EstatisticasEquipa {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public EstatisticasEquipa() {
+        equipaID = random.nextInt(1, Menu.equipas.size());
         desempenhoMedio = random.nextDouble(0, 100);
         numVitorias = random.nextInt(1, 100);
         numDerrotas = random.nextInt(1, 100);
@@ -38,8 +43,9 @@ public class EstatisticasEquipa {
         golosSofridos = random.nextInt(1, 500);
     }
 
-    public EstatisticasEquipa(int id, double desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates, int golosMarcados, int golosSofridos) {
+    public EstatisticasEquipa(int id, int equipaID, double desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates, int golosMarcados, int golosSofridos) {
         this.id = id;
+        this.equipaID = equipaID;
         this.desempenhoMedio = desempenhoMedio;
         this.numVitorias = numVitorias;
         this.numDerrotas = numDerrotas;
@@ -49,34 +55,7 @@ public class EstatisticasEquipa {
     }
     // END Constructors ----------------------------------------------------------------
 
-    // Method to write Equipa data to a TXT file
-    private void writeToTXT(EstatisticasEquipa stats) {
-        checkIfFileExists(txtFilePath);
-
-        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
-            BufferedWriter bw = new BufferedWriter(writer);
-            StringBuilder sb = new StringBuilder();
-
-            // Construct the TXT line
-            sb.append(stats.getId()).append(";"); // get ID
-            sb.append(stats.getDesempenhoMedio()).append(";"); // get Desempenho Medio
-            sb.append(stats.getNumVitorias()).append(";"); // get Numero de Vitorias
-            sb.append(stats.getNumDerrotas()).append(";"); // get Numero de Derrotas
-            sb.append(stats.getNumEmpates()).append(";"); // get Numero de Empates
-            sb.append(stats.getGolosMarcados()).append(";"); // get Golos Marcados
-            sb.append(stats.getGolosMarcados()).append(";"); // get Golos Sofridos
-
-            // Write the line to the file
-            bw.append(sb.toString());
-            // closes the output stream
-            bw.close();
-
-            System.out.println("Estatisticas da Equipa inserida com Sucesso!!!");
-        } catch (IOException e) {
-            System.out.println("Erro ao inserir Equipa no ficheiro equipaStats.txt: " + e.getMessage());
-        }
-    }
-
+    // BEGIN Interface Methods ----------------------------------------------------------------
     public void print() {
         getStatsEquipas();
         // Print the table Headers
@@ -127,6 +106,80 @@ public class EstatisticasEquipa {
             Menu.statsEquipas = stats;
         } catch (IOException e) {
             System.out.println("Erro ao ler o ficheiro equipaStats.txt: " + e.getMessage());
+        }
+    }
+
+    // Method to write Equipa data to a TXT file
+    private void writeToTXT(EstatisticasEquipa stats) {
+        checkIfFileExists(txtFilePath);
+
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
+            BufferedWriter bw = new BufferedWriter(writer);
+            StringBuilder sb = new StringBuilder();
+
+            // Construct the TXT line
+            sb.append(stats.getId()).append(";"); // get ID
+            sb.append(stats.getDesempenhoMedio()).append(";"); // get Desempenho Medio
+            sb.append(stats.getNumVitorias()).append(";"); // get Numero de Vitorias
+            sb.append(stats.getNumDerrotas()).append(";"); // get Numero de Derrotas
+            sb.append(stats.getNumEmpates()).append(";"); // get Numero de Empates
+            sb.append(stats.getGolosMarcados()).append(";"); // get Golos Marcados
+            sb.append(stats.getGolosMarcados()).append("\n"); // get Golos Sofridos
+
+            // Write the line to the file
+            bw.append(sb.toString());
+            // closes the output stream
+            bw.close();
+
+            System.out.println("Estatisticas da Equipa inserida com Sucesso!!!");
+        } catch (IOException e) {
+            System.out.println("Erro ao inserir Equipa no ficheiro equipaStats.txt: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void insertFaker() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Quantas Equipas quer gerar? ");
+            int numOfChoices = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+
+            if (numOfChoices < 0 || numOfChoices > 2) {
+                System.out.println("Só pode inserir no maximo 2 de cada vez! Tente Novamente...");
+                insertFaker();
+            }
+
+            for (int i = 0; i < numOfChoices; i++) {
+                // Automatically increments the ID
+                int increment = 1;
+                int latest = 0;
+                // if the equipas ArrayList is not empty
+                if (!Menu.statsEquipas.isEmpty()) {
+                    // Gets the ID of the latest equipa, using the size of the ArrayList and decrementing 1
+                    latest = Menu.statsEquipas.get(Menu.statsEquipas.size() - 1).getId();
+                }
+
+                EstatisticasEquipa stats = new EstatisticasEquipa(
+                    latest + increment, // ID automatically increments
+                    equipaID = random.nextInt(1, Menu.equipas.size()),
+                    desempenhoMedio = random.nextDouble(0, 100),
+                    numVitorias = random.nextInt(1, 100),
+                    numDerrotas = random.nextInt(1, 100),
+                    numEmpates = random.nextInt(1, 100),
+                    golosMarcados = random.nextInt(1, 500),
+                    golosSofridos = random.nextInt(1, 500)
+                );
+                Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipaes ArrayList
+
+                writeToTXT(stats); // Writes the Equipa to the TXT File
+            }
+
+            System.out.println(numOfChoices + " Estatisticas Geradas com sucesso!");
+            System.out.println("--------------------------------");
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir Estatisticas da Equipa no ficheiro equipaStats.txt: " + e.getMessage());
         }
     }
 

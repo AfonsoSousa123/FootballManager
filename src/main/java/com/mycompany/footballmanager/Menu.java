@@ -382,7 +382,7 @@ public class Menu {
                         break;
                     case 9:
                         // Estatisticas de uma Equipa
-                        //EquipaStats.print();
+                        statsEquipa.print();
                         break;
                     case 10:
                         // Ver Partida

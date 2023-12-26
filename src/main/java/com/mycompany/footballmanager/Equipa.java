@@ -88,7 +88,8 @@ public class Equipa implements Dados {
         Equipa equipa = new Equipa();
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
-        int treinadoresSize = Menu.treinadores.get(treinadores.size() - 1).getId();
+        int treinadoresSize = Menu.treinadores.get(Menu.treinadores.size() - 1).getId();
+        int jogadoresSize = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
 
         try {
             // if the equipas ArrayList is not empty
@@ -106,6 +107,7 @@ public class Equipa implements Dados {
             try {
                 System.out.println("Insira o Nome: ");
                 String nome = scanner.nextLine();
+
                 if (Menu.hasPontoEVirgulaString(nome)) {
                     System.out.println("O Nome da Equipa não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereEquipa();
@@ -124,34 +126,20 @@ public class Equipa implements Dados {
                 ArrayList<Integer> JogadoresIDs = new ArrayList<>(); // Cria um arrayList para os IDs dos Jogadores
 
                 while (insertMoreJogadores) {
-                    boolean jogadorExists = false;
-
                     System.out.println("Escolha o ID do Jogador que pretende adicionar ao Plantel: ");
                     int idJogador = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
-
-                    if ((idJogador > 0) && (idJogador <= latest)) {
-//                        for (Equipa eq : Menu.equipas) {
-//                            for (int id : eq.getPlantel()) {
-//                                if (id == jogador.getId()) {
-//                                    jogadorExists = true;
-//                                    break;
-//                                }
-//                            }
-//                            if (jogadorExists) {
-//                                System.out.println("Este Jogador já está numa equipa! Tente Novamente...");
-//                                return insereEquipa();
-//                            }
-//                        }
-//                        if (jogadorExists) {
+                    if (checkJogadorInEquipa(idJogador) || (JogadoresIDs.contains(idJogador))) {
+                        System.out.println("Este Jogador já tem numa equipa! Tente Novamente...");
+                        continue;
+                    } else if ((idJogador > 0) && (idJogador <= jogadoresSize)) {
                         JogadoresIDs.add(idJogador);
-//                            continue;
-//                        }
                     } else {
                         System.out.println("Tem que escolher um ID existente das Jogadores! Tente Novamente...");
-                        return insereEquipa();
+                        continue;
                     }
+
                     System.out.println("Deseja adicionar mais Jogadores ao Plantel? (sim/nao)");
                     String choicePlantel = scanner.nextLine().trim().toLowerCase();
 
@@ -160,7 +148,7 @@ public class Equipa implements Dados {
                     }
                 }
                 equipa.setPlantel(JogadoresIDs);
-                System.out.println("Plantel: " + equipa.getPlantel());
+                System.out.println("Plantel: " + equipa.getNomesJogadores(equipa.getPlantel()));
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -174,8 +162,10 @@ public class Equipa implements Dados {
                 int treinadorID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-
-                if ((treinadorID > 0) && (treinadorID <= treinadoresSize)) {
+                if (checkTreinadorInEquipa(treinadorID)) {
+                    System.out.println("Este Treinador já tem numa equipa! Tente Novamente...");
+                    return insereEquipa();
+                } else if ((treinadorID > 0) && (treinadorID <= treinadoresSize)) {
                     equipa.setIdTreinador(treinadorID);
                 } else {
                     System.out.println("Tem que escolher um ID existente dos Treinadores! Tente Novamente...");
@@ -218,56 +208,6 @@ public class Equipa implements Dados {
                 return insereEquipa();
             }
 
-//            // Historico da Equipa
-//            try {
-//                System.out.println("Insira o Historico: ");
-//                String historico = scanner.nextLine();
-//
-//                if (Menu.hasPontoEVirgulaString(historico)) {
-//                    System.out.println("O Historico da Equipa não pode conter ponto e virgulas ';' ! Tente Novamente...");
-//                    return insereEquipa();
-//                } else {
-//                    equipa.setHistorico(historico);
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: " + e.getMessage() + "\n");
-//                return insereEquipa();
-//            }
-//
-//            // Golos Marcados
-//            try {
-//                System.out.println("Insira a quantidade de Golos Marcados: ");
-//                int golosMarcados = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosMarcados >= 0 && golosMarcados < 5000) {
-//                    equipa.setGolos_marcados(golosMarcados);
-//                } else {
-//                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
-//                    return insereEquipa();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return insereEquipa();
-//            }
-//
-//            // Golos Sofridos
-//            try {
-//                System.out.println("Insira a quantidade de Golos Sofridos: ");
-//                int golosSofridos = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosSofridos >= 0 && golosSofridos < 5000) {
-//                    equipa.setGolos_sofridos(golosSofridos);
-//                } else {
-//                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
-//                    return insereEquipa();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return insereEquipa();
-//            }
-
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereEquipa();
@@ -299,7 +239,7 @@ public class Equipa implements Dados {
             sb.append(equipa.getIdTreinador()).append(";"); // get Treinador ID
             sb.append(equipa.getIdLiga()).append(";"); // get Liga ID
             sb.append(equipa.getCidade()).append(";"); // get Cidade
-            sb.append(equipa.getPais()).append(";"); // get Pais
+            sb.append(equipa.getPais()).append("\n"); // get Pais
 
             // Write the line to the file
             bw.append(sb.toString());
@@ -309,6 +249,26 @@ public class Equipa implements Dados {
         } catch (IOException e) {
             System.out.println("Erro ao inserir Equipa no ficheiro equipas.txt: " + e.getMessage());
         }
+    }
+
+    public boolean checkJogadorInEquipa(int id) {
+        for (Equipa eq : Menu.equipas) {
+            for (int jogadorID : eq.getPlantel()) {
+                if (id == jogadorID) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkTreinadorInEquipa(int id) {
+        for (Equipa eq : Menu.equipas) {
+            if (id == eq.getIdTreinador()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
