@@ -456,8 +456,8 @@ public class Liga implements Dados {
                 {
                     EquipasIDs.add(idEquipa); // Adiciona a Equipa selecionada ao ArrayList de Integers
                     Menu.equipas.get(idEquipaAjustado).setIdLiga(idLiga); // Associa a Liga selecionada à equipa
-                    System.out.println("Equipa da Liga: " + Menu.equipas.get(idEquipaAjustado).getNomeLiga(Menu.equipas.get(idEquipaAjustado).getIdLiga()));
                     Menu.equipa.updateToTXT(Menu.equipas.get(idEquipaAjustado)); // Atualiza no ficheiro
+                    System.out.println("Equipa da Liga: " + Menu.equipas.get(idEquipaAjustado).getNomeLiga(Menu.equipas.get(idEquipaAjustado).getIdLiga()));
                 } else if (!(Menu.equipas.get(idEquipaAjustado).getPais().equals(Menu.ligas.get(idLigaAjustado).getPais()))) {
                     System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
                     continue;
@@ -556,7 +556,6 @@ public class Liga implements Dados {
                 }
             }
         }
-
         return nomesEquipas;
     }
 
@@ -582,7 +581,6 @@ public class Liga implements Dados {
                 }
             }
         }
-
         return nomesPartidas;
     }
 

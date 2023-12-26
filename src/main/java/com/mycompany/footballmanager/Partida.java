@@ -477,7 +477,7 @@ public class Partida implements Dados {
                 return equipa;
             }
         }
-        return Menu.equipa;
+        return null;
     }
 
     public void setEquipa(int equipa) {

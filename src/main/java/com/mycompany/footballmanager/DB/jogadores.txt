@@ -1,50 +1,50 @@
 ID;Nome;Idade;Posição;Histórico de Lesões;Ataque;Defesa;Nivel de Agressividade
 1;Afonso;23;CENTRAL;lesao na perna,lesao no braco;34;45;2
-2;Milena;21;AVANCADO;lesao no braço;78;67;5
+2;Milena;21;AVANCADO;lesao no braco, lesao na perna;78;67;5
 3;Tania;21;MEDIO;lesao no ombro;34;89;3
 4;Catarina;23;GUARDA_REDES;lesao no pe;12;90;2
 5;Julianne Rolfson;38;DEFESA;lesao no braco,lesao no ombro;75;27;60
 6;Ellsworth Gibson;33;MEDIO;lesao no braco;42;38;43
 7;Briana Gusikowski;32;AVANCADO;lesao no ombro;70;4;23
 8;Ryann Rolfson;34;DEFESA;lesao na perna;35;54;7
-9;Weldon Hudson;30;MEDIO;lesao no braço;9;96;40
+9;Weldon Hudson;30;MEDIO;lesao no braco, lesao no pe;9;96;40
 10;Teste;45;AVANCADO;lesao na perna;34;23;56
-11;Josefa;23;DEFESA;lesao no braco;23;67;34
+11;Josefa;23;DEFESA;lesao no braco, lesao na costela;23;67;34
 12;David Brown;32;GUARDA_REDES;lesao no ombro;18;2;62
 13;Lucio Steuber;34;MEDIO;lesao no braco;61;64;41
-14;Sonny Monahan;36;AVANCADO;lesao no braço;67;43;9
+14;Sonny Monahan;36;AVANCADO;lesao no braco;67;43;9
 15;Ross Kilback;37;MEDIO;lesao na perna;25;32;2
 16;Brendan Zboncak;28;DEFESA;lesao no braco;49;64;67
-17;Reynold Mante;22;AVANCADO;lesao no joelho;11;18;15
+17;Reynold Mante;22;AVANCADO;lesao no joelho, lesao na costela;11;18;15
 18;Kelley Cormier;34;MEDIO;lesao no braco;84;68;87
 19;Kitty Okuneva;35;CENTRAL;lesao no ombro;45;79;8
 20;Dr. Garnet Kuhlman;24;AVANCADO;lesao no braco;32;26;84
-21;Damian Rogahn I;23;AVANCADO;lesao no braço;94;62;4
-22;Rose Durgan;21;GUARDA_REDES;lesao no joelho;4;19;77
+21;Damian Rogahn I;23;AVANCADO;lesao no braco;94;62;4
+22;Rose Durgan;21;GUARDA_REDES;lesao no joelho, lesao no braco;4;19;77
 23;Ms. Lina Ortiz;28;MEDIO;lesao no braco;83;29;84
 24;Shirley Casper;26;AVANCADO;lesao no ombro;55;69;39
-25;Alejandrin Zieme;29;MEDIO;lesao no braço;79;23;50
+25;Alejandrin Zieme;29;MEDIO;lesao no braco;79;23;50
 26;Brooks Mills II;24;DEFESA;lesao no joelho;9;2;22
-27;Isobel King;25;CENTRAL;lesao no pe;61;69;42
+27;Isobel King;25;CENTRAL;lesao no pe, lesao no ombro;61;69;42
 28;Bart Doyle;22;AVANCADO;lesao no ombro;57;57;1
 29;Dolores Dare;30;GUARDA_REDES;lesao no joelho;22;10;99
-30;Miss Skyla Beier;22;MEDIO;lesao no braço;29;72;90
+30;Miss Skyla Beier;22;MEDIO;lesao no braco;29;72;90
 31;Linnea O'Keefe;24;AVANCADO;lesao no ombro;73;6;35
-32;Mr. Alisa Padberg;26;CENTRAL;lesao no joelho;21;79;95
+32;Mr. Alisa Padberg;26;CENTRAL;lesao no joelho, lesao no braco;21;79;95
 33;Mathilde Trantow;28;AVANCADO;lesao no ombro;21;25;98
-34;Einar Greenfelder;29;CENTRAL;eaque;63;15;27
-35;Easter Klocko;34;DEFESA;in;97;65;77
+34;Einar Greenfelder;29;CENTRAL;lesao na costela;63;15;27
+35;Easter Klocko;34;DEFESA;lesao no joelho;97;65;77
 36;Elda Brekke;27;GUARDA_REDES;rerum;12;72;27
-37;Dayton Rippin;34;GUARDA_REDES;totam;44;32;11
-38;Stuart Mayert II;24;MEDIO;quae;16;10;34
-39;Demarco Hahn;26;MEDIO;aut;72;48;82
-40;Adelle Walsh;20;CENTRAL;optio;59;35;68
-41;Wyatt Graham;39;DEFESA;qui;43;84;90
-42;Janick Hagenes;36;DEFESA;rem;55;20;81
-43;Leora Oberbrunner;25;CENTRAL;autem;54;68;50
+37;Dayton Rippin;34;GUARDA_REDES;lesao no pe;44;32;11
+38;Stuart Mayert II;24;MEDIO;lesao no joelho;16;10;34
+39;Demarco Hahn;26;MEDIO;lesao no ombro;72;48;82
+40;Adelle Walsh;20;CENTRAL;lesao no braco, lesao no joelho;59;35;68
+41;Wyatt Graham;39;DEFESA;lesao na costela;43;84;90
+42;Janick Hagenes;36;DEFESA;lesao no joelho, lesao no ombro;55;20;81
+43;Leora Oberbrunner;25;CENTRAL;lesao no braco;54;68;50
 44;Miss Rosemarie Lang;34;MEDIO;laboriosam;29;59;10
 45;Maximillia Hirthe V;25;CENTRAL;voluptas;26;64;29
-46;Zakary Bayer;22;CENTRAL;dicta;84;60;7
-47;Greg Rempel;25;MEDIO;atque;97;94;59
-48;Fiona D'Amore III;28;DEFESA;dignissimos;6;29;52
-49;Jaron Feeney;34;MEDIO;qui;53;37;69
+46;Zakary Bayer;22;CENTRAL;lesao no braco;84;60;7
+47;Greg Rempel;25;MEDIO;lesao no pe, lesao no ombro;97;94;59
+48;Fiona D'Amore III;28;DEFESA;lesao na costela;6;29;52
+49;Jaron Feeney;34;MEDIO;lesao no braco;53;37;69

@@ -63,14 +63,14 @@ public class Jogador extends Pessoa implements Dados {
     }
 
     public Jogador(
-            int id,
-            String nome,
-            int idade,
-            Posicao posicao,
-            String hist_lesoes,
-            int ataque,
-            int defesa,
-            int n_agressividade
+        int id,
+        String nome,
+        int idade,
+        Posicao posicao,
+        String hist_lesoes,
+        int ataque,
+        int defesa,
+        int n_agressividade
     ) {
         super(nome, idade);
         this.id = id;
