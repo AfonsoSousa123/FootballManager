@@ -85,29 +85,9 @@ public class Menu {
         return text.contains(";");
     }
 
-    public static String randomNameJogador() {
-        Faker fakerNameJogador = new Faker();
-        return fakerNameJogador.esports().player();
-    }
-
     public static String randomName() {
         Faker fakerName = new Faker();
         return fakerName.name().name();
-    }
-
-    public static String randomFirstName() {
-        Faker fakerFirstName = new Faker();
-        return fakerFirstName.name().firstName();
-    }
-
-    public static String randomLastName() {
-        Faker fakerLastName = new Faker();
-        return fakerLastName.name().lastName();
-    }
-
-    public static String randomChuckNoris() {
-        Faker fakerChuckNoris = new Faker();
-        return fakerChuckNoris.chuckNorris().fact();
     }
 
     public static String randomYoda() {
@@ -140,18 +120,15 @@ public class Menu {
         return fakerDate.date().toString();
     }
 
-
     private void printInvalidOptionError() {
         System.out.println("Opção inválida! Insira um valor válido.");
     }
-
 
     private void pressEnterToContinue() {
         System.out.println("Pressione ENTER para continuar...");
         try {
             System.in.read();
             scanner.nextLine();
-//            clearConsole();
         } catch (Exception e) {
             System.out.println("Input inválido, tente novamente" + e.getMessage());
         }

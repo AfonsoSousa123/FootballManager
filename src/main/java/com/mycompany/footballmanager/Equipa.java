@@ -251,6 +251,61 @@ public class Equipa implements Dados {
         }
     }
 
+    public void updateToTXT(Equipa equipaToUpdate) {
+        checkIfFileExists(txtFilePath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
+            ArrayList<String> linhas = new ArrayList<>();
+            String row;
+            boolean isFirstLine = true; // Flag to skip the first line
+
+            while ((row = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    linhas.add(row); // Add the header to the list without changes
+                    continue;
+                }
+                linhas.add(row); // Read existing linhas from the file into a list
+            }
+
+            for (int i = 1; i < linhas.size(); i++) { // Start loop from index 1 to skip the first line
+                String[] data = linhas.get(i).split(";");
+                int equipaIdFromFile = Integer.parseInt(data[0]); // Equipa ID
+
+                if (equipaIdFromFile == equipaToUpdate.getId()) {
+                    // Update the line related to the Equipa being updated
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(equipaToUpdate.getId()).append(";"); // Update ID
+                    sb.append(equipaToUpdate.getNome()).append(";"); // Update Nome
+                    // Append the plantel elements with comma separator
+                    for (Integer jogador : equipaToUpdate.getPlantel()) { // Plantel
+                        sb.append(jogador).append(",");
+                    }
+                    sb.deleteCharAt(sb.length() - 1); // Remove the last comma
+                    sb.append(";"); // Append semicolon
+                    sb.append(equipaToUpdate.getIdTreinador()).append(";"); // Update Treinador ID
+                    sb.append(equipaToUpdate.getIdLiga()).append(";"); // Update Liga ID
+                    sb.append(equipaToUpdate.getCidade()).append(";"); // Update Cidade
+                    sb.append(equipaToUpdate.getPais()); // Update Pais
+
+                    linhas.set(i, sb.toString()); // Set the updated line in the list
+                    break; // Exit loop as the update is done
+                }
+            }
+
+            // Write the modified lines back to the file
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(txtFilePath, false))) {
+                for (String linha : linhas) {
+                    bw.write(linha);
+                    bw.newLine(); // Add a new line after each line
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no ficheiro equipas.txt: " + e.getMessage());
+        }
+    }
+
     public boolean checkJogadorInEquipas(int id) {
         for (Equipa eq : Menu.equipas) {
             for (int jogadorID : eq.getPlantel()) {
