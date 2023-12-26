@@ -34,7 +34,7 @@ public class EstatisticasEquipa implements Dados {
 
     // BEGIN Constructors ----------------------------------------------------------------
     public EstatisticasEquipa() {
-        equipaID = random.nextInt(1, Menu.equipas.size());
+        equipaID = random.nextInt(0, 6);
         desempenhoMedio = random.nextDouble(0, 100);
         numVitorias = random.nextInt(1, 100);
         numDerrotas = random.nextInt(1, 100);
@@ -163,7 +163,7 @@ public class EstatisticasEquipa implements Dados {
 
                 EstatisticasEquipa stats = new EstatisticasEquipa(
                     latest + increment, // ID automatically increments
-                    equipaID = random.nextInt(1, Menu.equipas.size()),
+                    equipaID = random.nextInt(0, 6),
                     desempenhoMedio = random.nextDouble(0, 100),
                     numVitorias = random.nextInt(1, 100),
                     numDerrotas = random.nextInt(1, 100),
@@ -190,6 +190,14 @@ public class EstatisticasEquipa implements Dados {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getEquipaID() {
+        return equipaID;
+    }
+
+    public void setEquipaID(int equipaID) {
+        this.equipaID = equipaID;
     }
 
     public double getDesempenhoMedio() {
