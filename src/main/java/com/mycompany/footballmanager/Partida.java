@@ -99,7 +99,7 @@ public class Partida implements Dados {
 
         while (insertMore) {
             getPartidas(); // Updates the Partidas ArrayList
-            partidas.add(inserePartida());
+            Menu.partidas.add(inserePartida());
 
             try {
                 System.out.println("Deseja inserir outra Partida? (sim/nao)");
@@ -413,6 +413,7 @@ public class Partida implements Dados {
             System.out.println("Erro ao ler o ficheiro partidas.txt: " + e.getMessage());
         }
     }
+
     // END Interface Methods ----------------------------------------------------------------
 
     // BEGIN Getters and Setters ----------------------------------------------------------------

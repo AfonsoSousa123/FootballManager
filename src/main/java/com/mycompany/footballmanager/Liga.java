@@ -134,17 +134,20 @@ public class Liga implements Dados {
                     int idEquipa = scanner.nextInt(); // recebe o id da Equipa
                     scanner.nextLine(); // Consume newline character
 
-                    if ((idEquipa > 0) &&
+                    if (checkEquipaInLigas(idEquipa) || (EquipasIDs.contains(idEquipa))) {
+                        System.out.println("Esta Equipa já tem numa Liga! Tente Novamente...");
+                        continue;
+                    } else if ((idEquipa > 0) &&
                         (idEquipa <= equipasSize) &&
                         (Menu.equipas.get(idEquipa - 1).getPais().equals(liga.getPais())))
                     {
                         EquipasIDs.add(idEquipa);
                     } else if (!(Menu.equipas.get(idEquipa - 1).getPais().equals(liga.getPais()))) {
                         System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
-                        return insereLiga();
+                        continue;
                     } else {
                         System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
-                        return insereLiga();
+                        continue;
                     }
 
                     System.out.println("Deseja adicionar mais Equipas à Liga? (sim/nao)");
@@ -174,16 +177,19 @@ public class Liga implements Dados {
                     scanner.nextLine(); // Consume newline character
                     Partida partidaValues = Menu.partidas.get(idPartida - 1);
 
-                    if (idPartida > 0 && idPartida <= partidaSize) {
+                    if (checkPartidaInLigas(idPartida) || (PartidasIDs.contains(idPartida))) {
+                        System.out.println("Esta Partida já tem numa Liga! Tente Novamente...");
+                        continue;
+                    } else if (idPartida > 0 && idPartida <= partidaSize) {
                         PartidasIDs.add(idPartida);
                     } else if (
                         !(liga.getPais().equals(partidaValues.getEquipaValues(partidaValues.getEquipaID()).getPais()))
                     ) {
                         System.out.println("A Partida tem que ter Equipas da mesma Liga! Tente Novamente...");
-                        return insereLiga();
+                        continue;
                     } else {
                         System.out.println("Tem que escolher um ID existente das Partidas! Tente Novamente...");
-                        return insereLiga();
+                        continue;
                     }
 
                     System.out.println("Deseja adicionar mais Partidas à Liga? (sim/nao)");
@@ -435,7 +441,10 @@ public class Liga implements Dados {
                 scanner.nextLine(); // Consume newline character
                 int idEquipaAjustado = (idEquipa - 1);
 
-                if ((idEquipa > 0) &&
+                if (checkEquipaInLigas(idEquipa) || (EquipasIDs.contains(idEquipa))) {
+                    System.out.println("Esta Equipa já tem numa Liga! Tente Novamente...");
+                    continue;
+                } else if ((idEquipa > 0) &&
                     (idEquipa <= equipasSize) &&
                     (Menu.equipas.get(idEquipaAjustado).getPais().equals(Menu.ligas.get(idLigaAjustado).getPais())))
                 {
@@ -445,10 +454,10 @@ public class Liga implements Dados {
 //                    Menu.equipa.writeToTXT(Menu.equipas.get(idEquipaAjustado)); // Atualiza no ficheiro
                 } else if (!(Menu.equipas.get(idEquipaAjustado).getPais().equals(Menu.ligas.get(idLigaAjustado).getPais()))) {
                     System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
-                    associarEquipa();
+                    continue;
                 } else {
                     System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
-                    associarEquipa();
+                    continue;
                 }
 
                 System.out.println("Deseja adicionar mais Equipas à Liga? (sim/nao)");
@@ -463,12 +472,39 @@ public class Liga implements Dados {
 
             System.out.println("------------------------------------------------------------------------------------");
             System.out.println("Equipas associadas a Liga " + Menu.ligas.get(idLigaAjustado).getNome() +
-                ": " + Menu.ligas.get(idLigaAjustado).getNomesEquipas(Menu.ligas.get(idLigaAjustado).getEquipas()));
+                ": " + String.join(", ",
+                    Menu.ligas.get(idLigaAjustado).getNomesEquipas(
+                            Menu.ligas.get(idLigaAjustado).getEquipas()
+                    )
+                )
+            );
 
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             associarEquipa();
         }
+    }
+
+    public boolean checkEquipaInLigas(int id) {
+        for (Liga liga : Menu.ligas) {
+            for (int equipaID : liga.getEquipas()) {
+                if (id == equipaID) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkPartidaInLigas(int id) {
+        for (Liga liga : Menu.ligas) {
+            for (int equipaID : liga.getPartidas()) {
+                if (id == equipaID) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // BEGIN Getters and Setters ----------------------------------------------------------------

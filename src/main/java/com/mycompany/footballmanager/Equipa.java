@@ -130,7 +130,7 @@ public class Equipa implements Dados {
                     int idJogador = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
-                    if (checkJogadorInEquipa(idJogador) || (JogadoresIDs.contains(idJogador))) {
+                    if (checkJogadorInEquipas(idJogador) || (JogadoresIDs.contains(idJogador))) {
                         System.out.println("Este Jogador já tem numa equipa! Tente Novamente...");
                         continue;
                     } else if ((idJogador > 0) && (idJogador <= jogadoresSize)) {
@@ -148,7 +148,7 @@ public class Equipa implements Dados {
                     }
                 }
                 equipa.setPlantel(JogadoresIDs);
-                System.out.println("Plantel: " + equipa.getNomesJogadores(equipa.getPlantel()));
+                System.out.println("Plantel: " + String.join(", ", equipa.getNomesJogadores(equipa.getPlantel())));
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -162,7 +162,7 @@ public class Equipa implements Dados {
                 int treinadorID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if (checkTreinadorInEquipa(treinadorID)) {
+                if (checkTreinadorInEquipas(treinadorID)) {
                     System.out.println("Este Treinador já tem numa equipa! Tente Novamente...");
                     return insereEquipa();
                 } else if ((treinadorID > 0) && (treinadorID <= treinadoresSize)) {
@@ -251,7 +251,7 @@ public class Equipa implements Dados {
         }
     }
 
-    public boolean checkJogadorInEquipa(int id) {
+    public boolean checkJogadorInEquipas(int id) {
         for (Equipa eq : Menu.equipas) {
             for (int jogadorID : eq.getPlantel()) {
                 if (id == jogadorID) {
@@ -262,7 +262,7 @@ public class Equipa implements Dados {
         return false;
     }
 
-    public boolean checkTreinadorInEquipa(int id) {
+    public boolean checkTreinadorInEquipas(int id) {
         for (Equipa eq : Menu.equipas) {
             if (id == eq.getIdTreinador()) {
                 return true;
