@@ -276,12 +276,18 @@ public class Liga implements Dados {
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
             ArrayList<String> lines = new ArrayList<>();
             String row;
+            boolean isFirstLine = true; // Flag to skip the first line
 
             while ((row = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    lines.add(row); // Add the header to the list without changes
+                    continue;
+                }
                 lines.add(row); // Read existing lines from the file into a list
             }
 
-            for (int i = 0; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) { // Start loop from index 1 to skip the first line
                 String[] data = lines.get(i).split(";");
                 int ligaIdFromFile = Integer.parseInt(data[0]); // ID
 
@@ -295,15 +301,15 @@ public class Liga implements Dados {
                     for (Integer equipaID : ligaToUpdate.getEquipas()) {
                         sb.append(equipaID).append(",");
                     }
-                    sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
-                    sb.append(";"); // Para poder ser colocada ponto e virgula
+                    sb.deleteCharAt(sb.length() - 1); // Remove the last comma
+                    sb.append(";"); // Append semicolon
                     // Append the partida elements with comma separator
                     for (Integer partidaID : ligaToUpdate.getPartidas()) {
                         sb.append(partidaID).append(",");
                     }
-                    sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
-                    sb.append(";"); // Para poder ser colocada ponto e virgula
-                    sb.append(ligaToUpdate.getRankingEquipas()).append("\n");
+                    sb.deleteCharAt(sb.length() - 1); // Remove the last comma
+                    sb.append(";"); // Append semicolon
+                    sb.append(ligaToUpdate.getRankingEquipas()); // Update Ranking Equipas
 
                     lines.set(i, sb.toString()); // Set the updated line in the list
                     break; // Exit loop as the update is done
@@ -311,10 +317,10 @@ public class Liga implements Dados {
             }
 
             // Write the modified lines back to the file
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(txtFilePath))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(txtFilePath, false))) {
                 for (String line : lines) {
                     bw.write(line);
-                    bw.newLine(); // Add a newline after each line
+                    bw.newLine(); // Add a newline after each line except for the last one
                 }
             }
 
@@ -450,8 +456,8 @@ public class Liga implements Dados {
                 {
                     EquipasIDs.add(idEquipa); // Adiciona a Equipa selecionada ao ArrayList de Integers
                     Menu.equipas.get(idEquipaAjustado).setIdLiga(idLiga); // Associa a Liga selecionada à equipa
+                    Menu.equipa.updateToTXT(Menu.equipas.get(idEquipaAjustado)); // Atualiza no ficheiro
                     System.out.println("Equipa da Liga: " + Menu.equipas.get(idEquipaAjustado).getNomeLiga(Menu.equipas.get(idEquipaAjustado).getIdLiga()));
-//                    Menu.equipa.writeToTXT(Menu.equipas.get(idEquipaAjustado)); // Atualiza no ficheiro
                 } else if (!(Menu.equipas.get(idEquipaAjustado).getPais().equals(Menu.ligas.get(idLigaAjustado).getPais()))) {
                     System.out.println("A Equipa tem que ser do mesmo Pais que a Liga! Tente Novamente...");
                     continue;
@@ -468,7 +474,7 @@ public class Liga implements Dados {
                 }
             }
             Menu.ligas.get(idLigaAjustado).setEquipas(EquipasIDs); // guarda os ids das Equipas na Liga
-//            updateToTXT(Menu.ligas.get(idLigaAjustado)); // Atualiza o Ficheiro
+            updateToTXT(Menu.ligas.get(idLigaAjustado)); // Atualiza o Ficheiro
 
             System.out.println("------------------------------------------------------------------------------------");
             System.out.println("Equipas associadas a Liga " + Menu.ligas.get(idLigaAjustado).getNome() +
@@ -550,16 +556,11 @@ public class Liga implements Dados {
                 }
             }
         }
-
         return nomesEquipas;
     }
 
     public void setEquipas(ArrayList<Integer> equipas) {
         this.equipas = equipas;
-    }
-
-    public Liga addEquipa(int id) {
-        return ligas.get(id);
     }
 
     public ArrayList<Integer> getPartidas() {
@@ -580,7 +581,6 @@ public class Liga implements Dados {
                 }
             }
         }
-
         return nomesPartidas;
     }
 
