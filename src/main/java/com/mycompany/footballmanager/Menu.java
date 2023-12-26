@@ -306,7 +306,6 @@ public class Menu {
                         break;
                     case 7:
                         // Remover Dados
-                        // Editar Dados
                         System.out.println("|------------------------------|");
                         System.out.println("| MENU REMOVER:                |");
                         System.out.println("| 1. Remover Jogador           |");

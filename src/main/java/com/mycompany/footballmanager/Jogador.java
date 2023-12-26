@@ -90,7 +90,7 @@ public class Jogador extends Pessoa implements Dados {
         boolean insertMore = true;
 
         while (insertMore) {
-            getJogadores(); // Updates the Jogadores ArrayList
+            getJogadores(); // Atualiza os Jogadores
             Menu.jogadores.add(insereJogador());
 
             try {
@@ -107,20 +107,18 @@ public class Jogador extends Pessoa implements Dados {
     }
 
     public Jogador insereJogador() {
-        Jogador jogador = new Jogador();
+        Jogador jogador = new Jogador(); // Cria uma nova instância do Jogador
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
 
         try {
-            // if the jogadores ArrayList is not empty
-            if (!Menu.jogadores.isEmpty()) {
-                // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
+            if (!Menu.jogadores.isEmpty()) { // Verifica se a lista de jogadores não está vazia
+                // Obtém o ID do ultimo Jogador usando o tamanho da lista e decrementando 1
                 latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
             }
 
-            // Automatically increments the ID
-            int increment = 1;
-            jogador.setId(latest + increment);
+            int increment = 1; // Incrementa 1 para gerar um novo ID para o novo jogador
+            jogador.setId(latest + increment); // Define o ID do novo jogador automaticamente
 
             System.out.println("Inserir Jogador: ");
             // Nome
@@ -131,7 +129,7 @@ public class Jogador extends Pessoa implements Dados {
                     System.out.println("O Nome do Jogador não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereJogador();
                 } else {
-                    jogador.setNome(nome);
+                    jogador.setNome(nome); // Define o nome do jogador
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -145,7 +143,7 @@ public class Jogador extends Pessoa implements Dados {
                 scanner.nextLine(); // Consume newline character
 
                 if (idade >= 18 && idade <= 45) {
-                    jogador.setIdade(idade);
+                    jogador.setIdade(idade); // Define a idade do jogador
                 } else {
                     System.out.println("A Idade do Jogador tem que ter entre 18 e 45 anos, inclusive! Tente Novamente...");
                     return insereJogador();
@@ -168,7 +166,7 @@ public class Jogador extends Pessoa implements Dados {
                     System.out.println("Inseriu uma Posicao incorreta! Tente Novamente!");
                     return insereJogador();
                 } else {
-                    jogador.setPosicaoInsert(posicao);
+                    jogador.setPosicaoInsert(posicao); // Define a idade do jogador
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -247,47 +245,46 @@ public class Jogador extends Pessoa implements Dados {
             return insereJogador();
         }
 
-        writeToTXT(jogador);
+        writeToTXT(jogador); // Chama o método writeToTXT para escrever o novo jogador no ficheiro
 
-        return jogador;
+        return jogador; // Retorna o novo jogador criado
     }
 
-    // Method to write Jogador data to a TXT file
     public void writeToTXT(Jogador jogador) {
-        checkIfFileExists(txtFilePath);
+        checkIfFileExists(txtFilePath); // Verifica se o ficheiro TXT existe
 
-        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
-            BufferedWriter bw = new BufferedWriter(writer);
-            StringBuilder sb = new StringBuilder();
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) { // Abre um writer de escrita para o ficheiro TXT
+            BufferedWriter bw = new BufferedWriter(writer); // Inicializa um buffer de escrita
+            StringBuilder sb = new StringBuilder(); // Cria um StringBuilder para construir a linha do ficheiro TXT
 
-            // Construct the TXT line
-            sb.append(jogador.getId()).append(";");
-            sb.append(jogador.getNome()).append(";");
-            sb.append(jogador.getIdade()).append(";");
-            sb.append(jogador.getPosicao()).append(";");
-            sb.append(jogador.getHist_lesoes()).append(";");
-            sb.append(jogador.getAtaque()).append(";");
-            sb.append(jogador.getDefesa()).append(";");
-            sb.append(jogador.getN_agressividade()).append("\n");
+            // Constrói a linha do ficheiro TXT com os dados do jogador separados por ponto e vírgula
+            sb.append(jogador.getId()).append(";"); // ID do jogador
+            sb.append(jogador.getNome()).append(";"); // Nome do jogador
+            sb.append(jogador.getIdade()).append(";"); // Idade do jogador
+            sb.append(jogador.getPosicao()).append(";"); // Posição do jogador
+            sb.append(jogador.getHist_lesoes()).append(";"); // Histórico de lesões do jogador
+            sb.append(jogador.getAtaque()).append(";"); // Valor de ataque do jogador
+            sb.append(jogador.getDefesa()).append(";"); // Valor de defesa do jogador
+            sb.append(jogador.getN_agressividade()).append("\n"); // Nível de agressividade do jogador, seguido por uma nova linha
 
-            // Write the TXT line to the file
+            // Escreve a linha construída no ficheiro TXT usando o buffer de escrita
             bw.append(sb.toString());
-            // closes the output stream
-            bw.flush();
-        } catch (IOException e) {
+            bw.flush(); // Descarrega o buffer
+
+        } catch (IOException e) { // Captura exceções de entrada e saída (I/O)
             System.out.println("Erro ao inserir o Jogador no ficheiro " + e.getMessage());
         }
     }
 
     @Override
     public void print() {
-        getJogadores();
+        getJogadores(); // Obtém os jogadores do ficheiro
 
-        // Print details of all players using a loop
-        if (!jogadores.isEmpty()) {
-            // Print the table Headers
+        if (!jogadores.isEmpty()) { // Verifica se há jogadores
+            // Imprime os cabeçalhos
             System.out.printf(tableHeaders());
 
+            // Imprime todos os Jogadores usando um foreach loop
             for (Jogador jogador : jogadores) {
                 System.out.printf(jogador.toString());
             }
@@ -297,62 +294,42 @@ public class Jogador extends Pessoa implements Dados {
     }
 
     public void getJogadores() {
-        checkIfFileExists(txtFilePath);
+        checkIfFileExists(txtFilePath); // Verifica se o ficheiro TXT existe
 
-        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
-
-            boolean firstLine = true; // Flag to identify the first line
-            ArrayList<Jogador> jogadores = new ArrayList<>(); // Create a new list for jogadores
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) { // Abre um writer para o ficheiro TXT
+            boolean firstLine = true; // Flag para identificar a primeira linha
+            ArrayList<Jogador> jogadores = new ArrayList<>(); // Cria uma nova lista para jogadores
             String row;
 
-            while ((row = br.readLine()) != null) {
+            while ((row = br.readLine()) != null) { // Lê cada linha do ficheiro TXT
                 if (firstLine) {
-                    firstLine = false; // Set the flag to false after encountering the first line
-                    continue; // Skip processing the first line
+                    firstLine = false; // Define a flag como false após encontrar a primeira linha
+                    continue; // Pula o processamento da primeira linha (cabeçalho)
                 }
 
-                String[] data = row.split(";");
+                String[] data = row.split(";"); // Divide os dados da linha com base no ponto e vírgula
 
-                // TXT format: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
-                Jogador jogador = new Jogador();
-                jogador.setId(Integer.parseInt(data[0]));
-                jogador.setNome(data[1]);
-                jogador.setIdade(Integer.parseInt(data[2]));
-                jogador.setPosicao(data[3]);
-                jogador.setHist_lesoes(data[4]);
-                jogador.setAtaque(Integer.parseInt(data[5]));
-                jogador.setDefesa(Integer.parseInt(data[6]));
-                jogador.setN_agressividade(Integer.parseInt(data[7]));
+                // Formato do TXT: ID, Nome, Idade, Posição, Histórico de Lesões, Ataque, Defesa, Nível de Agressividade
+                Jogador jogador = new Jogador(); // Cria um novo objeto Jogador
+                jogador.setId(Integer.parseInt(data[0])); // Define o ID do jogador
+                jogador.setNome(data[1]); // Define o Nome do jogador
+                jogador.setIdade(Integer.parseInt(data[2])); // Define a Idade do jogador
+                jogador.setPosicao(data[3]); // Define a Posição do jogador
+                jogador.setHist_lesoes(data[4]); // Define o Histórico de Lesões do jogador
+                jogador.setAtaque(Integer.parseInt(data[5])); // Define o valor de Ataque do jogador
+                jogador.setDefesa(Integer.parseInt(data[6])); // Define o valor de Defesa do jogador
+                jogador.setN_agressividade(Integer.parseInt(data[7])); // Define o Nível de Agressividade do jogador
 
-                // Adiciona o jogador à ArrayList
+                // Adiciona o jogador à ArrayList de jogadores
                 jogadores.add(jogador);
             }
-            br.close();
+            br.close(); // Fecha o writer do ficheiro TXT
 
-            // Replaces the ArrayList from Menu class with the new ArrayList
+            // Substitui a ArrayList da classe Menu pela nova ArrayList de jogadores
             Menu.jogadores = jogadores;
-        } catch (IOException e) {
-            System.out.println("Erro ao ler o ficheiro jogadores.txt: " + e.getMessage());
+        } catch (IOException e) { // Captura exceções de entrada e saída (I/O)
+            System.out.println("Erro ao ler o ficheiro jogadores.txt: " + e.getMessage()); // Exibe uma mensagem de erro, caso ocorra alguma exceção
         }
-    }
-
-    @Override
-    public void update(int id) {
-        if (id > 0 && id < (jogadores.size() - 1)) {
-            jogadores.set(id, new Jogador());
-            System.out.println("O Jogador de ID " + id + " foi atualizado com sucesso");
-        } else {
-            System.out.println("ID incorreto! Tente novamente...");
-        }
-    }
-
-    public void updateJogador() {
-        Scanner scanner = new Scanner(System.in);
-        getJogadores(); // Gets an updated list of jogadores
-        print(); // prints the updated list
-
-        System.out.println("Indique o ID do jogador que pretende editar: ");
-        update(scanner.nextInt());
     }
 
     @Override
@@ -384,37 +361,35 @@ public class Jogador extends Pessoa implements Dados {
             Scanner scanner = new Scanner(System.in);
 
             System.out.println("Quantos Jogadores quer gerar? ");
-            int numOfChoices = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
+            int numOfChoices = scanner.nextInt(); // Lê o número inserido
+            scanner.nextLine(); // Consumir o caracter de nova linha
 
-            if (numOfChoices < 0 || numOfChoices > 11) {
-                System.out.println("Só pode inserir no maximo 11 de cada vez! Tente Novamente...");
-                insertFaker();
+            if (numOfChoices < 0 || numOfChoices > 11) { // Verifica se o número está no intervalo permitido
+                // Imprime uma mensagem de erro se o número estiver fora do intervalo permitido
+                System.out.println("Só pode inserir no máximo 11 de cada vez! Tente Novamente...");
+                insertFaker(); // Chama recursivamente o método para pedir outro número válido
             }
 
-            for (int i = 0; i < numOfChoices; i++) {
-                // Automatically increments the ID
-                int increment = 1;
-                int latest = 0;
-                // if the jogadores ArrayList is not empty
-                if (!Menu.jogadores.isEmpty()) {
-                    // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
-                    latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+            for (int i = 0; i < numOfChoices; i++) { // Loop para gerar o número especificado de jogadores
+                int increment = 1; // Incrementa 1 para o ID
+                int latest = 0; // Variável para armazenar o último ID de jogador
+                if (!Menu.jogadores.isEmpty()) { // Verifica se a lista de jogadores não está vazia
+                    latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId(); // Obtém o ID do último jogador na lista
                 }
 
-                Jogador jogador = new Jogador(
-                    latest + increment, // ID automatically increments
-                    randomName(), // Random Nome
-                    random.nextInt(20, 40), // Random Idade
-                    getRandomPosicao(), // Random Posição
-                    randomLorem(), // Random Historico de Lesões
-                    random.nextInt(1, 100), // Random Ataque
-                    random.nextInt(1, 100), // Random Defesa
-                    random.nextInt(1, 100) // Random Nivel de Agressividade
+                Jogador jogador = new Jogador( // Cria um novo objeto jogador com dados aleatórios
+                    latest + increment, // ID automaticamente incrementado
+                    randomName(), // Nome aleatório
+                    random.nextInt(20, 40), // Idade aleatória entre 20 e 40 anos
+                    getRandomPosicao(), // Posição aleatória
+                    randomLorem() + ", " + randomLorem(), // Histórico de Lesões aleatório
+                    random.nextInt(1, 100), // Valor aleatório de Ataque
+                    random.nextInt(1, 100), // Valor aleatório de Defesa
+                    random.nextInt(1, 100) // Nível aleatório de Agressividade
                 );
-                jogadores.add(jogador); // Adds the new Jogador to the Jogadores ArrayList
+                jogadores.add(jogador); // Adiciona o novo jogador à lista de jogadores
 
-                writeToTXT(jogador); // Writes the Jogador to the TXT File
+                writeToTXT(jogador); // Escreve os dados do jogador no ficheiro TXT
             }
 
             System.out.println(numOfChoices + " Jogadores Gerados com sucesso!");
@@ -513,12 +488,12 @@ public class Jogador extends Pessoa implements Dados {
     public static String tableHeaders() {
         System.out.println("|------------------------------------------------------------------ JOGADORES -------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
-                "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
+            "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-22s |%n",
-                getId(), getNome(), getIdade(), getPosicaoFormatted(getPosicao()), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
+            getId(), getNome(), getIdade(), getPosicaoFormatted(getPosicao()), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
     }
 }
