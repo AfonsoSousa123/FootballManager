@@ -16,9 +16,9 @@ public class ProbabilidadesPartida {
     public static double calculaProbabilidade(Equipa equipa, ArrayList<Arbitro> arbitros, boolean JogaPrimeiro) {
         double desempenhoMedio = calculaDesempenhoMedio(equipa);
         int numJogadores = equipa.getPlantel().size();
-        double taticasTreinador = Double.parseDouble(calculaTaticasTreinador(equipa));
+        double taticasTreinador = calculaTaticasTreinador(equipa);
         double experienciaArbitros = 0;
-        String teamPosition = calculaPosicaoEquipa(equipa);
+        double teamPosition = calculaPosicaoEquipa(equipa);
         double factorJogaPrimeiro = JogaPrimeiro ? 1.1 : 1.0;
 
         for (Arbitro arbitro : arbitros) {
@@ -45,23 +45,23 @@ public class ProbabilidadesPartida {
         return desempenhoTotal / equipa.getPlantel().size();
     }
 
-    private static String calculaTaticasTreinador(Equipa equipa) {
-        String probabilidade_ganhar = "";
+    private static double calculaTaticasTreinador(Equipa equipa) {
+        double probabilidade_ganhar = 0;
         // Impacto da tática do treinador na probabilidade de ganhar
         for (Treinador treinador : equipa.getTreinadoresValues(equipa.getIdTreinador())) {
             String tatica_n = treinador.getTaticas_fav().replaceAll("-", ""); // String sem "-"
             String lastNumberStr = tatica_n.substring(tatica_n.length() - 1); // Ultimo numero da string corresponde aos atacantes
             int last_number_tatica = Integer.parseInt(lastNumberStr); // passar de string para inteiro para poder ser comparável
             if (last_number_tatica >= 3) {
-                probabilidade_ganhar = "maior";
+                probabilidade_ganhar = 40;
             } else {
-                probabilidade_ganhar = "menor";
+                probabilidade_ganhar = 10;
             }
         }
         return probabilidade_ganhar;
     }
 
-    private static String calculaPosicaoEquipa(Equipa equipa) {
+    private static double calculaPosicaoEquipa(Equipa equipa) {
         // Calcula a posicao da equipa e ajusta a probabilidade baseada no numero de Atacantes
         // For example:
         double atacantes = 0.0;
@@ -76,11 +76,11 @@ public class ProbabilidadesPartida {
         }
 
         if (atacantes > defesas) {
-            return "Atacante";
+            return (atacantes / defesas) / 100;
         } else if (defesas > atacantes) {
-            return "Defesa";
+            return (defesas / atacantes) / 100;
         } else {
-            return "Equilibrada";
+            return 50 / 100;
         }
     }
 }
