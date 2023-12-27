@@ -486,14 +486,14 @@ public class Jogador extends Pessoa implements Dados {
     // END Getters and Setters ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|------------------------------------------------------------------ JOGADORES -------------------------------------------------------------------|");
-        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-14s |%n",
+        System.out.println("|------------------------------------------------------------------ JOGADORES ------------------------------------------------------------------------|");
+        return String.format("| %-3s | %-25s | %-7s | %-20s | %-35s | %-7s | %-7s | %-14s |%n",
             "ID", "Nome", "Idade", "Posição", "Histórico de Lesões", "Ataque", "Defesa", "Nível de Agressividade");
     }
 
     @Override
     public String toString() {
-        return String.format("| %-3s | %-25s | %-7s | %-20s | %-30s | %-7s | %-7s | %-22s |%n",
+        return String.format("| %-3s | %-25s | %-7s | %-20s | %-35s | %-7s | %-7s | %-22s |%n",
             getId(), getNome(), getIdade(), getPosicaoFormatted(getPosicao()), getHist_lesoes(), getAtaque(), getDefesa(), getN_agressividade());
     }
 }
