@@ -27,10 +27,11 @@ public class ProbabilidadesPartida {
 
         // Retorna a probabilidade calculada
         return desempenhoMedio *
-            numJogadores *
-            taticasTreinador *
-            experienciaArbitros *
-            factorJogaPrimeiro;
+                numJogadores *
+                taticasTreinador *
+                experienciaArbitros *
+                teamPosition *
+                factorJogaPrimeiro;
     }
 
     private static double calculaDesempenhoMedio(Equipa equipa) {
@@ -76,11 +77,11 @@ public class ProbabilidadesPartida {
         }
 
         if (atacantes > defesas) {
-            return (atacantes / defesas) / 100;
+            return 30 * 0.1;
         } else if (defesas > atacantes) {
-            return (defesas / atacantes) / 100;
+            return 20 * 0.1;
         } else {
-            return 50 / 100;
+            return 0.5;
         }
     }
 }

@@ -84,13 +84,72 @@ public class Partida implements Dados {
         double probAdversario = ProbabilidadesPartida.calculaProbabilidade(adversario, arbitros, jogaPrimeiro(caraCoroa()));
 
         if (probEquipa > probAdversario) {
-            System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por" + partida.getResultado() +" !");
+            int golos_adv = random.nextInt(0, 5);
+            // Ensure golos_equip is greater than golos_adv
+            int golos_equip = random.nextInt(1, 10);
+            String resultado = "";
+            if (golos_equip > golos_adv) {
+                resultado = golos_equip + " : " + golos_adv;
+                partida.setResultado(resultado);
+                partida.setGolos_marcados(golos_equip);
+                partida.setGolos_sofridos(golos_adv);
+            } else if (golos_equip == golos_adv) {
+                golos_equip++;
+                resultado = golos_equip + " : " + golos_adv;
+                partida.setResultado(resultado);
+                partida.setGolos_marcados(golos_equip);
+                partida.setGolos_sofridos(golos_adv);
+            } else if (golos_equip < golos_adv) {
+                while (golos_equip < golos_adv) {
+                    golos_adv--;
+                }
+                resultado = golos_equip + " : " + golos_adv;
+                partida.setResultado(resultado);
+                partida.setGolos_marcados(golos_equip);
+                partida.setGolos_sofridos(golos_adv);
+            }
+            System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por " + resultado + " !");
         } else if (probEquipa < probAdversario) {
-            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por" + partida.getResultado() +" !");
+            int golos_adv = random.nextInt(1, 10);
+            // Ensure golos_equip is greater than golos_adv
+            int golos_equip = random.nextInt(0, 5);
+            String resultado = "";
+            if (golos_adv > golos_equip) {
+                resultado = golos_equip + " : " + golos_adv;
+                partida.setResultado(resultado);
+                partida.setGolos_marcados(golos_equip);
+                partida.setGolos_sofridos(golos_adv);
+            } else if (golos_equip == golos_adv) {
+                golos_adv++;
+                resultado = golos_equip + " : " + golos_adv;
+                partida.setResultado(resultado);
+                partida.setGolos_marcados(golos_equip);
+                partida.setGolos_sofridos(golos_adv);
+            } else if (golos_adv < golos_equip) {
+                while (golos_adv < golos_equip) {
+                    golos_equip--;
+                }
+                resultado = golos_equip + " : " + golos_adv;
+                partida.setResultado(resultado);
+                partida.setGolos_marcados(golos_equip);
+                partida.setGolos_sofridos(golos_adv);
+            }
+            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por " + resultado + " !");
         } else {
+            int golos_adv = random.nextInt(1, 10);
+            // Ensure golos_equip is greater than golos_adv
+            int golos_equip = random.nextInt(1, 10);
+            if (!(golos_equip == golos_adv)) {
+                golos_adv++;
+                resultado = golos_equip + " : " + golos_adv;
+                partida.setResultado(resultado);
+                partida.setGolos_marcados(golos_equip);
+                partida.setGolos_sofridos(golos_adv);
+            }
             System.out.println("Houve Empate entre as Equipas");
         }
     }
+
     public String caraCoroa() {
         if (random.nextInt(2) == 1) {
             return "COROA";
@@ -131,7 +190,6 @@ public class Partida implements Dados {
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
         int equipasSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
-
         try {
             // Verifica se o ArrayList das partidas está vazio
             if (!Menu.partidas.isEmpty()) {
@@ -201,8 +259,8 @@ public class Partida implements Dados {
             // Adversário
             try {
                 System.out.println(
-                    "Escolha o Adversario que pretende jogar contra a Equipa: " +
-                    Menu.equipas.get(partida.equipa - 1).getNome()
+                        "Escolha o Adversario que pretende jogar contra a Equipa: " +
+                                Menu.equipas.get(partida.equipa - 1).getNome()
                 );
                 int adversario = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
@@ -213,7 +271,7 @@ public class Partida implements Dados {
                 } else if (partida.getEquipaValues(adversario).getIdLiga() != partida.getEquipaValues(partida.equipa).getIdLiga()) {
                     System.out.println("As equipas têm que ser da mesma Liga! Tente Novamente...");
                     return inserePartida();
-                }  else if (adversario > 0 && adversario <= equipasSize) {
+                } else if (adversario > 0 && adversario <= equipasSize) {
                     partida.setAdversario(adversario); // Define o adversario da Partida
                 } else {
                     System.out.println("Tem que escolher um Adversario existente nas Equipas! Tente Novamente...");
@@ -248,22 +306,6 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
-//            // Resultado
-//            try {
-//                System.out.println("Insira o Resultado: ");
-//                String resultado = scanner.nextLine();
-//
-//                if (hasPontoEVirgulaString(resultado)) {
-//                    System.out.println("O Resultado não pode conter ponto e virgulas ';' ! Tente Novamente...");
-//                    return inserePartida();
-//                } else {
-//                    partida.setResultado(resultado); // Define o resultado da Partida
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: " + e.getMessage() + "\n");
-//                return inserePartida();
-//            }
-
             // Local
             try {
                 System.out.println("Insira o Local: ");
@@ -280,8 +322,14 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
-            simulaPartida(partida); // Simula a Partida
-            // FALTA MARCAR O RESULTADO!!
+            System.out.println("Deseja simular a partida? (sim/não)");
+            String choice = scanner.nextLine().trim().toLowerCase();
+            if (choice.equals("sim")) {
+                simulaPartida(partida); // Simula a Partida
+                // FALTA MARCAR O RESULTADO!!
+                System.out.printf(tableHeaders());
+                System.out.println(partida);
+            }
 
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -289,7 +337,8 @@ public class Partida implements Dados {
         }
 
         writeToTXT(partida);
-        System.out.println(partida);
+        /*System.out.printf(tableHeaders());
+        System.out.println(partida);*/
 
         return partida;
     }
@@ -568,21 +617,21 @@ public class Partida implements Dados {
     public static String tableHeaders() {
         System.out.println("|----------------------------------------------------------------------------------------------------- PARTIDAS --------------------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-            "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
+                "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-            getId(),
-            getNome(),
-            String.join(", ", getNomesArbitros(getArbitrosIDs())),
-            getData(),
-            getResultado(),
-            getLocal(),
-            getGolos_marcados(),
-            getGolos_sofridos(),
-            getSoma_cartoes()
+                getId(),
+                getNome(),
+                String.join(", ", getNomesArbitros(getArbitrosIDs())),
+                getData(),
+                getResultado(),
+                getLocal(),
+                getGolos_marcados(),
+                getGolos_sofridos(),
+                getSoma_cartoes()
         );
     }
     // END Other Methods ----------------------------------------------------------------
