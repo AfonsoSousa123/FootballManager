@@ -45,14 +45,14 @@ public class ArbitroPrincipal extends Arbitro {
                 String[] data = row.split(";"); // Divide a linha em partes usando o separador ";"
 
                 // Cria um novo objeto ArbitroPrincipal e preenche os seus atributos com os dados lidos do ficheiro
-                ArbitroPrincipal arbitro_p = new ArbitroPrincipal();
-                arbitro_p.setId(Integer.parseInt(data[0])); // Define o ID do árbitro
+                Arbitro arbitro_p = new ArbitroPrincipal();
+                ((ArbitroPrincipal) arbitro_p).setId(Integer.parseInt(data[0])); // Define o ID do árbitro
                 arbitro_p.setNome(data[1]); // Define o Nome do árbitro
                 arbitro_p.setIdade(Integer.parseInt(data[2])); // Define a Idade do árbitro
                 arbitro_p.setExperiencia(Integer.parseInt(data[3])); // Define a Experiência do árbitro
                 arbitro_p.setFuncao(data[4]); // Define a Função do árbitro
 
-                arbitros.add(arbitro_p); // Adiciona o objeto ArbitroPrincipal à lista de árbitros
+                arbitros.add((ArbitroPrincipal) arbitro_p); // Adiciona o objeto ArbitroPrincipal à lista de árbitros
             }
 
             return arbitros; // Retorna a lista de árbitros preenchida
@@ -76,7 +76,7 @@ public class ArbitroPrincipal extends Arbitro {
     @Override
     public String toString() {
         return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
-            getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
+                getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
     }
     // END toString Methods ----------------------------------------------------------------
 }

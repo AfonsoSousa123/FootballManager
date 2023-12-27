@@ -47,14 +47,14 @@ public class ArbitroAssistente extends Arbitro {
                 String[] data = row.split(";"); // Divide a linha em partes usando o separador ";"
 
                 // Cria um novo objeto ArbitroAssistente e preenche os seus atributos com os dados lidos do ficheiro
-                ArbitroAssistente arbitro_a = new ArbitroAssistente();
-                arbitro_a.setId(Integer.parseInt(data[0])); // Define o ID do árbitro assistente
+                Arbitro arbitro_a = new ArbitroAssistente();
+                ((ArbitroAssistente) arbitro_a).setId(Integer.parseInt(data[0])); // Define o ID do árbitro assistente
                 arbitro_a.setNome(data[1]); // Define o Nome do árbitro assistente
                 arbitro_a.setIdade(Integer.parseInt(data[2])); // Define a Idade do árbitro assistente
                 arbitro_a.setExperiencia(Integer.parseInt(data[3])); // Define a Experiência do árbitro assistente
                 arbitro_a.setFuncao(data[4]); // Define a Função do árbitro assistente
 
-                arbitros.add(arbitro_a); // Adiciona o objeto ArbitroAssistente à lista de árbitros assistentes
+                arbitros.add((ArbitroAssistente) arbitro_a); // Adiciona o objeto ArbitroAssistente à lista de árbitros assistentes
             }
 
             return arbitros; // Retorna a lista de árbitros assistentes preenchida
@@ -78,7 +78,7 @@ public class ArbitroAssistente extends Arbitro {
     @Override
     public String toString() {
         return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
-            getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
+                getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
     }
     // END toString Methods ----------------------------------------------------------------
 }
