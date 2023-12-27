@@ -153,7 +153,7 @@ public class Menu {
 
         do {
             System.out.println("|----------------------------------------|");
-            System.out.println("| FOOTBALL MANAGER 23/24:                |");
+            System.out.println("| FOOTBALL MANAGER 23/24                 |");
             System.out.println("|----------------------------------------|");
             System.out.println("| MENU PRINCIPAL:                        |");
             System.out.println("| 1. Inserir Dados                       |");
@@ -331,12 +331,15 @@ public class Menu {
                                     break;
                                 case 3:
                                     // Arbitro
+                                    System.out.println("Nao implementado!");
                                     break;
                                 case 4:
                                     // Equipa
+                                    System.out.println("Nao implementado!");
                                     break;
                                 case 5:
                                     // Liga
+                                    System.out.println("Nao implementado!");
                                     break;
                                 case 6:
                                     System.out.println("Voltando Atrás...");

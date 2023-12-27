@@ -46,7 +46,7 @@ public class Arbitro extends Pessoa implements Dados {
         Menu.arbitros_p = ArbitroPrincipal.getArbitrosPrincipais();
         Menu.arbitros_a = ArbitroAssistente.getArbitrosAssistentes();
 
-        // Combine as listas de ArbitroPrincipal e ArbitroAssistente em uma única lista
+        // Combina as listas de ArbitroPrincipal e ArbitroAssistente numa única lista
         ArrayList<Arbitro> arbitros = new ArrayList<>(Menu.arbitros_p);
         arbitros.addAll(Menu.arbitros_a);
 
@@ -109,11 +109,6 @@ public class Arbitro extends Pessoa implements Dados {
         }
 
     }*/
-
-    @Override
-    public void insertFaker() {
-        // FALTA FAZER!!!
-    }
 
     // END Interface Methods ----------------------------------------------------------------
     // BEGIN Getters and Setters ----------------------------------------------------------------

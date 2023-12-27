@@ -50,7 +50,7 @@ public class EstatisticasEquipa implements Dados {
         this.id = id;
         this.equipaID = equipaID;
         this.nomeEquipa = nomeEquipa;
-        this.desempenhoMedio = calculaDesempenhoMedioEquipa(this);
+        this.desempenhoMedio = desempenhoMedio;
         this.numVitorias = numVitorias;
         this.numDerrotas = numDerrotas;
         this.numEmpates = numEmpates;
@@ -67,7 +67,8 @@ public class EstatisticasEquipa implements Dados {
 
     public void print() {
         getStatsEquipas();
-        // Print the table Headers
+        insert(); // Insere as Estatisticas
+        // Imprime o Cabeçalho
         System.out.printf(tableHeaders());
 
         if (!Menu.statsEquipas.isEmpty()) {
@@ -77,6 +78,12 @@ public class EstatisticasEquipa implements Dados {
         } else {
             System.out.println("\nNão existem Estatisticas da Equipa!\n");
         }
+    }
+
+    @Override
+    public void insert() {
+        inserirEstatisticas();
+        System.out.println(" Estatisticas Inseridas com sucesso!");
     }
 
     public void getStatsEquipas() {
@@ -99,7 +106,7 @@ public class EstatisticasEquipa implements Dados {
                 EstatisticasEquipa equipa = new EstatisticasEquipa();
                 equipa.setId(Integer.parseInt(data[0])); // ID
                 equipa.setNomeEquipa(data[1]); // Nome Equipa
-                equipa.setDesempenhoMedio(Integer.parseInt(data[2])); // Desempenho Medio
+                equipa.setDesempenhoMedio(Double.parseDouble(data[2])); // Desempenho Medio
                 equipa.setNumVitorias(Integer.parseInt(data[3])); // Numero Vitorias
                 equipa.setNumDerrotas(Integer.parseInt(data[4])); // Numero Derrotas
                 equipa.setNumEmpates(Integer.parseInt(data[5])); // Numero Empates
@@ -141,31 +148,39 @@ public class EstatisticasEquipa implements Dados {
             // closes the output stream
             bw.close();
 
-            System.out.println("Estatisticas da Equipa inserida com Sucesso!!!");
+//            System.out.println("Estatisticas da Equipa inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir Equipa no ficheiro equipaStats.txt: " + e.getMessage());
         }
     }
 
-    private void inserirEstatisticas(ArrayList<Integer> equipas) {
-        for (Equipa equipa : Menu.equipas) {
-            int ID = equipa.getId();
-            String nome = equipa.getNome();
-            int latest = Menu.statsEquipas.get(Menu.statsEquipas.size() - 1).getId();
-            EstatisticasEquipa stats = new EstatisticasEquipa(
-                latest + 1, // ID automatically increments
-                equipaID = ID,
-                nomeEquipa = nome,
-                desempenhoMedio = getDesempenhoMedio(),
-                numVitorias = random.nextInt(1, 100),
-                numDerrotas = random.nextInt(1, 100),
-                numEmpates = random.nextInt(1, 100),
-                golosMarcados = random.nextInt(1, 500),
-                golosSofridos = random.nextInt(1, 500)
-            );
-            Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipaes ArrayList
+    private void inserirEstatisticas() {
+        if (Menu.statsEquipas.size() != Menu.equipas.size()) {
+            for (Equipa equipa : Menu.equipas) {
+                int ID = equipa.getId();
+                String nome = equipa.getNome();
+                int latest = 0;
 
-            writeToTXT(stats); // Writes the Equipa to the TXT File
+                if (!Menu.statsEquipas.isEmpty()) {
+                    // Obtém o ID da última estatistica da equipa, usando o tamanho do ArrayList e subtraindo 1
+                    latest = Menu.statsEquipas.get(Menu.statsEquipas.size() - 1).getId();
+                }
+
+                EstatisticasEquipa stats = new EstatisticasEquipa(
+                        latest + 1, // ID automatically increments
+                        equipaID = ID,
+                        nomeEquipa = nome,
+                        desempenhoMedio = calculaDesempenhoMedioEquipa(this),
+                        numVitorias = random.nextInt(1, 100),
+                        numDerrotas = random.nextInt(1, 100),
+                        numEmpates = random.nextInt(1, 100),
+                        golosMarcados = random.nextInt(1, 500),
+                        golosSofridos = random.nextInt(1, 500)
+                );
+                Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipas ArrayList
+
+                writeToTXT(stats); // Writes the Equipa to the TXT File
+            }
         }
     }
 
@@ -242,7 +257,7 @@ public class EstatisticasEquipa implements Dados {
     }
 
     public double getDesempenhoMedio() {
-        return desempenhoMedio;
+        return Math.round(desempenhoMedio * 100.0) / 100.0;
     }
 
     public void setDesempenhoMedio(double desempenhoMedio) {
@@ -293,7 +308,7 @@ public class EstatisticasEquipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|--------------------------------------------------------- ESTATISICAS DAS EQUIPAS -------------------------------------------------------------------|");
+        System.out.println("|------------------------------------------------------------------------- ESTATISICAS DAS EQUIPAS -------------------------------------------------------------------|");
         return String.format("| %-25s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |%n",
             "Equipa", "Desempenho Medio", "Vitorias", "Empates", "Derrotas", "Golos Marcados", "Golos Sofridos");
     }

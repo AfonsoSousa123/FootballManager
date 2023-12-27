@@ -1,2 +1,7 @@
 ID;Equipa;DesempenhoMedio; NumeroVitorias;NumeroDerrotas;NumeroEmpates;GolosMarcados;GolosSofridos
-1;Porto;23;34;45;12;56;67
+1;Benfica;47.54;35;3;21;478;478
+2;Sporting;92.11;39;8;70;183;183
+3;Porto;82.98;91;24;57;59;59
+4;Real Madrid;79.13;50;66;87;48;48
+5;Barcelona;43.1;17;4;96;133;133
+6;Juventus;80.95;77;40;40;51;51
