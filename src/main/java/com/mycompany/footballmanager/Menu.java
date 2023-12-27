@@ -372,6 +372,7 @@ public class Menu {
                     case 11:
                         // Criar e Simular Partida
                         partida.insert();
+                        pressEnterToContinue();
                         break;
                     case 12:
                         System.out.println("Saindo do Programa...");
