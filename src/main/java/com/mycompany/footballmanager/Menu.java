@@ -153,20 +153,20 @@ public class Menu {
 
         do {
             System.out.println("|----------------------------------------|");
-            System.out.println("| FOOTBALL MANAGER 23/24:                |");
+            System.out.println("| FOOTBALL MANAGER 23/24                 |");
             System.out.println("|----------------------------------------|");
             System.out.println("| MENU PRINCIPAL:                        |");
             System.out.println("| 1. Inserir Dados                       |");
             System.out.println("| 2. Ler Dados de Jogadores              |");
             System.out.println("| 3. Ler Dados de Treinadores            |");
             System.out.println("| 4. Ler Dados das Equipas               |");
-            System.out.println("| 5. Ler Dados dos Árbitros              |");
+            System.out.println("| 5. Ler Dados dos Arbitros              |");
             System.out.println("| 6. Ler Dados das Ligas                 |");
             System.out.println("| 7. Remover Dados                       |");
             System.out.println("| 8. Associar Equipa a uma Liga          |");
-            System.out.println("| 9. Estatísticas das Equipas            |");
+            System.out.println("| 9. Estatisticas das Equipas            |");
             System.out.println("| 10. Ver Partidas                       |");
-            System.out.println("| 11. Criar Partida                      |");
+            System.out.println("| 11. Criar e Simular Partida            |");
             System.out.println("| 12. Sair                               |");
             System.out.println("|----------------------------------------|");
             System.out.print("Escolha uma opção: ");
@@ -331,12 +331,15 @@ public class Menu {
                                     break;
                                 case 3:
                                     // Arbitro
+                                    System.out.println("Nao implementado!");
                                     break;
                                 case 4:
                                     // Equipa
+                                    System.out.println("Nao implementado!");
                                     break;
                                 case 5:
                                     // Liga
+                                    System.out.println("Nao implementado!");
                                     break;
                                 case 6:
                                     System.out.println("Voltando Atrás...");
@@ -367,7 +370,7 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 11:
-                        // Criar Partida
+                        // Criar e Simular Partida
                         partida.insert();
                         pressEnterToContinue();
                         break;

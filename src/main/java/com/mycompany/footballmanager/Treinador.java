@@ -167,23 +167,23 @@ public class Treinador extends Pessoa implements Dados {
     private void writeToTXT(Treinador treinador) {
         checkIfFileExists(txtFilePath);
 
-        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
-            BufferedWriter bw = new BufferedWriter(writer);
-            StringBuilder sb = new StringBuilder();
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) { // Inicia a escrita no ficheiro
+            BufferedWriter bw = new BufferedWriter(writer); // Cria um BufferedWriter para escrever no ficheiro
+            StringBuilder sb = new StringBuilder(); // Cria um StringBuilder para construir a linha do TXT
 
-            // Construct the CSV line
-            sb.append(treinador.getId()).append(";");
-            sb.append(treinador.getNome()).append(";");
-            sb.append(treinador.getIdade()).append(";");
-            sb.append(treinador.getEspecializacoes()).append(";");
-            sb.append(treinador.getTaticas_fav()).append("\n");
+            // Constrói a linha do ficheiro TXT
+            sb.append(treinador.getId()).append(";"); // Adiciona o ID do treinador
+            sb.append(treinador.getNome()).append(";"); // Adiciona o nome do treinador
+            sb.append(treinador.getIdade()).append(";"); // Adiciona a idade do treinador
+            sb.append(treinador.getEspecializacoes()).append(";"); // Adiciona as especializações do treinador
+            sb.append(treinador.getTaticas_fav()).append("\n"); // Adiciona as táticas favoritas do treinador e quebra de linha
 
-            // Write the CSV line to the file
+            // Escreve a linha do TXT no ficheiro
             bw.append(sb.toString());
-            // closes the output stream
+            // Fecha o BufferedWriter
             bw.close();
 
-        } catch (IOException e) {
+        } catch (IOException e) { // Captura qualquer exceção que possa ocorrer durante a escrita no ficheiro
             System.out.println("Erro ao inserir Treinador no ficheiro treinadores.txt: " + e.getMessage());
         }
     }
@@ -191,10 +191,10 @@ public class Treinador extends Pessoa implements Dados {
     @Override
     public void print() {
         getTreinadores();
-        // Print the table Headers
+        // Imprime os cabeçalhos
         System.out.printf(tableHeaders());
 
-        // Print details of all Treinadores
+        // Imprime todos os Treinadores
         if (!Menu.treinadores.isEmpty()) {
             for (Treinador treinador : Menu.treinadores) {
                 System.out.printf(treinador.toString());
@@ -207,35 +207,34 @@ public class Treinador extends Pessoa implements Dados {
     public void getTreinadores() {
         checkIfFileExists(txtFilePath);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) { // Inicia a leitura do ficheiro
             String row;
-            boolean firstLine = true; // Flag to identify the first line
-            ArrayList<Treinador> treinadores = new ArrayList<>(); // Create a new list for treinadores
+            boolean firstLine = true; // Flag para identificar a primeira linha
+            ArrayList<Treinador> treinadores = new ArrayList<>(); // Cria uma nova lista para os treinadores
 
-            while ((row = br.readLine()) != null) {
-                if (firstLine) {
-                    firstLine = false; // Set the flag to false after encountering the first line
-                    continue; // Skip processing the first line
+            while ((row = br.readLine()) != null) { // Lê o ficheiro linha por linha
+                if (firstLine) { // Verifica se é a primeira linha do ficheiro
+                    firstLine = false; // Define a flag como false depois de encontrar a primeira linha
+                    continue; // Salta o processamento da primeira linha
                 }
 
-                String[] data = row.split(";");
+                String[] data = row.split(";"); // Divide os dados da linha por ponto e vírgula
 
-                // TXT format: ID, Nome, Idade, Especializações e Taticas Favoritas
-                Treinador treinador = new Treinador();
-                treinador.setId(Integer.parseInt(data[0]));
-                treinador.setNome(data[1]);
-                treinador.setIdade(Integer.parseInt(data[2]));
-                treinador.setEspecializacoes(data[3]);
-                treinador.setTaticas_fav(data[4]);
+                // Formato do ficheiro TXT: ID, Nome, Idade, Especializações e Táticas Favoritas
+                Treinador treinador = new Treinador(); // Cria um novo objeto Treinador
+                treinador.setId(Integer.parseInt(data[0])); // Define o ID do treinador
+                treinador.setNome(data[1]); // Define o nome do treinador
+                treinador.setIdade(Integer.parseInt(data[2])); // Define a idade do treinador
+                treinador.setEspecializacoes(data[3]); // Define as especializações do treinador
+                treinador.setTaticas_fav(data[4]); // Define as táticas favoritas do treinador
 
-                // Adds the treinador to the ArrayList
-                treinadores.add(treinador);
+                treinadores.add(treinador); // Adiciona o treinador à lista de treinadores
             }
-            br.close();
+            br.close(); // Fecha o BufferedReader
 
-            // Replaces the ArrayList from Menu class with the new ArrayList
+            // Substitui a ArrayList da classe Menu pela nova ArrayList de treinadores
             Menu.treinadores = treinadores;
-        } catch (IOException e) {
+        } catch (IOException e) { // Captura qualquer exceção que possa ocorrer durante a leitura do ficheiro
             System.out.println("Erro ao ler o ficheiro treinadores.txt: " + e.getMessage());
         }
     }
@@ -269,28 +268,26 @@ public class Treinador extends Pessoa implements Dados {
             Scanner scanner = new Scanner(System.in);
 
             System.out.println("Quantos Treinadores quer gerar? ");
-            int numOfChoices = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
+            int numOfChoices = scanner.nextInt(); // Lê a quantidade de treinadores a serem gerados
+            scanner.nextLine(); // Consome o character de nova linha
 
-            if (numOfChoices < 0 || numOfChoices > 5) {
-                System.out.println("Só pode inserir no maximo 5 de cada vez! Tente Novamente...");
-                insertFaker();
+            if (numOfChoices < 0 || numOfChoices > 5) { // Verifica se a entrada é válida (de 0 a 5)
+                System.out.println("Só pode inserir no máximo 5 de cada vez! Tente Novamente...");
+                insertFaker(); // Se a entrada não for válida, chama o método novamente para nova entrada
             }
 
-            for (int i = 0; i < numOfChoices; i++) {
-                // Automatically increments the ID
-                int increment = 1;
-                int latest = 0;
-                // if the treinadores ArrayList is not empty
-                if (!Menu.treinadores.isEmpty()) {
-                    // Gets the ID of the latest treinador, using the size of the ArrayList and decrementing 1
-                    latest = Menu.treinadores.get(Menu.treinadores.size() - 1).getId();
+            for (int i = 0; i < numOfChoices; i++) { // Loop para criar o número desejado de treinadores
+                int increment = 1; // Incremento do ID
+                int latest = 0; // ID do último treinador gerado
+
+                if (!Menu.treinadores.isEmpty()) { // Verifica se há treinadores na lista
+                    latest = Menu.treinadores.get(Menu.treinadores.size() - 1).getId(); // Vai buscar o ID do último treinador existente no ficheiro
                 }
 
-                Treinador treinador = new Treinador(latest + increment);
-                treinadores.add(treinador); // Adds the new Treinador to the Treinadores ArrayList
+                Treinador treinador = new Treinador(latest + increment); // Cria um novo treinador com ID incrementado
+                Menu.treinadores.add(treinador); // Adiciona o novo treinador à lista de treinadores
 
-                writeToTXT(treinador); // Writes the Treinador to the TXT File
+                writeToTXT(treinador); // Escreve as informações do treinador no ficheiro TXT
             }
 
             System.out.println(numOfChoices + " Treinadores Gerados com sucesso!");
@@ -340,12 +337,12 @@ public class Treinador extends Pessoa implements Dados {
     public static String tableHeaders() {
         System.out.println("|----------------------------------------- TREINADORES --------------------------------------------------|");
         return String.format("| %-3s | %-30s | %-7s | %-20s | %-30s |%n",
-                "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
+            "ID", "Nome", "Idade", "Especializações", "Táticas Favoritas");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-30s | %-7s | %-20s | %-30s |%n",
-                getId(), getNome(), getIdade(), getEspecializacoes(), getTaticas_fav());
+            getId(), getNome(), getIdade(), getEspecializacoes(), getTaticas_fav());
     }
 }

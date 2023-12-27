@@ -331,8 +331,8 @@ public class Equipa implements Dados {
         System.out.printf(tableHeaders());
 
         // Imprime os detalhes de todas as equipas usando um loop
-        if (!equipas.isEmpty()) { // Verifica se a lista de equipas não está vazia
-            for (Equipa equipa : equipas) { // Itera sobre cada equipa na lista
+        if (!Menu.equipas.isEmpty()) { // Verifica se a lista de equipas não está vazia
+            for (Equipa equipa : Menu.equipas) { // Itera sobre cada equipa na lista
                 System.out.printf(equipa.toString());
             }
         } else {
@@ -408,13 +408,13 @@ public class Equipa implements Dados {
 
                 // Cria uma nova equipa com dados aleatórios e IDs autoincrementados
                 Equipa equipa = new Equipa(
-                    latest + increment, // ID automaticamente incrementado
-                    randomTeam(), // Nome aleatório
-                    generateJogadores(11), // Cria um plantel de 11 jogadores aleatórios
-                    random.nextInt(0, Menu.treinadores.size()), // ID do treinador aleatório
-                    random.nextInt(0, Menu.ligas.size()), // ID da liga aleatória
-                    randomCity(), // Cidade aleatória
-                    randomCountry() // País aleatório
+                        latest + increment, // ID automaticamente incrementado
+                        randomTeam(), // Nome aleatório
+                        generateJogadores(11), // Cria um plantel de 11 jogadores aleatórios
+                        random.nextInt(0, Menu.treinadores.size()), // ID do treinador aleatório
+                        random.nextInt(0, Menu.ligas.size()), // ID da liga aleatória
+                        randomCity(), // Cidade aleatória
+                        randomCountry() // País aleatório
                 );
 
                 equipas.add(equipa); // Adiciona a nova equipa à lista de equipas
@@ -485,35 +485,47 @@ public class Equipa implements Dados {
     }
 
     public ArrayList<String> getNomesJogadores(ArrayList<Integer> plantel) {
-        ArrayList<String> nomesJogadores = new ArrayList<>();
+        ArrayList<String> nomesJogadores = new ArrayList<>(); // Cria uma lista para armazenar os nomes dos jogadores
 
-        for (Jogador jogador : Menu.jogadores) {
-            for (Integer jogadorID : plantel) {
-                if (!plantel.isEmpty()) {
-                    if (jogador.getId() == jogadorID) {
-                        nomesJogadores.add(jogador.getNome());
+        for (Jogador jogador : Menu.jogadores) { // Percorre a lista de jogadores no Menu
+            for (Integer jogadorID : plantel) { // Percorre os IDs dos jogadores fornecidos
+                if (!plantel.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (jogador.getId() == jogadorID) { // Compara os IDs para encontrar correspondências
+                        nomesJogadores.add(jogador.getNome()); // Adiciona o nome do jogador à lista se houver correspondência
                     }
-                } else {
+                } else { // Se a lista de IDs estiver vazia
                     nomesJogadores.add("Sem Jogadores associados");
                 }
             }
         }
-        return nomesJogadores;
+        return nomesJogadores; // Retorna a lista de nomes dos jogadores correspondentes aos IDs fornecidos
     }
 
     public ArrayList<Jogador> getJogadoresValues(ArrayList<Integer> plantel) {
-        ArrayList<Jogador> jogadoresSelecionados = new ArrayList<>();
+        ArrayList<Jogador> jogadoresSelecionados = new ArrayList<>(); // Cria uma lista para armazenar os jogadores selecionados
 
-        for (Jogador jogador : Menu.jogadores) {
-            for (Integer jogadorID : plantel) {
-                if (!plantel.isEmpty()) {
-                    if (jogador.getId() == jogadorID) {
-                        jogadoresSelecionados.add(jogador);
+        for (Jogador jogador : Menu.jogadores) { // Percorre a lista de jogadores no Menu
+            for (Integer jogadorID : plantel) { // Percorre os IDs dos jogadores fornecidos
+                if (!plantel.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (jogador.getId() == jogadorID) { // Compara os IDs para encontrar correspondências
+                        jogadoresSelecionados.add(jogador); // Adiciona o jogador à lista se houver correspondência
                     }
                 }
             }
         }
-        return jogadoresSelecionados;
+        return jogadoresSelecionados; // Retorna a lista de jogadores correspondentes aos IDs fornecidos
+    }
+
+    public ArrayList<Treinador> getTreinadoresValues(int idTreinador) {
+        ArrayList<Treinador> treinadoresSelecionados = new ArrayList<>(); // Cria uma lista para armazenar os jogadores selecionados
+
+        for (Treinador treinador : treinadores) { // Percorre a lista de jogadores no Menu
+            if (treinador.getId() == idTreinador) { // Compara os IDs para encontrar correspondências
+                treinadoresSelecionados.add(treinador); // Adiciona o jogador à lista se houver correspondência
+            }
+
+        }
+        return treinadoresSelecionados; // Retorna a lista de jogadores correspondentes aos IDs fornecidos
     }
 
     public ArrayList<Integer> getPlantel() {
@@ -586,13 +598,13 @@ public class Equipa implements Dados {
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s |%n",
-            getId(),
-            getNome(),
-            String.join(", ", getNomesJogadores(getPlantel())), // Separa os nomes dos Jogadores por virgulas, retirando "[]"
-            getNomeTreinador(getIdTreinador()),
-            getNomeLiga(getIdLiga()),
-            getCidade(),
-            getPais()
+                getId(),
+                getNome(),
+                String.join(", ", getNomesJogadores(getPlantel())), // Separa os nomes dos Jogadores por virgulas, retirando "[]"
+                getNomeTreinador(getIdTreinador()),
+                getNomeLiga(getIdLiga()),
+                getCidade(),
+                getPais()
         );
     }
     // END toString Methods ----------------------------------------------------------------

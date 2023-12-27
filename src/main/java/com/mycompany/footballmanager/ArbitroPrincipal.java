@@ -29,38 +29,40 @@ public class ArbitroPrincipal extends Arbitro {
     // END Constructors ----------------------------------------------------------------
 
     public static ArrayList<ArbitroPrincipal> getArbitrosPrincipais() {
-        checkIfFileExists(txtFilePath);
+        checkIfFileExists(txtFilePath); // Verifica se o ficheiro existe
 
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
             String row;
-            boolean firstLine = true;
-            ArrayList<ArbitroPrincipal> arbitros = new ArrayList<>();
+            boolean firstLine = true; // Flag para identificar a primeira linha
+            ArrayList<ArbitroPrincipal> arbitros = new ArrayList<>(); // Cria uma nova lista para os árbitros
 
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
                     firstLine = false;
-                    continue;
+                    continue; // Ignora o processamento da primeira linha (cabeçalho)
                 }
 
-                String[] data = row.split(";");
+                String[] data = row.split(";"); // Divide a linha em partes usando o separador ";"
 
-                ArbitroPrincipal arbitro_p = new ArbitroPrincipal();
-                arbitro_p.setId(Integer.parseInt(data[0]));
-                arbitro_p.setNome(data[1]);
-                arbitro_p.setIdade(Integer.parseInt(data[2]));
-                arbitro_p.setExperiencia(Integer.parseInt(data[3]));
-                arbitro_p.setFuncao(data[4]);
+                // Cria um novo objeto ArbitroPrincipal e preenche os seus atributos com os dados lidos do ficheiro
+                Arbitro arbitro_p = new ArbitroPrincipal();
+                ((ArbitroPrincipal) arbitro_p).setId(Integer.parseInt(data[0])); // Define o ID do árbitro
+                arbitro_p.setNome(data[1]); // Define o Nome do árbitro
+                arbitro_p.setIdade(Integer.parseInt(data[2])); // Define a Idade do árbitro
+                arbitro_p.setExperiencia(Integer.parseInt(data[3])); // Define a Experiência do árbitro
+                arbitro_p.setFuncao(data[4]); // Define a Função do árbitro
 
-                arbitros.add(arbitro_p);
+                arbitros.add((ArbitroPrincipal) arbitro_p); // Adiciona o objeto ArbitroPrincipal à lista de árbitros
             }
 
-            return arbitros;
+            return arbitros; // Retorna a lista de árbitros preenchida
         } catch (IOException e) {
             System.out.println("Erro ao ler o ficheiro arbitros.txt: " + e.getMessage());
-            return new ArrayList<>(); // Retorna uma lista vazia em caso de erro
+            return new ArrayList<>(); // Retorna uma lista vazia em caso de erro na leitura do ficheiro
         }
     }
 
+    // BEGIN Getters and Setters ----------------------------------------------------------------
     public void setId(int id) {
         this.id = id;
     }
@@ -68,6 +70,7 @@ public class ArbitroPrincipal extends Arbitro {
     public int getId() {
         return id;
     }
+    // END Getters and Setters ----------------------------------------------------------------
 
     // BEGIN toString Methods ----------------------------------------------------------------
     @Override

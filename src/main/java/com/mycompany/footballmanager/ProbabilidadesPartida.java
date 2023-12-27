@@ -4,82 +4,84 @@
  */
 package com.mycompany.footballmanager;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
- *
  * @author afonso, milena, tânia
  */
 public class ProbabilidadesPartida {
-    private Random random = new Random();
 
-    public static double calculaProbabilidade(Equipa equipa, Arbitro arbitro, boolean JogaPrimeiro) {
+    public static double calculaProbabilidade(Equipa equipa, ArrayList<Arbitro> arbitros, boolean JogaPrimeiro) {
         double desempenhoMedio = calculaDesempenhoMedio(equipa);
         int numJogadores = equipa.getPlantel().size();
         double taticasTreinador = calculaTaticasTreinador(equipa);
-        double experienciaArbitro = arbitro.getExperiencia();
-        String teamPosition = calculaPosicaiEquipa(equipa);
+        double experienciaArbitros = 0;
+        double teamPosition = calculaPosicaoEquipa(equipa);
         double factorJogaPrimeiro = JogaPrimeiro ? 1.1 : 1.0;
 
-        // Return the calculated probability
+        for (Arbitro arbitro : arbitros) {
+            experienciaArbitros += arbitro.getExperiencia();
+        }
+
+        // Retorna a probabilidade calculada
         return desempenhoMedio *
-                numJogadores *
-                taticasTreinador *
-//                experienciaArbitro *
-                factorJogaPrimeiro;
+            numJogadores *
+            taticasTreinador *
+            experienciaArbitros *
+            teamPosition *
+            factorJogaPrimeiro;
     }
 
     private static double calculaDesempenhoMedio(Equipa equipa) {
-        // Calcula o desemsenho medio de cada jogador baseado no seu historico de lesoes
+        // Calcula o desemsenho medio de cada jogador baseado no seu historico de lesoes e no seu nivel de agressividade
         double desempenhoTotal = 0.0;
-//         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
-//             double desempenho = (jogador.getGoals() + jogador.getAssists()) / (jogador.getGamesPlayed() + 1);
-//             double impactoDaLesao = jogador.getHist_lesoes().size() * 0.1; // aqui vamos fazer um split da String do historico e usar a lenght como o numero de lesoes
-//             desempenhoTotal += desempenho - impactoDaLesao;
-//         }
+        for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
+            double desempenho = (jogador.getHist_lesoes().length() * 0.1 / (jogador.getN_agressividade() + jogador.getAtaque() + jogador.getDefesa()));
+            desempenhoTotal += desempenho;
+        }
 
         // Retorna o desempenho medio
         return desempenhoTotal / equipa.getPlantel().size();
     }
 
     private static double calculaTaticasTreinador(Equipa equipa) {
-        // Calculate the impact of the coach's tactics on the team's performance
-        // For example:
-         double attackingPlayers = 0.0;
-         double defendingPlayers = 0.0;
-         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
-             if (jogador.getPosicao().equals("Atacante")) {
-                 attackingPlayers += 1.0;
-             } else if (jogador.getPosicao().equals("Defesa")) {
-                 defendingPlayers += 1.0;
-             }
-         }
+        double probabilidade_ganhar = 0;
+        // Impacto da tática do treinador na probabilidade de ganhar
+        for (Treinador treinador : equipa.getTreinadoresValues(equipa.getIdTreinador())) {
+            String tatica_n = treinador.getTaticas_fav().replaceAll("-", ""); // String sem "-"
+            String lastNumberStr = tatica_n.substring(tatica_n.length() - 1); // Ultimo numero da string corresponde aos atacantes
+            int last_number_tatica = Integer.parseInt(lastNumberStr); // passar de string para inteiro para poder ser comparável
 
-//         Retorna as Taticas do Treinador
-        return attackingPlayers / (attackingPlayers + defendingPlayers);
+            if (last_number_tatica >= 3) {
+                probabilidade_ganhar = 40;
+            } else {
+                probabilidade_ganhar = 10;
+            }
+        }
+        return probabilidade_ganhar;
     }
 
-    private static String calculaPosicaiEquipa(Equipa equipa) {
+    private static double calculaPosicaoEquipa(Equipa equipa) {
         // Calcula a posicao da equipa e ajusta a probabilidade baseada no numero de Atacantes
         // For example:
-         double atacantes = 0.0;
-         double defesas = 0.0;
+        double atacantes = 0.0;
+        double defesas = 0.0;
 
-         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
-             if (jogador.getPosicao().equals("AVANCADO") || jogador.getPosicao().equals("CENTRAL")) {
-                 atacantes += 1.0;
-             } else if (jogador.getPosicao().equals("DEFESA") || jogador.getPosicao().equals("MEDIO")) {
-                 defesas += 1.0;
-             }
-         }
+        for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
+            if (jogador.getPosicao() == Posicao.AVANCADO || jogador.getPosicao() == Posicao.CENTRAL) {
+                atacantes += 1.0;
+            } else if (jogador.getPosicao() == Posicao.DEFESA || jogador.getPosicao() == Posicao.MEDIO) {
+                defesas += 1.0;
+            }
+        }
 
-         if (atacantes > defesas) {
-             return "Atacante";
-         } else if (defesas > atacantes) {
-             return "Defesa";
-         } else {
-             return "Equilibrada";
-         }
+        if (atacantes > defesas) {
+            return 30 * 0.1; // 30% de chance para os atacantes
+        } else if (defesas > atacantes) {
+            return 20 * 0.1; // 20% de chance para os atacantes
+        } else {
+            return 0.5;
+        }
     }
 }
 

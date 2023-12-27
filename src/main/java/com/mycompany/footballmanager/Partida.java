@@ -41,7 +41,7 @@ public class Partida implements Dados {
         equipa = 0;
         adversario = 0;
         data = randomDate();
-        resultado = random.nextInt(0, 10) + ":" + random.nextInt(0, 10);
+        resultado = random.nextInt(0, 10) + " : " + random.nextInt(0, 10);
         local = randomCity();
         golos_marcados = random.nextInt(0, 20);
         golos_sofridos = random.nextInt(0, 20);
@@ -49,16 +49,16 @@ public class Partida implements Dados {
     }
 
     public Partida(
-            String nome,
-            ArrayList<Integer> arbitros,
-            int equipa,
-            int adversario,
-            String data,
-            String resultado,
-            String local,
-            int golos_marcados,
-            int golos_sofridos,
-            int soma_cartoes
+        String nome,
+        ArrayList<Integer> arbitros,
+        int equipa,
+        int adversario,
+        String data,
+        String resultado,
+        String local,
+        int golos_marcados,
+        int golos_sofridos,
+        int soma_cartoes
     ) {
         this.nome = nome;
         this.arbitros = arbitros;
@@ -76,19 +76,118 @@ public class Partida implements Dados {
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     public void simulaPartida(Partida partida) {
-        if (partida.getEquipaID() > partida.getAdversarioID()) {
-            System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por" + partida.getResultado() +" !");
-        } else if (partida.getEquipaID() < partida.getAdversarioID()) {
-            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por" + partida.getResultado() +" !");
+        ArrayList<Arbitro> arbitros = partida.getArbitrosValues(partida.getArbitrosIDs());
+        Equipa equipa = partida.getEquipaValues(partida.getEquipaID());
+        Equipa adversario = partida.getEquipaValues(partida.getAdversarioID());
+
+        boolean jogaPrimeiroEquipa = decideEquipaQueJogaPrimeiro(partida);
+
+        double probEquipa = ProbabilidadesPartida.calculaProbabilidade(equipa, arbitros, jogaPrimeiroEquipa);
+        double probAdversario = ProbabilidadesPartida.calculaProbabilidade(adversario, arbitros, !jogaPrimeiroEquipa);
+
+        if (probEquipa > probAdversario) {
+            System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por " + geraGolosEquipa(partida) + " !");
+        } else if (probEquipa < probAdversario) {
+            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por " + geraGolosAdversario(partida) + " !");
         } else {
-            System.out.println("Houve Empate entre as Equipas");
+            System.out.println("Houve Empate entre as Equipas por " + geraGolosEmpate(partida));
         }
     }
+
+    private String geraGolosEquipa(Partida partida) {
+        int golos_adv = random.nextInt(0, 5);
+        // Ensure golos_equip is greater than golos_adv
+        int golos_equip = random.nextInt(1, 10);
+        String resultado = "";
+
+        if (golos_equip > golos_adv) {
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_equip == golos_adv) {
+            golos_equip++;
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_equip < golos_adv) {
+            while (golos_equip < golos_adv) {
+                golos_adv--;
+            }
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        }
+
+        return resultado;
+    }
+
+    private String geraGolosAdversario(Partida partida) {
+        int golos_adv = random.nextInt(1, 10);
+        int golos_equip = random.nextInt(0, 5);
+        String resultado = "";
+
+        if (golos_adv > golos_equip) {
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_equip == golos_adv) {
+            golos_adv++;
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_adv < golos_equip) {
+            while (golos_adv < golos_equip) {
+                golos_equip--;
+            }
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        }
+
+        return resultado;
+    }
+
+    private String geraGolosEmpate(Partida partida) {
+        int golos_adv = random.nextInt(1, 10);
+        int golos_equip = random.nextInt(1, 10);
+        String resultado = "";
+
+        if (!(golos_equip == golos_adv)) {
+            golos_adv++;
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        }
+
+        return resultado;
+    }
+
     public String caraCoroa() {
-        if (random.nextInt(2) == 1) {
-            return "COROA";
+        return (random.nextBoolean()) ? "COROA" : "CARA";
+    }
+
+    public boolean jogaPrimeiro(String moeda) {
+        System.out.println("A moeda lançada foi: " + moeda);
+        return moeda.equals("COROA");
+    }
+
+    public boolean decideEquipaQueJogaPrimeiro(Partida partida) {
+        String resultadoMoeda = caraCoroa(); // Gerar o resultado do lançamento da moeda
+        boolean jogaPrimeiroEquipa = jogaPrimeiro(resultadoMoeda); // Verificar qual equipa joga primeiro
+
+        if (jogaPrimeiroEquipa) {
+            System.out.println(getNomeEquipa(partida.getEquipaID()) + " jogará primeiro.");
+            return true; // A Equipa joga primeiro
         } else {
-            return "CARA";
+            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " jogará primeiro.");
+            return false; // O Adversario joga primeiro
         }
     }
 
@@ -98,7 +197,7 @@ public class Partida implements Dados {
         boolean insertMore = true;
 
         while (insertMore) {
-            getPartidas(); // Updates the Partidas ArrayList
+            getPartidas(); // Atualiza o ArrayList das Partidas
             Menu.partidas.add(inserePartida());
 
             try {
@@ -112,7 +211,6 @@ public class Partida implements Dados {
                 System.out.println("Erro: " + e.getMessage());
             }
         }
-        scanner.close();
     }
 
     public Partida inserePartida() {
@@ -120,15 +218,15 @@ public class Partida implements Dados {
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
         int equipasSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
-
+      
         try {
-            // if the partidas ArrayList is not empty
+            // Verifica se o ArrayList das partidas está vazio
             if (!Menu.partidas.isEmpty()) {
-                // Gets the ID of the latest partida, using the size of the ArrayList and decrementing 1
+                // Obtém o ID da última partida, usando o tamanho do ArrayList e subtraindo 1
                 latest = Menu.partidas.get(Menu.partidas.size() - 1).getId();
             }
 
-            // Automatically increments the ID
+            // Incrementa o ID automaticamente
             int increment = 1;
             partida.setId(latest + increment);
 
@@ -145,8 +243,11 @@ public class Partida implements Dados {
                     int idArbitro = scanner.nextInt(); // recebe o id do Arbitro
                     scanner.nextLine(); // Consume newline character
 
-                    if (idArbitro > 0 && idArbitro <= arbitrosSize) {
-                        ArbitrosIDs.add(idArbitro);
+                    if ((ArbitrosIDs.contains(idArbitro))) {
+                        System.out.println("Não pode inserir o mesmo Arbitro novamente! Tente ne novo...");
+                        continue;
+                    } else if (idArbitro > 0 && idArbitro <= arbitrosSize) {
+                        ArbitrosIDs.add(idArbitro); // Adiciona o Id do arbitro ao ArrayList ArbitrosIDs
                     } else if (ArbitrosIDs.size() > 4) {
                         System.out.println("Chegou ao limite de Arbitros por Partida!");
                         break;
@@ -177,7 +278,7 @@ public class Partida implements Dados {
                 scanner.nextLine(); // Consume newline character
 
                 if (equipaID > 0 && equipaID <= equipasSize) {
-                    partida.setEquipa(equipaID);
+                    partida.setEquipa(equipaID); // Define a equipa da Partida
                 } else {
                     System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
                     return inserePartida();
@@ -202,8 +303,8 @@ public class Partida implements Dados {
                 } else if (partida.getEquipaValues(adversario).getIdLiga() != partida.getEquipaValues(partida.equipa).getIdLiga()) {
                     System.out.println("As equipas têm que ser da mesma Liga! Tente Novamente...");
                     return inserePartida();
-                }  else if (adversario > 0 && adversario <= equipasSize) {
-                    partida.setAdversario(adversario);
+                } else if (adversario > 0 && adversario <= equipasSize) {
+                    partida.setAdversario(adversario); // Define o adversario da Partida
                 } else {
                     System.out.println("Tem que escolher um Adversario existente nas Equipas! Tente Novamente...");
                     return inserePartida();
@@ -226,27 +327,11 @@ public class Partida implements Dados {
                 System.out.println("Insira a Data: ");
                 String data = scanner.nextLine();
 
-                if (!Menu.validarData(data)) {
+                if (!validarData(data)) {
                     System.out.println("A data não está de acordo com o formato: DD-MM-AAAA, tente novamente ");
                     return inserePartida();
                 } else {
-                    partida.setData(data);
-                }
-            } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
-                return inserePartida();
-            }
-
-            // Resultado
-            try {
-                System.out.println("Insira o Resultado: ");
-                String resultado = scanner.nextLine();
-
-                if (Menu.hasPontoEVirgulaString(resultado)) {
-                    System.out.println("O Resultado não pode conter ponto e virgulas ';' ! Tente Novamente...");
-                    return inserePartida();
-                } else {
-                    partida.setResultado(resultado);
+                    partida.setData(data); // Define a data da Partida
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -258,7 +343,7 @@ public class Partida implements Dados {
                 System.out.println("Insira o Local: ");
                 String local = scanner.nextLine();
 
-                if (Menu.hasPontoEVirgulaString(local)) {
+                if (hasPontoEVirgulaString(local)) {
                     System.out.println("O Local da Partida não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return inserePartida();
                 } else {
@@ -269,82 +354,54 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
-//            // Golos Marcados
-//            try {
-//                System.out.println("Insira a quantidade de Golos Marcados: ");
-//                int golosMarcados = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosMarcados >= 0 && golosMarcados < 5000) {
-//                    partida.setGolos_marcados(golosMarcados);
-//                } else {
-//                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
-//                    return inserePartida();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return inserePartida();
-//            }
-//
-//            // Golos Sofridos
-//            try {
-//                System.out.println("Insira a quantidade de Golos Sofridos: ");
-//                int golosSofridos = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosSofridos >= 0 && golosSofridos < 5000) {
-//                    partida.setGolos_sofridos(golosSofridos);
-//                } else {
-//                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
-//                    return inserePartida();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return inserePartida();
-//            }
+            System.out.println("Deseja simular a Partida? (sim/não)");
+            String choice = scanner.nextLine().trim().toLowerCase();
+            if (choice.equals("sim")) {
+                simulaPartida(partida); // Simula a Partida
+                System.out.printf(tableHeaders());
+                System.out.println(partida);
+            }
+
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return inserePartida();
         }
-
         writeToTXT(partida);
-        System.out.println(partida);
 
         return partida;
     }
 
-    // Method to write Partida data to a TXT file
+    // Metodo para inserir Partida no ficheiro TXT
     private void writeToTXT(Partida partida) {
         checkIfFileExists(txtFilePath);
 
-        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) { // Abre o ficheiro para escrita
             BufferedWriter bw = new BufferedWriter(writer);
             StringBuilder sb = new StringBuilder();
 
-            // Construct the TXT line
-            sb.append(partida.getId()).append(";"); // get ID
-            sb.append(partida.getNome()).append(";"); // get Nome ID
-            // Append the equipa elements with comma separator
+            // Constrói a linha para ser escrita no ficheiro
+            sb.append(partida.getId()).append(";"); // Obtém o ID
+            sb.append(partida.getNome()).append(";"); // Obtém o Nome
+            // Adiciona os IDs dos árbitros separados por vírgula
             for (Integer arbitroID : partida.getArbitrosIDs()) {
                 sb.append(arbitroID).append(",");
             }
-            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
-            sb.append(";"); // Para poder ser colocada ponto e virgula
-            sb.append(partida.getEquipaID()).append(";"); // get Equipa
-            sb.append(partida.getAdversarioID()).append(";"); // get Adversario
-            sb.append(partida.getData()).append(";"); // get Data
-            sb.append(partida.getResultado()).append(";"); // get Resultado
-            sb.append(partida.getLocal()).append(";"); // get Local
-            sb.append(partida.getGolos_marcados()).append(";"); // get Golos Marados
-            sb.append(partida.getGolos_sofridos()).append(";"); // get Golos Sofridos
-            sb.append(partida.getSoma_cartoes()).append("\n"); // get Soma Cartoes
+            sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula
+            sb.append(";"); // Adiciona ponto e vírgula
+            sb.append(partida.getEquipaID()).append(";"); // Obtém a Equipa
+            sb.append(partida.getAdversarioID()).append(";"); // Obtém o Adversário
+            sb.append(partida.getData()).append(";"); // Obtém a Data
+            sb.append(partida.getResultado()).append(";"); // Obtém o Resultado
+            sb.append(partida.getLocal()).append(";"); // Obtém o Local
+            sb.append(partida.getGolos_marcados()).append(";"); // Obtém os Golos Marcados
+            sb.append(partida.getGolos_sofridos()).append(";"); // Obtém os Golos Sofridos
+            sb.append(partida.getSoma_cartoes()).append("\n"); // Obtém a Soma de Cartões
 
-            // Write the line to the file
+            // Escreve a linha no ficheiro
             bw.append(sb.toString());
-            // closes the output stream
+            // Fecha o buffer
             bw.close();
 
-            System.out.println("Partida inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir Partida no ficheiro partidas.txt: " + e.getMessage());
         }
@@ -353,10 +410,10 @@ public class Partida implements Dados {
     @Override
     public void print() {
         getPartidas();
-        // Print the table Headers
+        // Imprime o cabeçalho da tabela
         System.out.printf(tableHeaders());
 
-        // Print details of all partidas using a loop
+        // Imprime todas as Partidas
         if (!partidas.isEmpty()) {
             for (Partida partida : partidas) {
                 System.out.printf(partida.toString());
@@ -370,44 +427,46 @@ public class Partida implements Dados {
         checkIfFileExists(txtFilePath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
-            boolean firstLine = true; // Flag to identify the first line
-            ArrayList<Partida> partidas = new ArrayList<>(); // Create a new list for partidas
+            boolean firstLine = true; // Flag para identificar a primeira linha
+            ArrayList<Partida> partidas = new ArrayList<>(); // Cria uma nova lista para armazenar as partidas
             String row;
 
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
-                    firstLine = false; // Set the flag to false after encountering the first line
-                    continue; // Skip processing the first line
+                    firstLine = false; // Define a flag como false após encontrar a primeira linha
+                    continue; // Ignora o processamento da primeira linha (O cabeçalho)
                 }
-                String[] data = row.split(";");
+                String[] data = row.split(";"); // Divide a linha em partes usando o separador ";"
 
-                // TXT format: ID, Nome, Arbitro, Equipa, Adversario, Data, Resultado, Local, Golos Marcados, Golos Sofridos, Soma Cartoes
+                // Cria um novo objeto Partida e preenche os seus atributos com os dados lidos do ficheiro
                 Partida partida = new Partida();
-                partida.setId(Integer.parseInt(data[0])); // ID
-                partida.setNome(data[1]); // Nome
+                partida.setId(Integer.parseInt(data[0])); // Define o ID da partida
+                partida.setNome(data[1]); // Define o Nome da partida
 
-                String[] arbitrosIds = data[2].split(","); // gets the ids of the equipas
+                // Processamento dos IDs dos árbitros
+                String[] arbitrosIds = data[2].split(","); // Separa os IDs dos árbitros por vírgula
                 ArrayList<Integer> arbitros = new ArrayList<>();
-
                 for (String arbitroId : arbitrosIds) {
-                    arbitros.add(Integer.parseInt(arbitroId));
+                    arbitros.add(Integer.parseInt(arbitroId)); // Adiciona os IDs dos árbitros à lista
                 }
-                partida.setArbitrosIDs(arbitros); // Arbitros
-                partida.setEquipa(Integer.parseInt(data[3])); // Equipa
-                partida.setAdversario(Integer.parseInt(data[4])); // Adversario
-                partida.setData(data[5]); // Data
-                partida.setResultado(data[6]); // Resultado
-                partida.setLocal(data[7]); // Local
-                partida.setGolos_marcados(Integer.parseInt(data[8])); // Golos Marcados
-                partida.setGolos_sofridos(Integer.parseInt(data[9])); // Golos Sofridos
-                partida.setSoma_cartoes(Integer.parseInt(data[10])); // Soma Cartoes
+                partida.setArbitrosIDs(arbitros); // Define os IDs dos árbitros da partida
 
-                // Adds the partida to the ArrayList
+                // Define os outros atributos da partida com base nos dados lidos do ficheiro
+                partida.setEquipa(Integer.parseInt(data[3])); // Define a Equipa da partida
+                partida.setAdversario(Integer.parseInt(data[4])); // Define o Adversário da partida
+                partida.setData(data[5]); // Define a Data da partida
+                partida.setResultado(data[6]); // Define o Resultado da partida
+                partida.setLocal(data[7]); // Define o Local da partida
+                partida.setGolos_marcados(Integer.parseInt(data[8])); // Define os Golos Marcados na partida
+                partida.setGolos_sofridos(Integer.parseInt(data[9])); // Define os Golos Sofridos na partida
+                partida.setSoma_cartoes(Integer.parseInt(data[10])); // Define a Soma dos Cartões na partida
+
+                // Adiciona o objeto Partida à lista de partidas
                 partidas.add(partida);
             }
-            br.close();
+            br.close(); // Fecha o ficheiro
 
-            // Replaces the ArrayList from Menu class with the new ArrayList
+            // Substitui a ArrayList na classe Menu pela nova ArrayList criada com os dados lidos do ficheiro
             Menu.partidas = partidas;
         } catch (IOException e) {
             System.out.println("Erro ao ler o ficheiro partidas.txt: " + e.getMessage());
@@ -438,20 +497,35 @@ public class Partida implements Dados {
     }
 
     public ArrayList<String> getNomesArbitros(ArrayList<Integer> arbitros) {
-        ArrayList<String> nomesArbitros = new ArrayList<>();
+        ArrayList<String> nomesArbitros = new ArrayList<>(); // Cria uma lista para armazenar os nomes dos árbitros
 
-        for (Arbitro arbitro : Menu.arbitros) {
-            for (Integer arbitroID : arbitros) {
-                if (!arbitros.isEmpty()) {
-                    if (arbitro.getId() == arbitroID) {
-                        nomesArbitros.add(arbitro.getNome());
+        for (Arbitro arbitro : Menu.arbitros) { // Percorre a lista de árbitros no Menu
+            for (Integer arbitroID : arbitros) { // Percorre os IDs dos árbitros fornecidos
+                if (!arbitros.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (arbitro.getId() == arbitroID) { // Compara os IDs para encontrar correspondências
+                        nomesArbitros.add(arbitro.getNome()); // Adiciona o nome do árbitro à lista se houver correspondência
                     }
-                } else {
+                } else { // Se a lista de IDs estiver vazia
                     nomesArbitros.add("Sem Arbitros associados");
                 }
             }
         }
-        return nomesArbitros;
+        return nomesArbitros; // Retorna a lista de nomes dos árbitros correspondentes aos IDs fornecidos
+    }
+
+    public ArrayList<Arbitro> getArbitrosValues(ArrayList<Integer> arbitros) {
+        ArrayList<Arbitro> Arbitros = new ArrayList<>(); // Cria uma lista para armazenar os nomes dos árbitros
+
+        for (Arbitro arbitro : Menu.arbitros) { // Percorre a lista de árbitros no Menu
+            for (Integer arbitroID : arbitros) { // Percorre os IDs dos árbitros fornecidos
+                if (!arbitros.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (arbitro.getId() == arbitroID) { // Compara os IDs para encontrar correspondências
+                        Arbitros.add(arbitro); // Adiciona o nome do árbitro à lista se houver correspondência
+                    }
+                }
+            }
+        }
+        return Arbitros; // Retorna a lista de nomes dos árbitros correspondentes aos IDs fornecidos
     }
 
     public void setArbitrosIDs(ArrayList<Integer> arbitros) {
@@ -463,22 +537,23 @@ public class Partida implements Dados {
     }
 
     public String getNomeEquipa(int id) {
-        for (Equipa equipa : Menu.equipas) {
-            if (equipa.getId() == id) {
-                return equipa.getNome();
+        for (Equipa equipa : equipas) { // Percorre a lista de equipas no Menu
+            if (equipa.getId() == id) { // Verifica se o ID da equipas corresponde ao ID fornecido
+                return equipa.getNome(); // Retorna o nome da equipas se houver correspondência
             }
         }
-        return "Sem Equipa associada"; // Retorna um valor predefinido se o id não for encontrado
+        return "Sem Equipa associada";
     }
 
     public Equipa getEquipaValues(int id) {
-        for (Equipa equipa : Menu.equipas) {
-            if (equipa.getId() == id) {
-                return equipa;
+        for (Equipa equipa : equipas) {
+            if (equipa.getId() == id) { // Verifica se o ID da equipas corresponde ao ID fornecido
+                return equipa; // Retorna o objeto completo da equipas se houver correspondência
             }
         }
-        return null;
+        return null; // Retorna null se não houver correspondência do ID da equipas
     }
+
 
     public void setEquipa(int equipa) {
         this.equipa = equipa;
@@ -489,9 +564,9 @@ public class Partida implements Dados {
     }
 
     public String getNomeAdversario(int id) {
-        for (Equipa adversario : Menu.equipas) {
-            if (adversario.getId() == id) {
-                return adversario.getNome();
+        for (Equipa adversario : equipas) {
+            if (adversario.getId() == id) { // Verifica se o ID do adversario corresponde ao ID fornecido
+                return adversario.getNome(); // Retorna o nome do adversario se houver correspondência
             }
         }
         return "Sem Adversario associado"; // Retorna um valor predefinido se o id não for encontrado
@@ -548,7 +623,6 @@ public class Partida implements Dados {
     public void setSoma_cartoes(int soma_cartoes) {
         this.soma_cartoes = soma_cartoes;
     }
-
     // END Getters and Setters ----------------------------------------------------------------
 
     // BEGIN Other Methods ----------------------------------------------------------------
@@ -567,23 +641,23 @@ public class Partida implements Dados {
 
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|----------------------------------------------------------------------------------------------------- PARTIDAS --------------------------------------------------------------------------------------------------------------------------|");
+        System.out.println("|--------------------------------------------------------------------------------------------- PARTIDAS ------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-                "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
+            "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-                getId(),
-                getNome(),
-                String.join(", ", getNomesArbitros(getArbitrosIDs())),
-                getData(),
-                getResultado(),
-                getLocal(),
-                getGolos_marcados(),
-                getGolos_sofridos(),
-                getSoma_cartoes()
+            getId(),
+            getNome(),
+            String.join(", ", getNomesArbitros(getArbitrosIDs())),
+            getData(),
+            getResultado(),
+            getLocal(),
+            getGolos_marcados(),
+            getGolos_sofridos(),
+            getSoma_cartoes()
         );
     }
     // END Other Methods ----------------------------------------------------------------

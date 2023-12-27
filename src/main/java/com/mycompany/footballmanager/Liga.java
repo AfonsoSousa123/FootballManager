@@ -81,11 +81,11 @@ public class Liga implements Dados {
 
         try {
             if (!Menu.ligas.isEmpty()) {
-                // Gets the ID of the latest liga, using the size of the ArrayList and decrementing 1
+                // Obtém o ID da última liga, usando o tamanho do ArrayList e subtraindo 1
                 latest = Menu.ligas.get(Menu.ligas.size() - 1).getId();
             }
 
-            // Automatically increments the ID
+            // Incrementa automaticamente o ID
             int increment = 1;
             liga.setId(latest + increment);
 
@@ -95,11 +95,11 @@ public class Liga implements Dados {
                 System.out.println("Insira o Nome: ");
                 String nome = scanner.nextLine();
 
-                if (Menu.hasPontoEVirgulaString(nome)) {
+                if (Menu.hasPontoEVirgulaString(nome)) { // Verifica se o nome contém ponto e vírgula
                     System.out.println("O Nome da Liga não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereLiga();
                 } else {
-                    liga.setNome(nome);
+                    liga.setNome(nome); // Define o nome da Liga
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -115,7 +115,7 @@ public class Liga implements Dados {
                     System.out.println("O País da Liga não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereLiga();
                 } else {
-                    liga.setPais(pais);
+                    liga.setPais(pais); // Define o país da Liga
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -227,45 +227,48 @@ public class Liga implements Dados {
             return insereLiga();
         }
 
-        writeToTXT(liga);
+        writeToTXT(liga); // Escreve as informações da Liga no ficheiro
         System.out.println(liga);
         System.out.println("Liga inserida com Sucesso!!!");
 
-        return liga;
+        return liga; // Retorna a Liga criada
     }
 
-    // Method to write Liga data to a TXT file
+    // Metodo para inserir Liga no ficheiro TXT
     private void writeToTXT(Liga liga) {
         checkIfFileExists(txtFilePath);
 
-        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
-            BufferedWriter bw = new BufferedWriter(writer);
-            StringBuilder sb = new StringBuilder();
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) { // Abre o ficheiro para escrita
+            BufferedWriter bw = new BufferedWriter(writer); // Cria um BufferedWriter para escrever no ficheiro
+            StringBuilder sb = new StringBuilder(); // Cria um StringBuilder para construir a linha de texto
 
-            // Construct the TXT line
-            sb.append(liga.getId()).append(";");
-            sb.append(liga.getNome()).append(";");
-            sb.append(liga.getPais()).append(";");
-            // Append the equipa elements with comma separator
+            // Constrói a linha de texto com o seguinte formato para a Liga
+            sb.append(liga.getId()).append(";"); // ID da Liga
+            sb.append(liga.getNome()).append(";"); // Nome da Liga
+            sb.append(liga.getPais()).append(";"); // País da Liga
+
+            // Adiciona os IDs das equipas separados por vírgula
             for (Integer equipaID : liga.getEquipas()) {
                 sb.append(equipaID).append(",");
             }
-            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
-            sb.append(";"); // Para poder ser colocada ponto e virgula
-            // Append the partida elements with comma separator
+            sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula
+            sb.append(";"); // Adiciona um ponto e vírgula para separação
+
+            // Adiciona os IDs das partidas com separador de vírgula
             for (Integer partidaID : liga.getPartidas()) {
                 sb.append(partidaID).append(",");
             }
-            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
-            sb.append(";"); // Para poder ser colocada ponto e virgula
-            sb.append(liga.getRankingEquipas()).append("\n");
+            sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula
+            sb.append(";"); // Adiciona um ponto e vírgula para separação
 
-            // Write the TXT line to the file
+            sb.append(liga.getRankingEquipas()).append("\n"); // Adiciona o ranking das equipas e vai linha abaixo
+
+            // Escreve a linha de texto no ficheiro
             bw.append(sb.toString());
-            // closes the output stream
+            // Fecha o BufferedWriter
             bw.close();
 
-        } catch (IOException e) {
+        } catch (IOException e) { // Captura qualquer exceção de I/O que possa ocorrer
             System.out.println("Erro ao inserir Liga no ficheiro ligas.txt: " + e.getMessage());
         }
     }
@@ -273,54 +276,57 @@ public class Liga implements Dados {
     public void updateToTXT(Liga ligaToUpdate) {
         checkIfFileExists(txtFilePath);
 
+        // Abre o ficheiro para leitura e cria um BufferedWriter para escrita no ficheiro
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
-            ArrayList<String> lines = new ArrayList<>();
+            ArrayList<String> linhas = new ArrayList<>(); // Cria um ArrayList para armazenar as linhas de texto
             String row;
-            boolean isFirstLine = true; // Flag to skip the first line
+            boolean isFirstLine = true; // Flag para pular a primeira linha
 
+            // Lê o ficheiro e armazena as linhas no ArrayList
             while ((row = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
-                    lines.add(row); // Add the header to the list without changes
+                    linhas.add(row); // Adiciona o cabeçalho à lista sem alterações
                     continue;
                 }
-                lines.add(row); // Read existing lines from the file into a list
+                linhas.add(row); // Lê as linhas existentes do ficheiro e adiciona à lista
             }
 
-            for (int i = 1; i < lines.size(); i++) { // Start loop from index 1 to skip the first line
-                String[] data = lines.get(i).split(";");
-                int ligaIdFromFile = Integer.parseInt(data[0]); // ID
+            // Percorre as linhas do ficheiro (excluindo o cabeçalho)
+            for (int i = 1; i < linhas.size(); i++) {
+                String[] data = linhas.get(i).split(";");
+                int ligaIdFromFile = Integer.parseInt(data[0]); // Obtém o ID
 
                 if (ligaIdFromFile == ligaToUpdate.getId()) {
-                    // Update the line related to the Liga being updated
+                    // Atualiza a linha relacionada à Liga que está sendo atualizada
                     StringBuilder sb = new StringBuilder();
-                    sb.append(ligaToUpdate.getId()).append(";"); // Update ID
-                    sb.append(ligaToUpdate.getNome()).append(";"); // Update Nome
-                    sb.append(ligaToUpdate.getPais()).append(";"); // Update Pais
-                    // Append the equipa elements with comma separator
+                    sb.append(ligaToUpdate.getId()).append(";"); // Atualiza o ID
+                    sb.append(ligaToUpdate.getNome()).append(";"); // Atualiza o Nome
+                    sb.append(ligaToUpdate.getPais()).append(";"); // Atualiza o País
+                    // Adiciona os IDs das equipas separadas por vírgula
                     for (Integer equipaID : ligaToUpdate.getEquipas()) {
                         sb.append(equipaID).append(",");
                     }
-                    sb.deleteCharAt(sb.length() - 1); // Remove the last comma
-                    sb.append(";"); // Append semicolon
-                    // Append the partida elements with comma separator
+                    sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula
+                    sb.append(";"); // Adiciona ponto e vírgula
+                    // Adiciona os IDs das partidas separadas por vírgula
                     for (Integer partidaID : ligaToUpdate.getPartidas()) {
                         sb.append(partidaID).append(",");
                     }
-                    sb.deleteCharAt(sb.length() - 1); // Remove the last comma
-                    sb.append(";"); // Append semicolon
-                    sb.append(ligaToUpdate.getRankingEquipas()); // Update Ranking Equipas
+                    sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula
+                    sb.append(";"); // Adiciona ponto e vírgula
+                    sb.append(ligaToUpdate.getRankingEquipas()); // Atualiza o Ranking das Equipas
 
-                    lines.set(i, sb.toString()); // Set the updated line in the list
-                    break; // Exit loop as the update is done
+                    linhas.set(i, sb.toString()); // Define a linha atualizada no ArrayList
+                    break; // Sai do loop
                 }
             }
 
-            // Write the modified lines back to the file
+            // Escreve as linhas modificadas de volta no ficheiro
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(txtFilePath, false))) {
-                for (String line : lines) {
-                    bw.write(line);
-                    bw.newLine(); // Add a newline after each line except for the last one
+                for (String linha : linhas) {
+                    bw.write(linha);
+                    bw.newLine(); // Adiciona uma nova linha após cada linha, exceto a última
                 }
             }
 

@@ -13,6 +13,8 @@ import java.util.Scanner;
 
 import static com.mycompany.footballmanager.Menu.*;
 
+import static com.mycompany.footballmanager.Menu.*;
+
 /**
  * @author afonso, milena, tânia
  */
@@ -43,14 +45,13 @@ public class EstatisticasEquipa implements Dados {
         numEmpates = random.nextInt(1, 100);
         golosMarcados = random.nextInt(1, 500);
         golosSofridos = random.nextInt(1, 500);
-        equipas = new ArrayList<>();
     }
 
     public EstatisticasEquipa(int id, int equipaID, String nomeEquipa, double desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates, int golosMarcados, int golosSofridos) {
         this.id = id;
         this.equipaID = equipaID;
         this.nomeEquipa = nomeEquipa;
-        this.desempenhoMedio = calculaDesempenhoMedioEquipa(this);
+        this.desempenhoMedio = desempenhoMedio;
         this.numVitorias = numVitorias;
         this.numDerrotas = numDerrotas;
         this.numEmpates = numEmpates;
@@ -62,12 +63,15 @@ public class EstatisticasEquipa implements Dados {
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     private double calculaDesempenhoMedioEquipa(EstatisticasEquipa equipaStats) {
-        return ((double) equipaStats.getNumVitorias() / ((double) equipaStats.getNumVitorias() + (double) equipaStats.getNumDerrotas())) * 100;
+        return ((double) equipaStats.getNumVitorias() /
+            ((double) equipaStats.getNumVitorias() +
+            (double) equipaStats.getNumDerrotas())) * 100;
     }
 
     public void print() {
         getStatsEquipas();
-        // Print the table Headers
+        insert(); // Insere as Estatisticas
+        // Imprime o Cabeçalho
         System.out.printf(tableHeaders());
 
         if (!Menu.statsEquipas.isEmpty()) {
@@ -77,6 +81,11 @@ public class EstatisticasEquipa implements Dados {
         } else {
             System.out.println("\nNão existem Estatisticas da Equipa!\n");
         }
+    }
+
+    @Override
+    public void insert() {
+        inserirEstatisticas();
     }
 
     public void getStatsEquipas() {
@@ -99,7 +108,7 @@ public class EstatisticasEquipa implements Dados {
                 EstatisticasEquipa equipa = new EstatisticasEquipa();
                 equipa.setId(Integer.parseInt(data[0])); // ID
                 equipa.setNomeEquipa(data[1]); // Nome Equipa
-                equipa.setDesempenhoMedio(Integer.parseInt(data[2])); // Desempenho Medio
+                equipa.setDesempenhoMedio(Double.parseDouble(data[2])); // Desempenho Medio
                 equipa.setNumVitorias(Integer.parseInt(data[3])); // Numero Vitorias
                 equipa.setNumDerrotas(Integer.parseInt(data[4])); // Numero Derrotas
                 equipa.setNumEmpates(Integer.parseInt(data[5])); // Numero Empates
@@ -128,7 +137,7 @@ public class EstatisticasEquipa implements Dados {
 
             // Construct the TXT line
             sb.append(stats.getId()).append(";"); // get ID
-            sb.append(stats.getNomeEquipa()).append(";");
+            sb.append(stats.getNomeEquipa()).append(";"); // get Nome da Equipa
             sb.append(stats.getDesempenhoMedio()).append(";"); // get Desempenho Medio
             sb.append(stats.getNumVitorias()).append(";"); // get Numero de Vitorias
             sb.append(stats.getNumDerrotas()).append(";"); // get Numero de Derrotas
@@ -141,78 +150,39 @@ public class EstatisticasEquipa implements Dados {
             // closes the output stream
             bw.close();
 
-            System.out.println("Estatisticas da Equipa inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir Equipa no ficheiro equipaStats.txt: " + e.getMessage());
         }
     }
 
-    private void inserirEstatisticas(ArrayList<Integer> equipas) {
-        for (Equipa equipa : Menu.equipas) {
-            int ID = equipa.getId();
-            String nome = equipa.getNome();
-            int latest = Menu.statsEquipas.get(Menu.statsEquipas.size() - 1).getId();
-            EstatisticasEquipa stats = new EstatisticasEquipa(
-                latest + 1, // ID automatically increments
-                equipaID = ID,
-                nomeEquipa = nome,
-                desempenhoMedio = getDesempenhoMedio(),
-                numVitorias = random.nextInt(1, 100),
-                numDerrotas = random.nextInt(1, 100),
-                numEmpates = random.nextInt(1, 100),
-                golosMarcados = random.nextInt(1, 500),
-                golosSofridos = random.nextInt(1, 500)
-            );
-            Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipaes ArrayList
-
-            writeToTXT(stats); // Writes the Equipa to the TXT File
-        }
-    }
-
-    @Override
-    public void insertFaker() {
-        try {
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println("Quantas Equipas quer gerar? ");
-            int numOfChoices = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-
-            if (numOfChoices < 0 || numOfChoices > 2) {
-                System.out.println("Só pode inserir no maximo 2 de cada vez! Tente Novamente...");
-                insertFaker();
-            }
-
-            for (int i = 0; i < numOfChoices; i++) {
-                // Automatically increments the ID
-                int increment = 1;
+    private void inserirEstatisticas() {
+        if (Menu.statsEquipas.size() != Menu.equipas.size()) {
+            for (Equipa equipa : Menu.equipas) {
+                int ID = equipa.getId();
+                String nome = equipa.getNome();
                 int latest = 0;
-                // if the equipas ArrayList is not empty
+
                 if (!Menu.statsEquipas.isEmpty()) {
-                    // Gets the ID of the latest equipa, using the size of the ArrayList and decrementing 1
+                    // Obtém o ID da última estatistica da equipa, usando o tamanho do ArrayList e subtraindo 1
                     latest = Menu.statsEquipas.get(Menu.statsEquipas.size() - 1).getId();
                 }
 
                 EstatisticasEquipa stats = new EstatisticasEquipa(
-                    latest + increment, // ID automatically increments
-                    equipaID = random.nextInt(0, 6),
-                    nomeEquipa = randomYoda(),
-                    desempenhoMedio = random.nextDouble(0, 100),
+                    latest + 1, // ID automatically increments
+                    equipaID = ID,
+                    nomeEquipa = nome,
+                    desempenhoMedio = calculaDesempenhoMedioEquipa(this),
                     numVitorias = random.nextInt(1, 100),
                     numDerrotas = random.nextInt(1, 100),
                     numEmpates = random.nextInt(1, 100),
                     golosMarcados = random.nextInt(1, 500),
                     golosSofridos = random.nextInt(1, 500)
                 );
-                Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipaes ArrayList
+                Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipas ArrayList
 
                 writeToTXT(stats); // Writes the Equipa to the TXT File
             }
-
-            System.out.println(numOfChoices + " Estatisticas Geradas com sucesso!");
-            System.out.println("--------------------------------");
-        } catch (Exception e) {
-            System.out.println("Erro ao inserir Estatisticas da Equipa no ficheiro equipaStats.txt: " + e.getMessage());
+            System.out.println("Estatisticas Inseridas com sucesso!");
         }
     }
 
@@ -242,7 +212,7 @@ public class EstatisticasEquipa implements Dados {
     }
 
     public double getDesempenhoMedio() {
-        return desempenhoMedio;
+        return Math.round(desempenhoMedio * 100.0) / 100.0;
     }
 
     public void setDesempenhoMedio(double desempenhoMedio) {
@@ -293,7 +263,7 @@ public class EstatisticasEquipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|-------------------------------------------------- ESTATISICAS DAS EQUIPAS -----------------------------------------------------------|");
+        System.out.println("|------------------------------------------------------------------------- ESTATISICAS DAS EQUIPAS -------------------------------------------------------------------|");
         return String.format("| %-25s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |%n",
             "Equipa", "Desempenho Medio", "Vitorias", "Empates", "Derrotas", "Golos Marcados", "Golos Sofridos");
     }
