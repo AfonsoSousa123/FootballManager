@@ -62,8 +62,7 @@ public class EstatisticasEquipa implements Dados {
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     private double calculaDesempenhoMedioEquipa(EstatisticasEquipa equipaStats) {
-        double desempenhoMedio = ((double) equipaStats.getNumVitorias() / ((double) equipaStats.getNumVitorias() + (double) equipaStats.getNumDerrotas())) * 100;
-        return desempenhoMedio;
+        return ((double) equipaStats.getNumVitorias() / ((double) equipaStats.getNumVitorias() + (double) equipaStats.getNumDerrotas())) * 100;
     }
 
     public void print() {
@@ -71,9 +70,8 @@ public class EstatisticasEquipa implements Dados {
         // Print the table Headers
         System.out.printf(tableHeaders());
 
-        // Print details of all players using a loop
-        if (!statsEquipas.isEmpty()) {
-            for (EstatisticasEquipa stats : statsEquipas) {
+        if (!Menu.statsEquipas.isEmpty()) {
+            for (EstatisticasEquipa stats : Menu.statsEquipas) {
                 System.out.printf(stats.toString());
             }
         } else {
@@ -155,15 +153,15 @@ public class EstatisticasEquipa implements Dados {
             String nome = equipa.getNome();
             int latest = Menu.statsEquipas.get(Menu.statsEquipas.size() - 1).getId();
             EstatisticasEquipa stats = new EstatisticasEquipa(
-                    latest + 1, // ID automatically increments
-                    equipaID = ID,
-                    nomeEquipa = nome,
-                    desempenhoMedio = getDesempenhoMedio(),
-                    numVitorias = random.nextInt(1, 100),
-                    numDerrotas = random.nextInt(1, 100),
-                    numEmpates = random.nextInt(1, 100),
-                    golosMarcados = random.nextInt(1, 500),
-                    golosSofridos = random.nextInt(1, 500)
+                latest + 1, // ID automatically increments
+                equipaID = ID,
+                nomeEquipa = nome,
+                desempenhoMedio = getDesempenhoMedio(),
+                numVitorias = random.nextInt(1, 100),
+                numDerrotas = random.nextInt(1, 100),
+                numEmpates = random.nextInt(1, 100),
+                golosMarcados = random.nextInt(1, 500),
+                golosSofridos = random.nextInt(1, 500)
             );
             Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipaes ArrayList
 
@@ -196,15 +194,15 @@ public class EstatisticasEquipa implements Dados {
                 }
 
                 EstatisticasEquipa stats = new EstatisticasEquipa(
-                        latest + increment, // ID automatically increments
-                        equipaID = random.nextInt(0, 6),
-                        nomeEquipa = randomYoda(),
-                        desempenhoMedio = random.nextDouble(0, 100),
-                        numVitorias = random.nextInt(1, 100),
-                        numDerrotas = random.nextInt(1, 100),
-                        numEmpates = random.nextInt(1, 100),
-                        golosMarcados = random.nextInt(1, 500),
-                        golosSofridos = random.nextInt(1, 500)
+                    latest + increment, // ID automatically increments
+                    equipaID = random.nextInt(0, 6),
+                    nomeEquipa = randomYoda(),
+                    desempenhoMedio = random.nextDouble(0, 100),
+                    numVitorias = random.nextInt(1, 100),
+                    numDerrotas = random.nextInt(1, 100),
+                    numEmpates = random.nextInt(1, 100),
+                    golosMarcados = random.nextInt(1, 500),
+                    golosSofridos = random.nextInt(1, 500)
                 );
                 Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipaes ArrayList
 
@@ -237,7 +235,6 @@ public class EstatisticasEquipa implements Dados {
 
     public String getNomeEquipa() {
         return nomeEquipa;
-
     }
 
     public void setNomeEquipa(String nomeEquipa) {
@@ -296,21 +293,21 @@ public class EstatisticasEquipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ESTATISTICAS DA EQUIPA ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
+        System.out.println("|-------------------------------------------------- ESTATISICAS DAS EQUIPAS -----------------------------------------------------------|");
         return String.format("| %-25s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |%n",
-                "Equipa", "Desempenho Medio", "Vitorias", "Empates", "Derrotas", "Golos Marcados", "Golos Sofridos");
+            "Equipa", "Desempenho Medio", "Vitorias", "Empates", "Derrotas", "Golos Marcados", "Golos Sofridos");
     }
 
     @Override
     public String toString() {
         return String.format("| %-25s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |%n",
-                getNomeEquipa(),
-                getDesempenhoMedio(),
-                getNumVitorias(),
-                getNumEmpates(),
-                getNumDerrotas(),
-                getGolosMarcados(),
-                getGolosSofridos()
+            getNomeEquipa(),
+            getDesempenhoMedio(),
+            getNumVitorias(),
+            getNumEmpates(),
+            getNumDerrotas(),
+            getGolosMarcados(),
+            getGolosSofridos()
         );
     }
     // END toString Methods ----------------------------------------------------------------

@@ -430,7 +430,7 @@ public class Liga implements Dados {
             int ligaSize = Menu.ligas.get(Menu.ligas.size() - 1).getId();
             int idLigaAjustado = (idLiga - 1);
 
-            if ((idLiga < 0) && (idLiga > ligaSize)) {
+            if ((idLiga > ligaSize) || idLiga >= 0) {
                 System.out.println("Tem que escolher um ID existente das Ligas! Tente Novamente...");
                 associarEquipa();
             }

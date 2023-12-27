@@ -164,7 +164,7 @@ public class Menu {
             System.out.println("| 6. Ler Dados das Ligas                 |");
             System.out.println("| 7. Remover Dados                       |");
             System.out.println("| 8. Associar Equipa a uma Liga          |");
-            System.out.println("| 9. Estatísticas de uma Equipa          |");
+            System.out.println("| 9. Estatísticas das Equipas            |");
             System.out.println("| 10. Ver Partidas                       |");
             System.out.println("| 11. Criar Partida                      |");
             System.out.println("| 12. Sair                               |");
@@ -357,16 +357,19 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 9:
-                        // Estatisticas de uma Equipa
+                        // Estatisticas das Equipas
                         statsEquipa.print();
+                        pressEnterToContinue();
                         break;
                     case 10:
                         // Ver Partida
                         partida.print();
+                        pressEnterToContinue();
                         break;
                     case 11:
                         // Criar Partida
                         partida.insert();
+                        pressEnterToContinue();
                         break;
                     case 12:
                         System.out.println("Saindo do Programa...");
