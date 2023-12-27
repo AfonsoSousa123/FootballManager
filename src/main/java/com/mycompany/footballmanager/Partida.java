@@ -408,20 +408,20 @@ public class Partida implements Dados {
     }
 
     public ArrayList<String> getNomesArbitros(ArrayList<Integer> arbitros) {
-        ArrayList<String> nomesArbitros = new ArrayList<>();
+        ArrayList<String> nomesArbitros = new ArrayList<>(); // Cria uma lista para armazenar os nomes dos árbitros
 
-        for (Arbitro arbitro : Menu.arbitros) {
-            for (Integer arbitroID : arbitros) {
-                if (!arbitros.isEmpty()) {
-                    if (arbitro.getId() == arbitroID) {
-                        nomesArbitros.add(arbitro.getNome());
+        for (Arbitro arbitro : Menu.arbitros) { // Percorre a lista de árbitros no Menu
+            for (Integer arbitroID : arbitros) { // Percorre os IDs dos árbitros fornecidos
+                if (!arbitros.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (arbitro.getId() == arbitroID) { // Compara os IDs para encontrar correspondências
+                        nomesArbitros.add(arbitro.getNome()); // Adiciona o nome do árbitro à lista se houver correspondência
                     }
-                } else {
+                } else { // Se a lista de IDs estiver vazia
                     nomesArbitros.add("Sem Arbitros associados");
                 }
             }
         }
-        return nomesArbitros;
+        return nomesArbitros; // Retorna a lista de nomes dos árbitros correspondentes aos IDs fornecidos
     }
 
     public void setArbitrosIDs(ArrayList<Integer> arbitros) {
@@ -433,22 +433,23 @@ public class Partida implements Dados {
     }
 
     public String getNomeEquipa(int id) {
-        for (Equipa equipa : Menu.equipas) {
-            if (equipa.getId() == id) {
-                return equipa.getNome();
+        for (Equipa equipa : Menu.equipas) { // Percorre a lista de equipas no Menu
+            if (equipa.getId() == id) { // Verifica se o ID da equipas corresponde ao ID fornecido
+                return equipa.getNome(); // Retorna o nome da equipas se houver correspondência
             }
         }
-        return "Sem Equipa associada"; // Retorna um valor predefinido se o id não for encontrado
+        return "Sem Equipa associada";
     }
 
     public Equipa getEquipaValues(int id) {
         for (Equipa equipa : Menu.equipas) {
-            if (equipa.getId() == id) {
-                return equipa;
+            if (equipa.getId() == id) { // Verifica se o ID da equipas corresponde ao ID fornecido
+                return equipa; // Retorna o objeto completo da equipas se houver correspondência
             }
         }
-        return null;
+        return null; // Retorna null se não houver correspondência do ID da equipas
     }
+
 
     public void setEquipa(int equipa) {
         this.equipa = equipa;
@@ -460,8 +461,8 @@ public class Partida implements Dados {
 
     public String getNomeAdversario(int id) {
         for (Equipa adversario : Menu.equipas) {
-            if (adversario.getId() == id) {
-                return adversario.getNome();
+            if (adversario.getId() == id) { // Verifica se o ID do adversario corresponde ao ID fornecido
+                return adversario.getNome(); // Retorna o nome do adversario se houver correspondência
             }
         }
         return "Sem Adversario associado"; // Retorna um valor predefinido se o id não for encontrado

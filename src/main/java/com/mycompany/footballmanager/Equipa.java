@@ -485,36 +485,37 @@ public class Equipa implements Dados {
     }
 
     public ArrayList<String> getNomesJogadores(ArrayList<Integer> plantel) {
-        ArrayList<String> nomesJogadores = new ArrayList<>();
+        ArrayList<String> nomesJogadores = new ArrayList<>(); // Cria uma lista para armazenar os nomes dos jogadores
 
-        for (Jogador jogador : Menu.jogadores) {
-            for (Integer jogadorID : plantel) {
-                if (!plantel.isEmpty()) {
-                    if (jogador.getId() == jogadorID) {
-                        nomesJogadores.add(jogador.getNome());
+        for (Jogador jogador : Menu.jogadores) { // Percorre a lista de jogadores no Menu
+            for (Integer jogadorID : plantel) { // Percorre os IDs dos jogadores fornecidos
+                if (!plantel.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (jogador.getId() == jogadorID) { // Compara os IDs para encontrar correspondências
+                        nomesJogadores.add(jogador.getNome()); // Adiciona o nome do jogador à lista se houver correspondência
                     }
-                } else {
+                } else { // Se a lista de IDs estiver vazia
                     nomesJogadores.add("Sem Jogadores associados");
                 }
             }
         }
-        return nomesJogadores;
+        return nomesJogadores; // Retorna a lista de nomes dos jogadores correspondentes aos IDs fornecidos
     }
 
     public ArrayList<Jogador> getJogadoresValues(ArrayList<Integer> plantel) {
-        ArrayList<Jogador> jogadoresSelecionados = new ArrayList<>();
+        ArrayList<Jogador> jogadoresSelecionados = new ArrayList<>(); // Cria uma lista para armazenar os jogadores selecionados
 
-        for (Jogador jogador : Menu.jogadores) {
-            for (Integer jogadorID : plantel) {
-                if (!plantel.isEmpty()) {
-                    if (jogador.getId() == jogadorID) {
-                        jogadoresSelecionados.add(jogador);
+        for (Jogador jogador : Menu.jogadores) { // Percorre a lista de jogadores no Menu
+            for (Integer jogadorID : plantel) { // Percorre os IDs dos jogadores fornecidos
+                if (!plantel.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (jogador.getId() == jogadorID) { // Compara os IDs para encontrar correspondências
+                        jogadoresSelecionados.add(jogador); // Adiciona o jogador à lista se houver correspondência
                     }
                 }
             }
         }
-        return jogadoresSelecionados;
+        return jogadoresSelecionados; // Retorna a lista de jogadores correspondentes aos IDs fornecidos
     }
+
 
     public ArrayList<Integer> getPlantel() {
         return plantel;

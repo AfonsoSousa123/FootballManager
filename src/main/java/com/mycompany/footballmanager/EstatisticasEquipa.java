@@ -27,7 +27,6 @@ public class EstatisticasEquipa implements Dados {
     private int numEmpates;
     private int golosMarcados;
     private int golosSofridos;
-    private ArrayList<Integer> equipas;
 
     private Random random = new Random();
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/equipaStats.txt"; // File Path
@@ -43,7 +42,6 @@ public class EstatisticasEquipa implements Dados {
         numEmpates = random.nextInt(1, 100);
         golosMarcados = random.nextInt(1, 500);
         golosSofridos = random.nextInt(1, 500);
-        equipas = new ArrayList<>();
     }
 
     public EstatisticasEquipa(int id, int equipaID, String nomeEquipa, double desempenhoMedio, int numVitorias, int numDerrotas, int numEmpates, int golosMarcados, int golosSofridos) {
@@ -56,13 +54,14 @@ public class EstatisticasEquipa implements Dados {
         this.numEmpates = numEmpates;
         this.golosMarcados = golosMarcados;
         this.golosSofridos = golosSofridos;
-        equipas = new ArrayList<>();
     }
     // END Constructors ----------------------------------------------------------------
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     private double calculaDesempenhoMedioEquipa(EstatisticasEquipa equipaStats) {
-        return ((double) equipaStats.getNumVitorias() / ((double) equipaStats.getNumVitorias() + (double) equipaStats.getNumDerrotas())) * 100;
+        return ((double) equipaStats.getNumVitorias() /
+            ((double) equipaStats.getNumVitorias() +
+            (double) equipaStats.getNumDerrotas())) * 100;
     }
 
     public void print() {
@@ -83,7 +82,6 @@ public class EstatisticasEquipa implements Dados {
     @Override
     public void insert() {
         inserirEstatisticas();
-        System.out.println(" Estatisticas Inseridas com sucesso!");
     }
 
     public void getStatsEquipas() {
@@ -148,7 +146,6 @@ public class EstatisticasEquipa implements Dados {
             // closes the output stream
             bw.close();
 
-//            System.out.println("Estatisticas da Equipa inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir Equipa no ficheiro equipaStats.txt: " + e.getMessage());
         }
@@ -167,67 +164,21 @@ public class EstatisticasEquipa implements Dados {
                 }
 
                 EstatisticasEquipa stats = new EstatisticasEquipa(
-                        latest + 1, // ID automatically increments
-                        equipaID = ID,
-                        nomeEquipa = nome,
-                        desempenhoMedio = calculaDesempenhoMedioEquipa(this),
-                        numVitorias = random.nextInt(1, 100),
-                        numDerrotas = random.nextInt(1, 100),
-                        numEmpates = random.nextInt(1, 100),
-                        golosMarcados = random.nextInt(1, 500),
-                        golosSofridos = random.nextInt(1, 500)
-                );
-                Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipas ArrayList
-
-                writeToTXT(stats); // Writes the Equipa to the TXT File
-            }
-        }
-    }
-
-    @Override
-    public void insertFaker() {
-        try {
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println("Quantas Equipas quer gerar? ");
-            int numOfChoices = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-
-            if (numOfChoices < 0 || numOfChoices > 2) {
-                System.out.println("Só pode inserir no maximo 2 de cada vez! Tente Novamente...");
-                insertFaker();
-            }
-
-            for (int i = 0; i < numOfChoices; i++) {
-                // Automatically increments the ID
-                int increment = 1;
-                int latest = 0;
-                // if the equipas ArrayList is not empty
-                if (!Menu.statsEquipas.isEmpty()) {
-                    // Gets the ID of the latest equipa, using the size of the ArrayList and decrementing 1
-                    latest = Menu.statsEquipas.get(Menu.statsEquipas.size() - 1).getId();
-                }
-
-                EstatisticasEquipa stats = new EstatisticasEquipa(
-                    latest + increment, // ID automatically increments
-                    equipaID = random.nextInt(0, 6),
-                    nomeEquipa = randomYoda(),
-                    desempenhoMedio = random.nextDouble(0, 100),
+                    latest + 1, // ID automatically increments
+                    equipaID = ID,
+                    nomeEquipa = nome,
+                    desempenhoMedio = calculaDesempenhoMedioEquipa(this),
                     numVitorias = random.nextInt(1, 100),
                     numDerrotas = random.nextInt(1, 100),
                     numEmpates = random.nextInt(1, 100),
                     golosMarcados = random.nextInt(1, 500),
                     golosSofridos = random.nextInt(1, 500)
                 );
-                Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipaes ArrayList
+                Menu.statsEquipas.add(stats); // Adds the new EstatisticasEquipa to the EstatisticasEquipas ArrayList
 
                 writeToTXT(stats); // Writes the Equipa to the TXT File
             }
-
-            System.out.println(numOfChoices + " Estatisticas Geradas com sucesso!");
-            System.out.println("--------------------------------");
-        } catch (Exception e) {
-            System.out.println("Erro ao inserir Estatisticas da Equipa no ficheiro equipaStats.txt: " + e.getMessage());
+            System.out.println(" Estatisticas Inseridas com sucesso!");
         }
     }
 

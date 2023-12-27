@@ -160,11 +160,11 @@ public class Menu {
             System.out.println("| 2. Ler Dados de Jogadores              |");
             System.out.println("| 3. Ler Dados de Treinadores            |");
             System.out.println("| 4. Ler Dados das Equipas               |");
-            System.out.println("| 5. Ler Dados dos Árbitros              |");
+            System.out.println("| 5. Ler Dados dos Arbitros              |");
             System.out.println("| 6. Ler Dados das Ligas                 |");
             System.out.println("| 7. Remover Dados                       |");
             System.out.println("| 8. Associar Equipa a uma Liga          |");
-            System.out.println("| 9. Estatísticas das Equipas            |");
+            System.out.println("| 9. Estatisticas das Equipas            |");
             System.out.println("| 10. Ver Partidas                       |");
             System.out.println("| 11. Criar Partida                      |");
             System.out.println("| 12. Sair                               |");
