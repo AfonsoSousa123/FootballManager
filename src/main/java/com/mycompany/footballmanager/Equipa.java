@@ -408,13 +408,13 @@ public class Equipa implements Dados {
 
                 // Cria uma nova equipa com dados aleatórios e IDs autoincrementados
                 Equipa equipa = new Equipa(
-                    latest + increment, // ID automaticamente incrementado
-                    randomTeam(), // Nome aleatório
-                    generateJogadores(11), // Cria um plantel de 11 jogadores aleatórios
-                    random.nextInt(0, Menu.treinadores.size()), // ID do treinador aleatório
-                    random.nextInt(0, Menu.ligas.size()), // ID da liga aleatória
-                    randomCity(), // Cidade aleatória
-                    randomCountry() // País aleatório
+                        latest + increment, // ID automaticamente incrementado
+                        randomTeam(), // Nome aleatório
+                        generateJogadores(11), // Cria um plantel de 11 jogadores aleatórios
+                        random.nextInt(0, Menu.treinadores.size()), // ID do treinador aleatório
+                        random.nextInt(0, Menu.ligas.size()), // ID da liga aleatória
+                        randomCity(), // Cidade aleatória
+                        randomCountry() // País aleatório
                 );
 
                 equipas.add(equipa); // Adiciona a nova equipa à lista de equipas
@@ -442,14 +442,14 @@ public class Equipa implements Dados {
 
                 // Cria um novo jogador com dados aleatórios e IDs autoincrementados
                 Jogador jogador = new Jogador(
-                    latest + increment, // ID automaticamente incrementado
-                    randomName(), // Nome aleatório
-                    random.nextInt(20, 40), // Idade aleatória entre 20 e 40 anos
-                    Menu.jogador.getRandomPosicao(), // Posição aleatória do jogador
-                    randomLorem(), // Histórico de lesões aleatório
-                    random.nextInt(1, 100), // Valor de ataque aleatório
-                    random.nextInt(1, 100), // Valor de defesa aleatório
-                    random.nextInt(1, 100) // Nível de agressividade aleatório
+                        latest + increment, // ID automaticamente incrementado
+                        randomName(), // Nome aleatório
+                        random.nextInt(20, 40), // Idade aleatória entre 20 e 40 anos
+                        Menu.jogador.getRandomPosicao(), // Posição aleatória do jogador
+                        randomLorem(), // Histórico de lesões aleatório
+                        random.nextInt(1, 100), // Valor de ataque aleatório
+                        random.nextInt(1, 100), // Valor de defesa aleatório
+                        random.nextInt(1, 100) // Nível de agressividade aleatório
                 );
 
                 randomPlantel.add(jogador.getId()); // Adiciona os IDs dos jogadores ao plantel aleatório
@@ -516,6 +516,17 @@ public class Equipa implements Dados {
         return jogadoresSelecionados; // Retorna a lista de jogadores correspondentes aos IDs fornecidos
     }
 
+    public ArrayList<Treinador> getTreinadoresValues(int idTreinador) {
+        ArrayList<Treinador> treinadoresSelecionados = new ArrayList<>(); // Cria uma lista para armazenar os jogadores selecionados
+
+        for (Treinador treinador : treinadores) { // Percorre a lista de jogadores no Menu
+            if (treinador.getId() == idTreinador) { // Compara os IDs para encontrar correspondências
+                treinadoresSelecionados.add(treinador); // Adiciona o jogador à lista se houver correspondência
+            }
+
+        }
+        return treinadoresSelecionados; // Retorna a lista de jogadores correspondentes aos IDs fornecidos
+    }
 
     public ArrayList<Integer> getPlantel() {
         return plantel;
@@ -581,19 +592,19 @@ public class Equipa implements Dados {
     public static String tableHeaders() {
         System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPAS --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s |%n",
-            "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais");
+                "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s |%n",
-            getId(),
-            getNome(),
-            String.join(", ", getNomesJogadores(getPlantel())), // Separa os nomes dos Jogadores por virgulas, retirando "[]"
-            getNomeTreinador(getIdTreinador()),
-            getNomeLiga(getIdLiga()),
-            getCidade(),
-            getPais()
+                getId(),
+                getNome(),
+                String.join(", ", getNomesJogadores(getPlantel())), // Separa os nomes dos Jogadores por virgulas, retirando "[]"
+                getNomeTreinador(getIdTreinador()),
+                getNomeLiga(getIdLiga()),
+                getCidade(),
+                getPais()
         );
     }
     // END toString Methods ----------------------------------------------------------------
