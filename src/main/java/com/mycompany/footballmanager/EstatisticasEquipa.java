@@ -9,7 +9,6 @@ import com.mycompany.footballmanager.Interfaces.Dados;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 import static com.mycompany.footballmanager.Menu.*;
 
@@ -133,7 +132,7 @@ public class EstatisticasEquipa implements Dados {
 
             // Construct the TXT line
             sb.append(stats.getId()).append(";"); // get ID
-            sb.append(stats.getNomeEquipa()).append(";");
+            sb.append(stats.getNomeEquipa()).append(";"); // get Nome da Equipa
             sb.append(stats.getDesempenhoMedio()).append(";"); // get Desempenho Medio
             sb.append(stats.getNumVitorias()).append(";"); // get Numero de Vitorias
             sb.append(stats.getNumDerrotas()).append(";"); // get Numero de Derrotas
@@ -178,7 +177,7 @@ public class EstatisticasEquipa implements Dados {
 
                 writeToTXT(stats); // Writes the Equipa to the TXT File
             }
-            System.out.println(" Estatisticas Inseridas com sucesso!");
+            System.out.println("Estatisticas Inseridas com sucesso!");
         }
     }
 

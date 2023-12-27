@@ -166,7 +166,7 @@ public class Menu {
             System.out.println("| 8. Associar Equipa a uma Liga          |");
             System.out.println("| 9. Estatisticas das Equipas            |");
             System.out.println("| 10. Ver Partidas                       |");
-            System.out.println("| 11. Criar Partida                      |");
+            System.out.println("| 11. Criar e Simular Partida            |");
             System.out.println("| 12. Sair                               |");
             System.out.println("|----------------------------------------|");
             System.out.print("Escolha uma opção: ");
@@ -370,9 +370,8 @@ public class Menu {
                         pressEnterToContinue();
                         break;
                     case 11:
-                        // Criar Partida
+                        // Criar e Simular Partida
                         partida.insert();
-                        pressEnterToContinue();
                         break;
                     case 12:
                         System.out.println("Saindo do Programa...");

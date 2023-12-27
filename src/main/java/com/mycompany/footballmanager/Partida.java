@@ -41,7 +41,7 @@ public class Partida implements Dados {
         equipa = 0;
         adversario = 0;
         data = randomDate();
-        resultado = random.nextInt(0, 10) + ":" + random.nextInt(0, 10);
+        resultado = random.nextInt(0, 10) + " : " + random.nextInt(0, 10);
         local = randomCity();
         golos_marcados = random.nextInt(0, 20);
         golos_sofridos = random.nextInt(0, 20);
@@ -49,16 +49,16 @@ public class Partida implements Dados {
     }
 
     public Partida(
-            String nome,
-            ArrayList<Integer> arbitros,
-            int equipa,
-            int adversario,
-            String data,
-            String resultado,
-            String local,
-            int golos_marcados,
-            int golos_sofridos,
-            int soma_cartoes
+        String nome,
+        ArrayList<Integer> arbitros,
+        int equipa,
+        int adversario,
+        String data,
+        String resultado,
+        String local,
+        int golos_marcados,
+        int golos_sofridos,
+        int soma_cartoes
     ) {
         this.nome = nome;
         this.arbitros = arbitros;
@@ -80,86 +80,115 @@ public class Partida implements Dados {
         Equipa equipa = partida.getEquipaValues(partida.getEquipaID());
         Equipa adversario = partida.getEquipaValues(partida.getAdversarioID());
 
-        double probEquipa = ProbabilidadesPartida.calculaProbabilidade(equipa, arbitros, jogaPrimeiro(caraCoroa()));
-        double probAdversario = ProbabilidadesPartida.calculaProbabilidade(adversario, arbitros, jogaPrimeiro(caraCoroa()));
+        boolean jogaPrimeiroEquipa = decideEquipaQueJogaPrimeiro(partida);
+
+        double probEquipa = ProbabilidadesPartida.calculaProbabilidade(equipa, arbitros, jogaPrimeiroEquipa);
+        double probAdversario = ProbabilidadesPartida.calculaProbabilidade(adversario, arbitros, !jogaPrimeiroEquipa);
 
         if (probEquipa > probAdversario) {
-            int golos_adv = random.nextInt(0, 5);
-            // Ensure golos_equip is greater than golos_adv
-            int golos_equip = random.nextInt(1, 10);
-            String resultado = "";
-            if (golos_equip > golos_adv) {
-                resultado = golos_equip + " : " + golos_adv;
-                partida.setResultado(resultado);
-                partida.setGolos_marcados(golos_equip);
-                partida.setGolos_sofridos(golos_adv);
-            } else if (golos_equip == golos_adv) {
-                golos_equip++;
-                resultado = golos_equip + " : " + golos_adv;
-                partida.setResultado(resultado);
-                partida.setGolos_marcados(golos_equip);
-                partida.setGolos_sofridos(golos_adv);
-            } else if (golos_equip < golos_adv) {
-                while (golos_equip < golos_adv) {
-                    golos_adv--;
-                }
-                resultado = golos_equip + " : " + golos_adv;
-                partida.setResultado(resultado);
-                partida.setGolos_marcados(golos_equip);
-                partida.setGolos_sofridos(golos_adv);
-            }
-            System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por " + resultado + " !");
+            System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por " + geraGolosEquipa(partida) + " !");
         } else if (probEquipa < probAdversario) {
-            int golos_adv = random.nextInt(1, 10);
-            // Ensure golos_equip is greater than golos_adv
-            int golos_equip = random.nextInt(0, 5);
-            String resultado = "";
-            if (golos_adv > golos_equip) {
-                resultado = golos_equip + " : " + golos_adv;
-                partida.setResultado(resultado);
-                partida.setGolos_marcados(golos_equip);
-                partida.setGolos_sofridos(golos_adv);
-            } else if (golos_equip == golos_adv) {
-                golos_adv++;
-                resultado = golos_equip + " : " + golos_adv;
-                partida.setResultado(resultado);
-                partida.setGolos_marcados(golos_equip);
-                partida.setGolos_sofridos(golos_adv);
-            } else if (golos_adv < golos_equip) {
-                while (golos_adv < golos_equip) {
-                    golos_equip--;
-                }
-                resultado = golos_equip + " : " + golos_adv;
-                partida.setResultado(resultado);
-                partida.setGolos_marcados(golos_equip);
-                partida.setGolos_sofridos(golos_adv);
-            }
-            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por " + resultado + " !");
+            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por " + geraGolosAdversario(partida) + " !");
         } else {
-            int golos_adv = random.nextInt(1, 10);
-            // Ensure golos_equip is greater than golos_adv
-            int golos_equip = random.nextInt(1, 10);
-            if (!(golos_equip == golos_adv)) {
-                golos_adv++;
-                resultado = golos_equip + " : " + golos_adv;
-                partida.setResultado(resultado);
-                partida.setGolos_marcados(golos_equip);
-                partida.setGolos_sofridos(golos_adv);
-            }
-            System.out.println("Houve Empate entre as Equipas");
+            System.out.println("Houve Empate entre as Equipas por " + geraGolosEmpate(partida));
         }
+    }
+
+    private String geraGolosEquipa(Partida partida) {
+        int golos_adv = random.nextInt(0, 5);
+        // Ensure golos_equip is greater than golos_adv
+        int golos_equip = random.nextInt(1, 10);
+        String resultado = "";
+
+        if (golos_equip > golos_adv) {
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_equip == golos_adv) {
+            golos_equip++;
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_equip < golos_adv) {
+            while (golos_equip < golos_adv) {
+                golos_adv--;
+            }
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        }
+
+        return resultado;
+    }
+
+    private String geraGolosAdversario(Partida partida) {
+        int golos_adv = random.nextInt(1, 10);
+        int golos_equip = random.nextInt(0, 5);
+        String resultado = "";
+
+        if (golos_adv > golos_equip) {
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_equip == golos_adv) {
+            golos_adv++;
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        } else if (golos_adv < golos_equip) {
+            while (golos_adv < golos_equip) {
+                golos_equip--;
+            }
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        }
+
+        return resultado;
+    }
+
+    private String geraGolosEmpate(Partida partida) {
+        int golos_adv = random.nextInt(1, 10);
+        int golos_equip = random.nextInt(1, 10);
+        String resultado = "";
+
+        if (!(golos_equip == golos_adv)) {
+            golos_adv++;
+            resultado = golos_equip + " : " + golos_adv;
+            partida.setResultado(resultado);
+            partida.setGolos_marcados(golos_equip);
+            partida.setGolos_sofridos(golos_adv);
+        }
+
+        return resultado;
     }
 
     public String caraCoroa() {
-        if (random.nextInt(2) == 1) {
-            return "COROA";
-        } else {
-            return "CARA";
-        }
+        return (random.nextBoolean()) ? "COROA" : "CARA";
     }
 
     public boolean jogaPrimeiro(String moeda) {
+        System.out.println("A moeda lançada foi: " + moeda);
         return moeda.equals("COROA");
+    }
+
+    public boolean decideEquipaQueJogaPrimeiro(Partida partida) {
+        String resultadoMoeda = caraCoroa(); // Gerar o resultado do lançamento da moeda
+        boolean jogaPrimeiroEquipa = jogaPrimeiro(resultadoMoeda); // Verificar qual equipa joga primeiro
+
+        if (jogaPrimeiroEquipa) {
+            System.out.println(getNomeEquipa(partida.getEquipaID()) + " jogará primeiro.");
+            return true; // A Equipa joga primeiro
+        } else {
+            System.out.println(getNomeAdversario(partida.getAdversarioID()) + " jogará primeiro.");
+            return false; // O Adversario joga primeiro
+        }
     }
 
     @Override
@@ -182,7 +211,6 @@ public class Partida implements Dados {
                 System.out.println("Erro: " + e.getMessage());
             }
         }
-        scanner.close();
     }
 
     public Partida inserePartida() {
@@ -214,7 +242,10 @@ public class Partida implements Dados {
                     int idArbitro = scanner.nextInt(); // recebe o id do Arbitro
                     scanner.nextLine(); // Consume newline character
 
-                    if (idArbitro > 0 && idArbitro <= arbitrosSize) {
+                    if ((ArbitrosIDs.contains(idArbitro))) {
+                        System.out.println("Não pode inserir o mesmo Arbitro novamente! Tente ne novo...");
+                        continue;
+                    } else if (idArbitro > 0 && idArbitro <= arbitrosSize) {
                         ArbitrosIDs.add(idArbitro); // Adiciona o Id do arbitro ao ArrayList ArbitrosIDs
                     } else if (ArbitrosIDs.size() > 4) {
                         System.out.println("Chegou ao limite de Arbitros por Partida!");
@@ -259,8 +290,8 @@ public class Partida implements Dados {
             // Adversário
             try {
                 System.out.println(
-                        "Escolha o Adversario que pretende jogar contra a Equipa: " +
-                                Menu.equipas.get(partida.equipa - 1).getNome()
+                    "Escolha o Adversario que pretende jogar contra a Equipa: " +
+                    Menu.equipas.get(partida.equipa - 1).getNome()
                 );
                 int adversario = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
@@ -322,11 +353,10 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
-            System.out.println("Deseja simular a partida? (sim/não)");
+            System.out.println("Deseja simular a Partida? (sim/não)");
             String choice = scanner.nextLine().trim().toLowerCase();
             if (choice.equals("sim")) {
                 simulaPartida(partida); // Simula a Partida
-                // FALTA MARCAR O RESULTADO!!
                 System.out.printf(tableHeaders());
                 System.out.println(partida);
             }
@@ -335,10 +365,7 @@ public class Partida implements Dados {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return inserePartida();
         }
-
         writeToTXT(partida);
-        /*System.out.printf(tableHeaders());
-        System.out.println(partida);*/
 
         return partida;
     }
@@ -374,12 +401,10 @@ public class Partida implements Dados {
             // Fecha o buffer
             bw.close();
 
-            System.out.println("Partida inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir Partida no ficheiro partidas.txt: " + e.getMessage());
         }
     }
-
 
     @Override
     public void print() {
@@ -615,23 +640,23 @@ public class Partida implements Dados {
 
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|----------------------------------------------------------------------------------------------------- PARTIDAS --------------------------------------------------------------------------------------------------------------------------|");
+        System.out.println("|--------------------------------------------------------------------------------------------- PARTIDAS ------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-                "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
+            "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-                getId(),
-                getNome(),
-                String.join(", ", getNomesArbitros(getArbitrosIDs())),
-                getData(),
-                getResultado(),
-                getLocal(),
-                getGolos_marcados(),
-                getGolos_sofridos(),
-                getSoma_cartoes()
+            getId(),
+            getNome(),
+            String.join(", ", getNomesArbitros(getArbitrosIDs())),
+            getData(),
+            getResultado(),
+            getLocal(),
+            getGolos_marcados(),
+            getGolos_sofridos(),
+            getSoma_cartoes()
         );
     }
     // END Other Methods ----------------------------------------------------------------

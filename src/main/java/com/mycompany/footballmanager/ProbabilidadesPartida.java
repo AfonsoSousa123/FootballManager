@@ -5,13 +5,11 @@
 package com.mycompany.footballmanager;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * @author afonso, milena, tânia
  */
 public class ProbabilidadesPartida {
-    private Random random = new Random();
 
     public static double calculaProbabilidade(Equipa equipa, ArrayList<Arbitro> arbitros, boolean JogaPrimeiro) {
         double desempenhoMedio = calculaDesempenhoMedio(equipa);
@@ -27,11 +25,11 @@ public class ProbabilidadesPartida {
 
         // Retorna a probabilidade calculada
         return desempenhoMedio *
-                numJogadores *
-                taticasTreinador *
-                experienciaArbitros *
-                teamPosition *
-                factorJogaPrimeiro;
+            numJogadores *
+            taticasTreinador *
+            experienciaArbitros *
+            teamPosition *
+            factorJogaPrimeiro;
     }
 
     private static double calculaDesempenhoMedio(Equipa equipa) {
@@ -53,6 +51,7 @@ public class ProbabilidadesPartida {
             String tatica_n = treinador.getTaticas_fav().replaceAll("-", ""); // String sem "-"
             String lastNumberStr = tatica_n.substring(tatica_n.length() - 1); // Ultimo numero da string corresponde aos atacantes
             int last_number_tatica = Integer.parseInt(lastNumberStr); // passar de string para inteiro para poder ser comparável
+
             if (last_number_tatica >= 3) {
                 probabilidade_ganhar = 40;
             } else {
@@ -77,9 +76,9 @@ public class ProbabilidadesPartida {
         }
 
         if (atacantes > defesas) {
-            return 30 * 0.1;
+            return 30 * 0.1; // 30% de chance para os atacantes
         } else if (defesas > atacantes) {
-            return 20 * 0.1;
+            return 20 * 0.1; // 20% de chance para os atacantes
         } else {
             return 0.5;
         }
