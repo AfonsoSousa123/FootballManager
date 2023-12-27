@@ -41,11 +41,11 @@ public class Treinador extends Pessoa implements Dados {
     }
 
     public Treinador(
-            int id,
-            String nome,
-            int idade,
-            String especializacoes,
-            String taticas_fav
+        int id,
+        String nome,
+        int idade,
+        String especializacoes,
+        String taticas_fav
     ) {
         super(nome, idade);
         this.id = id;
@@ -238,11 +238,6 @@ public class Treinador extends Pessoa implements Dados {
         } catch (IOException e) {
             System.out.println("Erro ao ler o ficheiro treinadores.txt: " + e.getMessage());
         }
-    }
-
-    @Override
-    public void update(int id) {
-        //
     }
 
     @Override

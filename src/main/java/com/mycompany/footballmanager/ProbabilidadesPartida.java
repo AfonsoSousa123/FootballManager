@@ -13,12 +13,12 @@ import java.util.Random;
 public class ProbabilidadesPartida {
     private Random random = new Random();
 
-    public static double calculateProbability(Equipa equipa, Arbitro arbitro, boolean JogaPrimeiro) {
+    public static double calculaProbabilidade(Equipa equipa, Arbitro arbitro, boolean JogaPrimeiro) {
         double desempenhoMedio = calculaDesempenhoMedio(equipa);
         int numJogadores = equipa.getPlantel().size();
         double taticasTreinador = calculaTaticasTreinador(equipa);
-//        double experienciaArbitro = arbitro.getExperiencia();
-//        String teamPosition = calculateTeamPosition(equipa);
+        double experienciaArbitro = arbitro.getExperiencia();
+        String teamPosition = calculaPosicaiEquipa(equipa);
         double factorJogaPrimeiro = JogaPrimeiro ? 1.1 : 1.0;
 
         // Return the calculated probability
@@ -31,15 +31,15 @@ public class ProbabilidadesPartida {
 
     private static double calculaDesempenhoMedio(Equipa equipa) {
         // Calcula o desemsenho medio de cada jogador baseado no seu historico de lesoes
-        double totalPerformance = 0.0;
+        double desempenhoTotal = 0.0;
 //         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
 //             double desempenho = (jogador.getGoals() + jogador.getAssists()) / (jogador.getGamesPlayed() + 1);
-//             double impactoDaLesao = jogador.getHist_lesoes().size() * 0.1;
-//             totalPerformance += desempenho - impactoDaLesao;
+//             double impactoDaLesao = jogador.getHist_lesoes().size() * 0.1; // aqui vamos fazer um split da String do historico e usar a lenght como o numero de lesoes
+//             desempenhoTotal += desempenho - impactoDaLesao;
 //         }
 
         // Retorna o desempenho medio
-        return totalPerformance / equipa.getPlantel().size();
+        return desempenhoTotal / equipa.getPlantel().size();
     }
 
     private static double calculaTaticasTreinador(Equipa equipa) {
@@ -54,34 +54,32 @@ public class ProbabilidadesPartida {
                  defendingPlayers += 1.0;
              }
          }
-         double coachTactics = attackingPlayers / (attackingPlayers + defendingPlayers);
 
-//         Return the calculated coach tactics
-        return coachTactics;
+//         Retorna as Taticas do Treinador
+        return attackingPlayers / (attackingPlayers + defendingPlayers);
     }
 
-//    private static String calculateTeamPosition(Equipa equipa) {
-//        // Calculate the team's position and adjust the probability based on the number of attacking players
-//        // For example:
-//         double attackingPlayers = 0.0;
-//         double defendingPlayers = 0.0;
-////         for (Jogador jogador : equipa.getJogadores()) {
-////             if (jogador.getPosicao().equals("Atacante")) {
-////                 attackingPlayers += 1.0;
-////             } else if (jogador.getPosicao().equals("Defesa")) {
-////                 defendingPlayers += 1.0;
-////             }
-////         }
-//         if (attackingPlayers > defendingPlayers) {
-//             return "Atacante";
-//         } else if (defendingPlayers > attackingPlayers) {
-//             return "Defesa";
-//         } else {
-//             return "Equilibrada";
-//         }
-//
-//        // Return the calculated team position
-//        return posicaoEquipa;
-//    }
+    private static String calculaPosicaiEquipa(Equipa equipa) {
+        // Calcula a posicao da equipa e ajusta a probabilidade baseada no numero de Atacantes
+        // For example:
+         double atacantes = 0.0;
+         double defesas = 0.0;
+
+         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
+             if (jogador.getPosicao().equals("AVANCADO") || jogador.getPosicao().equals("CENTRAL")) {
+                 atacantes += 1.0;
+             } else if (jogador.getPosicao().equals("DEFESA") || jogador.getPosicao().equals("MEDIO")) {
+                 defesas += 1.0;
+             }
+         }
+
+         if (atacantes > defesas) {
+             return "Atacante";
+         } else if (defesas > atacantes) {
+             return "Defesa";
+         } else {
+             return "Equilibrada";
+         }
+    }
 }
 

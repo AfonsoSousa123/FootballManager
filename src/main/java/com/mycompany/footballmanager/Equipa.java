@@ -85,31 +85,32 @@ public class Equipa implements Dados {
     }
 
     public Equipa insereEquipa() {
-        Equipa equipa = new Equipa();
+        Equipa equipa = new Equipa(); // Cria uma nova instância da Equipa
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
+        int treinadoresSize = Menu.treinadores.get(Menu.treinadores.size() - 1).getId(); // Obtém o tamanho da lista de treinadores
+        int jogadoresSize = Menu.jogadores.get(Menu.jogadores.size() - 1).getId(); // Obtém o tamanho da lista de jogadores
 
         try {
-            // if the equipas ArrayList is not empty
-            if (!Menu.equipas.isEmpty()) {
-                // Gets the ID of the latest equipa, using the size of the ArrayList and decrementing 1
+            if (!Menu.equipas.isEmpty()) { // Verifica se a lista de equipas não está vazia
+                // Obtém o ID da última equipa usando o tamanho da lista e decrementando 1
                 latest = Menu.equipas.get(Menu.equipas.size() - 1).getId();
             }
 
-            // Automatically increments the ID
-            int increment = 1;
-            equipa.setId(latest + increment);
+            int increment = 1; // Incremento para gerar um novo ID para a nova equipa
+            equipa.setId(latest + increment); // Define o ID da nova equipa automaticamente
 
             System.out.println("Inserir Equipa: ");
             // Nome
             try {
                 System.out.println("Insira o Nome: ");
                 String nome = scanner.nextLine();
+
                 if (Menu.hasPontoEVirgulaString(nome)) {
                     System.out.println("O Nome da Equipa não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return insereEquipa();
                 } else {
-                    equipa.setNome(nome);
+                    equipa.setNome(nome); // Define o nome da equipa
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -123,33 +124,20 @@ public class Equipa implements Dados {
                 ArrayList<Integer> JogadoresIDs = new ArrayList<>(); // Cria um arrayList para os IDs dos Jogadores
 
                 while (insertMoreJogadores) {
-                    boolean jogadorExists = false;
-
                     System.out.println("Escolha o ID do Jogador que pretende adicionar ao Plantel: ");
                     int idJogador = scanner.nextInt();
                     scanner.nextLine(); // Consume newline character
 
-                    if ((idJogador > 0) && (idJogador <= Menu.jogadores.size())) {
-//                        for (Equipa eq : Menu.equipas) {
-//                            for (int id : eq.getPlantel()) {
-//                                if (id == jogador.getId()) {
-//                                    jogadorExists = true;
-//                                    break;
-//                                }
-//                            }
-//                            if (jogadorExists) {
-//                                System.out.println("Este Jogador já está numa equipa! Tente Novamente...");
-//                                return insereEquipa();
-//                            }
-//                        }
-//                        if (jogadorExists) {
-                        JogadoresIDs.add(idJogador);
-//                            continue;
-//                        }
+                    if (checkJogadorInEquipas(idJogador) || (JogadoresIDs.contains(idJogador))) {
+                        System.out.println("Este Jogador já tem numa Equipa! Tente Novamente...");
+                        continue;
+                    } else if ((idJogador > 0) && (idJogador <= jogadoresSize)) {
+                        JogadoresIDs.add(idJogador); // Adiciona os IDs dos jogadores na Equipa
                     } else {
-                        System.out.println("Tem que escolher um ID existente das Jogadores! Tente Novamente...");
-                        return insereEquipa();
+                        System.out.println("Tem que escolher um ID existente dos Jogadores! Tente Novamente...");
+                        continue;
                     }
+
                     System.out.println("Deseja adicionar mais Jogadores ao Plantel? (sim/nao)");
                     String choicePlantel = scanner.nextLine().trim().toLowerCase();
 
@@ -158,7 +146,7 @@ public class Equipa implements Dados {
                     }
                 }
                 equipa.setPlantel(JogadoresIDs);
-                System.out.println("Plantel: " + equipa.getPlantel());
+                System.out.println("Plantel: " + String.join(", ", equipa.getNomesJogadores(equipa.getPlantel())));
 
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -172,7 +160,10 @@ public class Equipa implements Dados {
                 int treinadorID = scanner.nextInt();
                 scanner.nextLine(); // Consume newline character
 
-                if ((treinadorID > 0) && (treinadorID <= Menu.treinadores.size())) {
+                if (checkTreinadorInEquipas(treinadorID)) {
+                    System.out.println("Este Treinador já tem numa equipa! Tente Novamente...");
+                    return insereEquipa();
+                } else if ((treinadorID > 0) && (treinadorID <= treinadoresSize)) {
                     equipa.setIdTreinador(treinadorID);
                 } else {
                     System.out.println("Tem que escolher um ID existente dos Treinadores! Tente Novamente...");
@@ -215,109 +206,133 @@ public class Equipa implements Dados {
                 return insereEquipa();
             }
 
-//            // Historico da Equipa
-//            try {
-//                System.out.println("Insira o Historico: ");
-//                String historico = scanner.nextLine();
-//
-//                if (Menu.hasPontoEVirgulaString(historico)) {
-//                    System.out.println("O Historico da Equipa não pode conter ponto e virgulas ';' ! Tente Novamente...");
-//                    return insereEquipa();
-//                } else {
-//                    equipa.setHistorico(historico);
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: " + e.getMessage() + "\n");
-//                return insereEquipa();
-//            }
-//
-//            // Golos Marcados
-//            try {
-//                System.out.println("Insira a quantidade de Golos Marcados: ");
-//                int golosMarcados = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosMarcados >= 0 && golosMarcados < 5000) {
-//                    equipa.setGolos_marcados(golosMarcados);
-//                } else {
-//                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
-//                    return insereEquipa();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return insereEquipa();
-//            }
-//
-//            // Golos Sofridos
-//            try {
-//                System.out.println("Insira a quantidade de Golos Sofridos: ");
-//                int golosSofridos = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosSofridos >= 0 && golosSofridos < 5000) {
-//                    equipa.setGolos_sofridos(golosSofridos);
-//                } else {
-//                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
-//                    return insereEquipa();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return insereEquipa();
-//            }
-
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return insereEquipa();
         }
 
-        writeToTXT(equipa);
-        System.out.println(equipa);
+        writeToTXT(equipa); // Chama o método writeToTXT para escrever a nova equipa no ficheiro
+        System.out.println(equipa); // Imprime a equipa
 
-        return equipa;
+        return equipa; // Retorna a nova equipa criada
     }
 
     // Method to write Equipa data to a TXT file
-    private void writeToTXT(Equipa equipa) {
-        checkIfFileExists(txtFilePath);
+    public void writeToTXT(Equipa equipa) {
+        checkIfFileExists(txtFilePath); // Verifica se o ficheiro existe
 
         try (FileWriter writer = new FileWriter(txtFilePath, true)) {
-            BufferedWriter bw = new BufferedWriter(writer);
-            StringBuilder sb = new StringBuilder();
+            BufferedWriter bw = new BufferedWriter(writer); // Cria um buffer de escrita para escrever no ficheiro
+            StringBuilder sb = new StringBuilder(); // Cria um StringBuilder para construir a linha a ser escrita
 
-            // Construct the TXT line
-            sb.append(equipa.getId()).append(";");
-            sb.append(equipa.getNome()).append(";");
-            // Append the plantel elements with comma separator
-            for (Integer jogador : equipa.getPlantel()) { // Plantel
-                sb.append(jogador).append(",");
+            // Constrói a linha do ficheiro TXT
+            sb.append(equipa.getId()).append(";"); // Adiciona o ID da Equipa
+            sb.append(equipa.getNome()).append(";"); // Adiciona o Nome da Equipa
+            // Adiciona os elementos do plantel com separador de vírgula
+            for (Integer jogador : equipa.getPlantel()) { // Itera sobre o plantel da Equipa
+                sb.append(jogador).append(","); // Adiciona cada ID de jogador com uma vírgula como separador
             }
-            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
-            sb.append(";"); // Para poder ser colocada ponto e virgula
-            sb.append(equipa.getIdTreinador()).append(";"); // get Treinador ID
-            sb.append(equipa.getIdLiga()).append(";"); // get Liga ID
-            sb.append(equipa.getCidade()).append(";"); // get Cidade
-            sb.append(equipa.getPais()).append(";"); // get Pais
+            sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula (se houver)
+            sb.append(";");
+            sb.append(equipa.getIdTreinador()).append(";"); // Adiciona o ID do Treinador da Equipa
+            sb.append(equipa.getIdLiga()).append(";"); // Adiciona o ID da Liga à Equipa pertencente
+            sb.append(equipa.getCidade()).append(";"); // Adiciona a Cidade da Equipa
+            sb.append(equipa.getPais()).append("\n"); // Adiciona o País da Equipa e uma nova linha
 
-            // Write the line to the file
+            // Escreve a linha no ficheiro usando o BufferedWriter
             bw.append(sb.toString());
-            // closes the output stream
-            bw.close();
+            bw.close(); // Fecha o fluxo de saída
 
-            System.out.println("Equipa inserida com Sucesso!!!");
         } catch (IOException e) {
             System.out.println("Erro ao inserir Equipa no ficheiro equipas.txt: " + e.getMessage());
         }
     }
 
+    public void updateToTXT(Equipa equipaToUpdate) {
+        checkIfFileExists(txtFilePath); // Verifica se o ficheiro existe
+
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
+            ArrayList<String> linhas = new ArrayList<>();
+            String row;
+            boolean isFirstLine = true; // Flag para pular a primeira linha
+
+            while ((row = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    linhas.add(row); // Adiciona o cabeçalho à lista sem alterações
+                    continue;
+                }
+                linhas.add(row); // Lê as linhas existentes do ficheiro e adiciona à lista
+            }
+
+            for (int i = 1; i < linhas.size(); i++) { // Inicia o loop a partir do índice 1 para salta a primeira linha
+                String[] data = linhas.get(i).split(";");
+                int equipaIdFromFile = Integer.parseInt(data[0]); // ID da Equipa
+
+                if (equipaIdFromFile == equipaToUpdate.getId()) {
+                    // Atualiza a linha relacionada à Equipa que está sendo atualizada
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(equipaToUpdate.getId()).append(";"); // Atualiza o ID
+                    sb.append(equipaToUpdate.getNome()).append(";"); // Atualiza o Nome
+                    // Adiciona os elementos do plantel com separador de vírgula
+                    for (Integer jogador : equipaToUpdate.getPlantel()) { // Plantel
+                        sb.append(jogador).append(",");
+                    }
+                    sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula
+                    sb.append(";"); // Adiciona ponto e vírgula
+                    sb.append(equipaToUpdate.getIdTreinador()).append(";"); // Atualiza o ID do Treinador
+                    sb.append(equipaToUpdate.getIdLiga()).append(";"); // Atualiza o ID da Liga
+                    sb.append(equipaToUpdate.getCidade()).append(";"); // Atualiza a Cidade
+                    sb.append(equipaToUpdate.getPais()); // Atualiza o País
+
+                    linhas.set(i, sb.toString()); // Define a linha atualizada na lista
+                    break; // Sai do loop, pois a atualização está concluída
+                }
+            }
+
+            // Escreve as linhas modificadas de volta para o ficheiro
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(txtFilePath, false))) {
+                for (String linha : linhas) {
+                    bw.write(linha);
+                    bw.newLine(); // Adiciona uma nova linha após cada linha
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no ficheiro equipas.txt: " + e.getMessage());
+        }
+    }
+
+    public boolean checkJogadorInEquipas(int id) {
+        for (Equipa eq : Menu.equipas) { // Itera sobre todas as equipas
+            for (int jogadorID : eq.getPlantel()) { // Itera sobre os IDs dos jogadores no plantel de cada equipa
+                if (id == jogadorID) { // Verifica se o ID fornecido corresponde a algum jogador na equipa
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkTreinadorInEquipas(int id) {
+        for (Equipa eq : Menu.equipas) { // Itera sobre todas as equipas no Menu
+            if (id == eq.getIdTreinador()) { // Verifica se o ID fornecido corresponde ao ID do treinador da equipa
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void print() {
-        getEquipas();
-        // Print the table Headers
+        getEquipas(); // Obtém as equipas dos ficheiros
+
+        // Imprime os cabeçalhos da tabela
         System.out.printf(tableHeaders());
 
-        // Print details of all players using a loop
-        if (!equipas.isEmpty()) {
-            for (Equipa equipa : equipas) {
+        // Imprime os detalhes de todas as equipas usando um loop
+        if (!equipas.isEmpty()) { // Verifica se a lista de equipas não está vazia
+            for (Equipa equipa : equipas) { // Itera sobre cada equipa na lista
                 System.out.printf(equipa.toString());
             }
         } else {
@@ -376,35 +391,34 @@ public class Equipa implements Dados {
 
             System.out.println("Quantas Equipas quer gerar? ");
             int numOfChoices = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
+            scanner.nextLine(); // Consome a proxima linha
 
-            if (numOfChoices < 0 || numOfChoices > 2) {
+            if (numOfChoices < 0 || numOfChoices > 2) { // Verifica se o número de escolhas está dentro do intervalo especificado
                 System.out.println("Só pode inserir no maximo 2 de cada vez! Tente Novamente...");
-                insertFaker();
+                insertFaker(); // Chama recursivamente o método para inserção novamente em caso de valor inválido
             }
 
-            for (int i = 0; i < numOfChoices; i++) {
-                // Automatically increments the ID
+            for (int i = 0; i < numOfChoices; i++) { // Loop para criar o número especificado de equipas
                 int increment = 1;
                 int latest = 0;
-                // if the equipas ArrayList is not empty
-                if (!Menu.equipas.isEmpty()) {
-                    // Gets the ID of the latest equipa, using the size of the ArrayList and decrementing 1
-                    latest = Menu.equipas.get(Menu.equipas.size() - 1).getId();
+
+                if (!Menu.equipas.isEmpty()) { // Verifica se a lista de equipas não está vazia
+                    latest = Menu.equipas.get(Menu.equipas.size() - 1).getId(); // Obtém o último ID de equipa na lista
                 }
 
+                // Cria uma nova equipa com dados aleatórios e IDs autoincrementados
                 Equipa equipa = new Equipa(
-                    latest + increment, // ID automatically increments
-                    randomTeam(), // Random Nome
-                    generateJogadores(11), // Plantel
-                    random.nextInt(0, Menu.treinadores.size()), // Treinador ID
-                    random.nextInt(0, Menu.ligas.size()), // Liga ID
-                    randomCity(), // Cidade
-                    randomCountry() // Pais
+                    latest + increment, // ID automaticamente incrementado
+                    randomTeam(), // Nome aleatório
+                    generateJogadores(11), // Cria um plantel de 11 jogadores aleatórios
+                    random.nextInt(0, Menu.treinadores.size()), // ID do treinador aleatório
+                    random.nextInt(0, Menu.ligas.size()), // ID da liga aleatória
+                    randomCity(), // Cidade aleatória
+                    randomCountry() // País aleatório
                 );
-                equipas.add(equipa); // Adds the new Equipa to the Equipaes ArrayList
 
-                writeToTXT(equipa); // Writes the Equipa to the TXT File
+                equipas.add(equipa); // Adiciona a nova equipa à lista de equipas
+                writeToTXT(equipa); // Escreve os dados da equipa no arquivo TXT
             }
 
             System.out.println(numOfChoices + " Equipas Geradas com sucesso!");
@@ -418,37 +432,37 @@ public class Equipa implements Dados {
         ArrayList<Integer> randomPlantel = new ArrayList<>();
 
         try {
-            for (int i = 0; i < numJogadores; i++) {
-                // Automatically increments the ID
+            for (int i = 0; i < numJogadores; i++) { // Loop para criar o número especificado de jogadores
                 int increment = 1;
                 int latest = 0;
-                // if the jogadores ArrayList is not empty
-                if (!Menu.jogadores.isEmpty()) {
-                    // Gets the ID of the latest jogador, using the size of the ArrayList and decrementing 1
-                    latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId();
+
+                if (!Menu.jogadores.isEmpty()) { // Verifica se a lista de jogadores não está vazia
+                    latest = Menu.jogadores.get(Menu.jogadores.size() - 1).getId(); // Obtém o último ID de jogador na lista
                 }
 
+                // Cria um novo jogador com dados aleatórios e IDs autoincrementados
                 Jogador jogador = new Jogador(
-                    latest + increment, // ID automatically increments
-                    randomName(), // Random Nome
-                    random.nextInt(20, 40), // Random Idade
-                    Menu.jogador.getRandomPosicao(), // Random Posição
-                    randomLorem(), // Random Historico de Lesões
-                    random.nextInt(1, 100), // Random Ataque
-                    random.nextInt(1, 100), // Random Defesa
-                    random.nextInt(1, 100) // Random Nivel de Agressividade
+                    latest + increment, // ID automaticamente incrementado
+                    randomName(), // Nome aleatório
+                    random.nextInt(20, 40), // Idade aleatória entre 20 e 40 anos
+                    Menu.jogador.getRandomPosicao(), // Posição aleatória do jogador
+                    randomLorem(), // Histórico de lesões aleatório
+                    random.nextInt(1, 100), // Valor de ataque aleatório
+                    random.nextInt(1, 100), // Valor de defesa aleatório
+                    random.nextInt(1, 100) // Nível de agressividade aleatório
                 );
-                randomPlantel.add(jogador.getId()); // Adds the jogadores Ids to the randomPlantel
-                jogadores.add(jogador); // Adds the new Jogador to the Jogadores ArrayList
 
-                jogador.writeToTXT(jogador); // Writes the Jogador to the TXT File
+                randomPlantel.add(jogador.getId()); // Adiciona os IDs dos jogadores ao plantel aleatório
+                Menu.jogadores.add(jogador); // Adiciona o novo jogador à lista de jogadores
+                jogador.writeToTXT(jogador); // Escreve os dados do jogador no arquivo TXT
             }
+
             System.out.println("Plantel inserido e associado com sucesso");
         } catch (Exception e) {
             System.out.println("Erro ao inserir Jogador no ficheiro jogadores.txt: " + e.getMessage());
         }
 
-        return randomPlantel;
+        return randomPlantel; // Retorna a lista de IDs dos jogadores criados
     }
     // END Faker Methods ----------------------------------------------------------------
     // END Interface Methods ----------------------------------------------------------------
@@ -566,19 +580,19 @@ public class Equipa implements Dados {
     public static String tableHeaders() {
         System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPAS --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s |%n",
-                "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais");
+            "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s |%n",
-                getId(),
-                getNome(),
-                String.join(", ", getNomesJogadores(getPlantel())),
-                getNomeTreinador(getIdTreinador()),
-                getNomeLiga(getIdLiga()),
-                getCidade(),
-                getPais()
+            getId(),
+            getNome(),
+            String.join(", ", getNomesJogadores(getPlantel())), // Separa os nomes dos Jogadores por virgulas, retirando "[]"
+            getNomeTreinador(getIdTreinador()),
+            getNomeLiga(getIdLiga()),
+            getCidade(),
+            getPais()
         );
     }
     // END toString Methods ----------------------------------------------------------------

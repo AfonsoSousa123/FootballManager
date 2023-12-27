@@ -1,0 +1,2 @@
+ID;Equipa;DesempenhoMedio; NumeroVitorias;NumeroDerrotas;NumeroEmpates;GolosMarcados;GolosSofridos
+1;Porto;23;34;45;12;56;67

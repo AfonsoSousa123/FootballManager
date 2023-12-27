@@ -17,17 +17,15 @@ import static com.mycompany.footballmanager.Menu.randomName;
 public class Arbitro extends Pessoa implements Dados {
     // BEGIN Variables ----------------------------------------------------------------
     private int id;
-    private String experiencia;
+    private int experiencia;
     private String funcao;
-
-    private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/arbitros.txt"; // File Path
     // END Variables ----------------------------------------------------------------
 
     // BEGIN Constructors ----------------------------------------------------------------
     public Arbitro() {
         super.setNome(randomName());
         super.setIdade(random.nextInt(20, 40));
-        experiencia = random.nextInt(1, 20) + " Anos";
+        experiencia = random.nextInt(1, 20);
         funcao = "";
     }
 
@@ -35,7 +33,7 @@ public class Arbitro extends Pessoa implements Dados {
             int id,
             String nome,
             int idade,
-            String experiencia
+            int experiencia
     ) {
         super(nome, idade);
         this.id = id;
@@ -114,7 +112,7 @@ public class Arbitro extends Pessoa implements Dados {
 
     @Override
     public void insertFaker() {
-        // FALTA FAZER
+        // FALTA FAZER!!!
     }
 
     // END Interface Methods ----------------------------------------------------------------
@@ -137,14 +135,13 @@ public class Arbitro extends Pessoa implements Dados {
         return super.getIdade();
     }
 
-    public String getExperiencia() {
+    public int getExperiencia() {
         return experiencia;
     }
 
-    public void setExperiencia(String experiencia) {
+    public void setExperiencia(int experiencia) {
         this.experiencia = experiencia;
     }
-
 
     public String getFuncao() {
         return funcao;
@@ -155,10 +152,11 @@ public class Arbitro extends Pessoa implements Dados {
     }
     // END Getters and Setters ----------------------------------------------------------------
 
+    // BEGIN toString Methods ----------------------------------------------------------------
     public static String tableHeaders() {
         System.out.println("|---------------------------- ARBITROS ----------------------------|");
         return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
-                "ID", "Nome", "Idade", "Experiência", "Função");
+                "ID", "Nome", "Idade", "Experiencia", "Funcao");
     }
 
     @Override
@@ -166,5 +164,6 @@ public class Arbitro extends Pessoa implements Dados {
         return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
                 getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
     }
+    // END toString Methods ----------------------------------------------------------------
 }
 
