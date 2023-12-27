@@ -76,9 +76,16 @@ public class Partida implements Dados {
 
     // BEGIN Interface Methods ----------------------------------------------------------------
     public void simulaPartida(Partida partida) {
-        if (partida.getEquipaID() > partida.getAdversarioID()) {
+        ArrayList<Arbitro> arbitros = partida.getArbitrosValues(partida.getArbitrosIDs());
+        Equipa equipa = partida.getEquipaValues(partida.getEquipaID());
+        Equipa adversario = partida.getEquipaValues(partida.getAdversarioID());
+
+        double probEquipa = ProbabilidadesPartida.calculaProbabilidade(equipa, arbitros, jogaPrimeiro(caraCoroa()));
+        double probAdversario = ProbabilidadesPartida.calculaProbabilidade(adversario, arbitros, jogaPrimeiro(caraCoroa()));
+
+        if (probEquipa > probAdversario) {
             System.out.println(getNomeEquipa(partida.getEquipaID()) + " Ganhou a partida por" + partida.getResultado() +" !");
-        } else if (partida.getEquipaID() < partida.getAdversarioID()) {
+        } else if (probEquipa < probAdversario) {
             System.out.println(getNomeAdversario(partida.getAdversarioID()) + " Ganhou a partida por" + partida.getResultado() +" !");
         } else {
             System.out.println("Houve Empate entre as Equipas");
@@ -90,6 +97,10 @@ public class Partida implements Dados {
         } else {
             return "CARA";
         }
+    }
+
+    public boolean jogaPrimeiro(String moeda) {
+        return moeda.equals("COROA");
     }
 
     @Override
@@ -226,7 +237,7 @@ public class Partida implements Dados {
                 System.out.println("Insira a Data: ");
                 String data = scanner.nextLine();
 
-                if (!Menu.validarData(data)) {
+                if (!validarData(data)) {
                     System.out.println("A data não está de acordo com o formato: DD-MM-AAAA, tente novamente ");
                     return inserePartida();
                 } else {
@@ -237,28 +248,28 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
-            // Resultado
-            try {
-                System.out.println("Insira o Resultado: ");
-                String resultado = scanner.nextLine();
-
-                if (Menu.hasPontoEVirgulaString(resultado)) {
-                    System.out.println("O Resultado não pode conter ponto e virgulas ';' ! Tente Novamente...");
-                    return inserePartida();
-                } else {
-                    partida.setResultado(resultado); // Define o resultado da Partida
-                }
-            } catch (Exception e) {
-                System.out.println("Input inválido: " + e.getMessage() + "\n");
-                return inserePartida();
-            }
+//            // Resultado
+//            try {
+//                System.out.println("Insira o Resultado: ");
+//                String resultado = scanner.nextLine();
+//
+//                if (hasPontoEVirgulaString(resultado)) {
+//                    System.out.println("O Resultado não pode conter ponto e virgulas ';' ! Tente Novamente...");
+//                    return inserePartida();
+//                } else {
+//                    partida.setResultado(resultado); // Define o resultado da Partida
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Input inválido: " + e.getMessage() + "\n");
+//                return inserePartida();
+//            }
 
             // Local
             try {
                 System.out.println("Insira o Local: ");
                 String local = scanner.nextLine();
 
-                if (Menu.hasPontoEVirgulaString(local)) {
+                if (hasPontoEVirgulaString(local)) {
                     System.out.println("O Local da Partida não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return inserePartida();
                 } else {
@@ -268,6 +279,9 @@ public class Partida implements Dados {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
                 return inserePartida();
             }
+
+            simulaPartida(partida); // Simula a Partida
+            // FALTA MARCAR O RESULTADO!!
 
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -424,6 +438,21 @@ public class Partida implements Dados {
         return nomesArbitros; // Retorna a lista de nomes dos árbitros correspondentes aos IDs fornecidos
     }
 
+    public ArrayList<Arbitro> getArbitrosValues(ArrayList<Integer> arbitros) {
+        ArrayList<Arbitro> Arbitros = new ArrayList<>(); // Cria uma lista para armazenar os nomes dos árbitros
+
+        for (Arbitro arbitro : Menu.arbitros) { // Percorre a lista de árbitros no Menu
+            for (Integer arbitroID : arbitros) { // Percorre os IDs dos árbitros fornecidos
+                if (!arbitros.isEmpty()) { // Verifica se a lista de IDs não está vazia
+                    if (arbitro.getId() == arbitroID) { // Compara os IDs para encontrar correspondências
+                        Arbitros.add(arbitro); // Adiciona o nome do árbitro à lista se houver correspondência
+                    }
+                }
+            }
+        }
+        return Arbitros; // Retorna a lista de nomes dos árbitros correspondentes aos IDs fornecidos
+    }
+
     public void setArbitrosIDs(ArrayList<Integer> arbitros) {
         this.arbitros = arbitros;
     }
@@ -433,7 +462,7 @@ public class Partida implements Dados {
     }
 
     public String getNomeEquipa(int id) {
-        for (Equipa equipa : Menu.equipas) { // Percorre a lista de equipas no Menu
+        for (Equipa equipa : equipas) { // Percorre a lista de equipas no Menu
             if (equipa.getId() == id) { // Verifica se o ID da equipas corresponde ao ID fornecido
                 return equipa.getNome(); // Retorna o nome da equipas se houver correspondência
             }
@@ -442,7 +471,7 @@ public class Partida implements Dados {
     }
 
     public Equipa getEquipaValues(int id) {
-        for (Equipa equipa : Menu.equipas) {
+        for (Equipa equipa : equipas) {
             if (equipa.getId() == id) { // Verifica se o ID da equipas corresponde ao ID fornecido
                 return equipa; // Retorna o objeto completo da equipas se houver correspondência
             }
@@ -460,7 +489,7 @@ public class Partida implements Dados {
     }
 
     public String getNomeAdversario(int id) {
-        for (Equipa adversario : Menu.equipas) {
+        for (Equipa adversario : equipas) {
             if (adversario.getId() == id) { // Verifica se o ID do adversario corresponde ao ID fornecido
                 return adversario.getNome(); // Retorna o nome do adversario se houver correspondência
             }
