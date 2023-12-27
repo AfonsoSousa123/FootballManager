@@ -293,7 +293,7 @@ public class EstatisticasEquipa implements Dados {
     // BEGIN toString Methods ----------------------------------------------------------------
     // Print headers
     public static String tableHeaders() {
-        System.out.println("|-------------------------------------------------- ESTATISICAS DAS EQUIPAS -----------------------------------------------------------|");
+        System.out.println("|--------------------------------------------------------- ESTATISICAS DAS EQUIPAS -------------------------------------------------------------------|");
         return String.format("| %-25s | %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |%n",
             "Equipa", "Desempenho Medio", "Vitorias", "Empates", "Derrotas", "Golos Marcados", "Golos Sofridos");
     }

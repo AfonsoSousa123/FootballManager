@@ -331,8 +331,8 @@ public class Equipa implements Dados {
         System.out.printf(tableHeaders());
 
         // Imprime os detalhes de todas as equipas usando um loop
-        if (!equipas.isEmpty()) { // Verifica se a lista de equipas não está vazia
-            for (Equipa equipa : equipas) { // Itera sobre cada equipa na lista
+        if (!Menu.equipas.isEmpty()) { // Verifica se a lista de equipas não está vazia
+            for (Equipa equipa : Menu.equipas) { // Itera sobre cada equipa na lista
                 System.out.printf(equipa.toString());
             }
         } else {

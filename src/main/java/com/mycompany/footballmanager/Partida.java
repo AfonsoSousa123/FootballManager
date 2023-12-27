@@ -98,7 +98,7 @@ public class Partida implements Dados {
         boolean insertMore = true;
 
         while (insertMore) {
-            getPartidas(); // Updates the Partidas ArrayList
+            getPartidas(); // Atualiza o ArrayList das Partidas
             Menu.partidas.add(inserePartida());
 
             try {
@@ -122,13 +122,13 @@ public class Partida implements Dados {
         int equipasSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
 
         try {
-            // if the partidas ArrayList is not empty
+            // Verifica se o ArrayList das partidas está vazio
             if (!Menu.partidas.isEmpty()) {
-                // Gets the ID of the latest partida, using the size of the ArrayList and decrementing 1
+                // Obtém o ID da última partida, usando o tamanho do ArrayList e subtraindo 1
                 latest = Menu.partidas.get(Menu.partidas.size() - 1).getId();
             }
 
-            // Automatically increments the ID
+            // Incrementa o ID automaticamente
             int increment = 1;
             partida.setId(latest + increment);
 
@@ -146,7 +146,7 @@ public class Partida implements Dados {
                     scanner.nextLine(); // Consume newline character
 
                     if (idArbitro > 0 && idArbitro <= arbitrosSize) {
-                        ArbitrosIDs.add(idArbitro);
+                        ArbitrosIDs.add(idArbitro); // Adiciona o Id do arbitro ao ArrayList ArbitrosIDs
                     } else if (ArbitrosIDs.size() > 4) {
                         System.out.println("Chegou ao limite de Arbitros por Partida!");
                         break;
@@ -177,7 +177,7 @@ public class Partida implements Dados {
                 scanner.nextLine(); // Consume newline character
 
                 if (equipaID > 0 && equipaID <= equipasSize) {
-                    partida.setEquipa(equipaID);
+                    partida.setEquipa(equipaID); // Define a equipa da Partida
                 } else {
                     System.out.println("Tem que escolher um ID existente das Equipas! Tente Novamente...");
                     return inserePartida();
@@ -203,7 +203,7 @@ public class Partida implements Dados {
                     System.out.println("As equipas têm que ser da mesma Liga! Tente Novamente...");
                     return inserePartida();
                 }  else if (adversario > 0 && adversario <= equipasSize) {
-                    partida.setAdversario(adversario);
+                    partida.setAdversario(adversario); // Define o adversario da Partida
                 } else {
                     System.out.println("Tem que escolher um Adversario existente nas Equipas! Tente Novamente...");
                     return inserePartida();
@@ -230,7 +230,7 @@ public class Partida implements Dados {
                     System.out.println("A data não está de acordo com o formato: DD-MM-AAAA, tente novamente ");
                     return inserePartida();
                 } else {
-                    partida.setData(data);
+                    partida.setData(data); // Define a data da Partida
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -246,7 +246,7 @@ public class Partida implements Dados {
                     System.out.println("O Resultado não pode conter ponto e virgulas ';' ! Tente Novamente...");
                     return inserePartida();
                 } else {
-                    partida.setResultado(resultado);
+                    partida.setResultado(resultado); // Define o resultado da Partida
                 }
             } catch (Exception e) {
                 System.out.println("Input inválido: " + e.getMessage() + "\n");
@@ -269,39 +269,6 @@ public class Partida implements Dados {
                 return inserePartida();
             }
 
-//            // Golos Marcados
-//            try {
-//                System.out.println("Insira a quantidade de Golos Marcados: ");
-//                int golosMarcados = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosMarcados >= 0 && golosMarcados < 5000) {
-//                    partida.setGolos_marcados(golosMarcados);
-//                } else {
-//                    System.out.println("A quantidade de Golos Marcados tem que ser menor que 5000 e! Tente Novamente...");
-//                    return inserePartida();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return inserePartida();
-//            }
-//
-//            // Golos Sofridos
-//            try {
-//                System.out.println("Insira a quantidade de Golos Sofridos: ");
-//                int golosSofridos = scanner.nextInt();
-//                scanner.nextLine(); // Consume newline character
-//
-//                if (golosSofridos >= 0 && golosSofridos < 5000) {
-//                    partida.setGolos_sofridos(golosSofridos);
-//                } else {
-//                    System.out.println("A quantidade de Golos Sofridos tem que ser menor que 5000 e! Tente Novamente...");
-//                    return inserePartida();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Input inválido: Não pode inserir strings neste campo\n");
-//                return inserePartida();
-//            }
         } catch (Exception e) {
             System.out.println("Input inválido: " + e.getMessage() + "\n");
             return inserePartida();
@@ -313,35 +280,35 @@ public class Partida implements Dados {
         return partida;
     }
 
-    // Method to write Partida data to a TXT file
+    // Metodo para inserir Partida no ficheiro TXT
     private void writeToTXT(Partida partida) {
         checkIfFileExists(txtFilePath);
 
-        try (FileWriter writer = new FileWriter(txtFilePath, true)) {
+        try (FileWriter writer = new FileWriter(txtFilePath, true)) { // Abre o ficheiro para escrita
             BufferedWriter bw = new BufferedWriter(writer);
             StringBuilder sb = new StringBuilder();
 
-            // Construct the TXT line
-            sb.append(partida.getId()).append(";"); // get ID
-            sb.append(partida.getNome()).append(";"); // get Nome ID
-            // Append the equipa elements with comma separator
+            // Constrói a linha para ser escrita no ficheiro
+            sb.append(partida.getId()).append(";"); // Obtém o ID
+            sb.append(partida.getNome()).append(";"); // Obtém o Nome
+            // Adiciona os IDs dos árbitros separados por vírgula
             for (Integer arbitroID : partida.getArbitrosIDs()) {
                 sb.append(arbitroID).append(",");
             }
-            sb.deleteCharAt(sb.length() - 1); // Remove a ultima virgula
-            sb.append(";"); // Para poder ser colocada ponto e virgula
-            sb.append(partida.getEquipaID()).append(";"); // get Equipa
-            sb.append(partida.getAdversarioID()).append(";"); // get Adversario
-            sb.append(partida.getData()).append(";"); // get Data
-            sb.append(partida.getResultado()).append(";"); // get Resultado
-            sb.append(partida.getLocal()).append(";"); // get Local
-            sb.append(partida.getGolos_marcados()).append(";"); // get Golos Marados
-            sb.append(partida.getGolos_sofridos()).append(";"); // get Golos Sofridos
-            sb.append(partida.getSoma_cartoes()).append("\n"); // get Soma Cartoes
+            sb.deleteCharAt(sb.length() - 1); // Remove a última vírgula
+            sb.append(";"); // Adiciona ponto e vírgula
+            sb.append(partida.getEquipaID()).append(";"); // Obtém a Equipa
+            sb.append(partida.getAdversarioID()).append(";"); // Obtém o Adversário
+            sb.append(partida.getData()).append(";"); // Obtém a Data
+            sb.append(partida.getResultado()).append(";"); // Obtém o Resultado
+            sb.append(partida.getLocal()).append(";"); // Obtém o Local
+            sb.append(partida.getGolos_marcados()).append(";"); // Obtém os Golos Marcados
+            sb.append(partida.getGolos_sofridos()).append(";"); // Obtém os Golos Sofridos
+            sb.append(partida.getSoma_cartoes()).append("\n"); // Obtém a Soma de Cartões
 
-            // Write the line to the file
+            // Escreve a linha no ficheiro
             bw.append(sb.toString());
-            // closes the output stream
+            // Fecha o buffer
             bw.close();
 
             System.out.println("Partida inserida com Sucesso!!!");
@@ -350,13 +317,14 @@ public class Partida implements Dados {
         }
     }
 
+
     @Override
     public void print() {
         getPartidas();
-        // Print the table Headers
+        // Imprime o cabeçalho da tabela
         System.out.printf(tableHeaders());
 
-        // Print details of all partidas using a loop
+        // Imprime todas as Partidas
         if (!partidas.isEmpty()) {
             for (Partida partida : partidas) {
                 System.out.printf(partida.toString());
@@ -370,44 +338,46 @@ public class Partida implements Dados {
         checkIfFileExists(txtFilePath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(txtFilePath))) {
-            boolean firstLine = true; // Flag to identify the first line
-            ArrayList<Partida> partidas = new ArrayList<>(); // Create a new list for partidas
+            boolean firstLine = true; // Flag para identificar a primeira linha
+            ArrayList<Partida> partidas = new ArrayList<>(); // Cria uma nova lista para armazenar as partidas
             String row;
 
             while ((row = br.readLine()) != null) {
                 if (firstLine) {
-                    firstLine = false; // Set the flag to false after encountering the first line
-                    continue; // Skip processing the first line
+                    firstLine = false; // Define a flag como false após encontrar a primeira linha
+                    continue; // Ignora o processamento da primeira linha (O cabeçalho)
                 }
-                String[] data = row.split(";");
+                String[] data = row.split(";"); // Divide a linha em partes usando o separador ";"
 
-                // TXT format: ID, Nome, Arbitro, Equipa, Adversario, Data, Resultado, Local, Golos Marcados, Golos Sofridos, Soma Cartoes
+                // Cria um novo objeto Partida e preenche os seus atributos com os dados lidos do ficheiro
                 Partida partida = new Partida();
-                partida.setId(Integer.parseInt(data[0])); // ID
-                partida.setNome(data[1]); // Nome
+                partida.setId(Integer.parseInt(data[0])); // Define o ID da partida
+                partida.setNome(data[1]); // Define o Nome da partida
 
-                String[] arbitrosIds = data[2].split(","); // gets the ids of the equipas
+                // Processamento dos IDs dos árbitros
+                String[] arbitrosIds = data[2].split(","); // Separa os IDs dos árbitros por vírgula
                 ArrayList<Integer> arbitros = new ArrayList<>();
-
                 for (String arbitroId : arbitrosIds) {
-                    arbitros.add(Integer.parseInt(arbitroId));
+                    arbitros.add(Integer.parseInt(arbitroId)); // Adiciona os IDs dos árbitros à lista
                 }
-                partida.setArbitrosIDs(arbitros); // Arbitros
-                partida.setEquipa(Integer.parseInt(data[3])); // Equipa
-                partida.setAdversario(Integer.parseInt(data[4])); // Adversario
-                partida.setData(data[5]); // Data
-                partida.setResultado(data[6]); // Resultado
-                partida.setLocal(data[7]); // Local
-                partida.setGolos_marcados(Integer.parseInt(data[8])); // Golos Marcados
-                partida.setGolos_sofridos(Integer.parseInt(data[9])); // Golos Sofridos
-                partida.setSoma_cartoes(Integer.parseInt(data[10])); // Soma Cartoes
+                partida.setArbitrosIDs(arbitros); // Define os IDs dos árbitros da partida
 
-                // Adds the partida to the ArrayList
+                // Define os outros atributos da partida com base nos dados lidos do ficheiro
+                partida.setEquipa(Integer.parseInt(data[3])); // Define a Equipa da partida
+                partida.setAdversario(Integer.parseInt(data[4])); // Define o Adversário da partida
+                partida.setData(data[5]); // Define a Data da partida
+                partida.setResultado(data[6]); // Define o Resultado da partida
+                partida.setLocal(data[7]); // Define o Local da partida
+                partida.setGolos_marcados(Integer.parseInt(data[8])); // Define os Golos Marcados na partida
+                partida.setGolos_sofridos(Integer.parseInt(data[9])); // Define os Golos Sofridos na partida
+                partida.setSoma_cartoes(Integer.parseInt(data[10])); // Define a Soma dos Cartões na partida
+
+                // Adiciona o objeto Partida à lista de partidas
                 partidas.add(partida);
             }
-            br.close();
+            br.close(); // Fecha o ficheiro
 
-            // Replaces the ArrayList from Menu class with the new ArrayList
+            // Substitui a ArrayList na classe Menu pela nova ArrayList criada com os dados lidos do ficheiro
             Menu.partidas = partidas;
         } catch (IOException e) {
             System.out.println("Erro ao ler o ficheiro partidas.txt: " + e.getMessage());
@@ -548,7 +518,6 @@ public class Partida implements Dados {
     public void setSoma_cartoes(int soma_cartoes) {
         this.soma_cartoes = soma_cartoes;
     }
-
     // END Getters and Setters ----------------------------------------------------------------
 
     // BEGIN Other Methods ----------------------------------------------------------------
@@ -569,21 +538,21 @@ public class Partida implements Dados {
     public static String tableHeaders() {
         System.out.println("|----------------------------------------------------------------------------------------------------- PARTIDAS --------------------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-                "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
+            "ID", "Nome", "Arbitros", "Data", "Resultado", "Local", "Golos Marcados", "Golos Sofridos", "Soma de Cartoes");
     }
 
     @Override
     public String toString() {
         return String.format("| %-3s | %-25s | %-60s | %-10s | %-10s | %-30s | %-14s | %-14s | %-15s |%n",
-                getId(),
-                getNome(),
-                String.join(", ", getNomesArbitros(getArbitrosIDs())),
-                getData(),
-                getResultado(),
-                getLocal(),
-                getGolos_marcados(),
-                getGolos_sofridos(),
-                getSoma_cartoes()
+            getId(),
+            getNome(),
+            String.join(", ", getNomesArbitros(getArbitrosIDs())),
+            getData(),
+            getResultado(),
+            getLocal(),
+            getGolos_marcados(),
+            getGolos_sofridos(),
+            getSoma_cartoes()
         );
     }
     // END Other Methods ----------------------------------------------------------------

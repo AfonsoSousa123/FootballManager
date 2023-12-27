@@ -4,6 +4,7 @@
  */
 package com.mycompany.footballmanager;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -13,30 +14,33 @@ import java.util.Random;
 public class ProbabilidadesPartida {
     private Random random = new Random();
 
-    public static double calculaProbabilidade(Equipa equipa, Arbitro arbitro, boolean JogaPrimeiro) {
+    public static double calculaProbabilidade(Equipa equipa, ArrayList<Arbitro> arbitros, boolean JogaPrimeiro) {
         double desempenhoMedio = calculaDesempenhoMedio(equipa);
         int numJogadores = equipa.getPlantel().size();
         double taticasTreinador = calculaTaticasTreinador(equipa);
-        double experienciaArbitro = arbitro.getExperiencia();
-        String teamPosition = calculaPosicaiEquipa(equipa);
+        double experienciaArbitros = 0;
+        String teamPosition = calculaPosicaoEquipa(equipa);
         double factorJogaPrimeiro = JogaPrimeiro ? 1.1 : 1.0;
+        
+        for (Arbitro arbitro : arbitros) {
+            experienciaArbitros += arbitro.getExperiencia();
+        }
 
-        // Return the calculated probability
+        // Retorna a probabilidade calculada
         return desempenhoMedio *
-                numJogadores *
-                taticasTreinador *
-//                experienciaArbitro *
-                factorJogaPrimeiro;
+            numJogadores *
+            taticasTreinador *
+            experienciaArbitros *
+            factorJogaPrimeiro;
     }
 
     private static double calculaDesempenhoMedio(Equipa equipa) {
-        // Calcula o desemsenho medio de cada jogador baseado no seu historico de lesoes
+        // Calcula o desemsenho medio de cada jogador baseado no seu historico de lesoes e no seu nivel de agressividade
         double desempenhoTotal = 0.0;
-//         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
-//             double desempenho = (jogador.getGoals() + jogador.getAssists()) / (jogador.getGamesPlayed() + 1);
-//             double impactoDaLesao = jogador.getHist_lesoes().size() * 0.1; // aqui vamos fazer um split da String do historico e usar a lenght como o numero de lesoes
-//             desempenhoTotal += desempenho - impactoDaLesao;
-//         }
+         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
+             double desempenho = (jogador.getHist_lesoes().length() * 0.1 / (jogador.getN_agressividade() + jogador.getAtaque() + jogador.getDefesa()));
+             desempenhoTotal += desempenho;
+         }
 
         // Retorna o desempenho medio
         return desempenhoTotal / equipa.getPlantel().size();
@@ -59,7 +63,7 @@ public class ProbabilidadesPartida {
         return attackingPlayers / (attackingPlayers + defendingPlayers);
     }
 
-    private static String calculaPosicaiEquipa(Equipa equipa) {
+    private static String calculaPosicaoEquipa(Equipa equipa) {
         // Calcula a posicao da equipa e ajusta a probabilidade baseada no numero de Atacantes
         // For example:
          double atacantes = 0.0;
