@@ -436,7 +436,7 @@ public class Liga implements Dados {
             int ligaSize = Menu.ligas.get(Menu.ligas.size() - 1).getId();
             int idLigaAjustado = (idLiga - 1);
 
-            if ((idLiga > ligaSize) || idLiga >= 0) {
+            if ((idLiga < 0) || idLiga > ligaSize) {
                 System.out.println("Tem que escolher um ID existente das Ligas! Tente Novamente...");
                 associarEquipa();
             }
@@ -486,7 +486,7 @@ public class Liga implements Dados {
             System.out.println("Equipas associadas a Liga " + Menu.ligas.get(idLigaAjustado).getNome() +
                 ": " + String.join(", ",
                     Menu.ligas.get(idLigaAjustado).getNomesEquipas(
-                            Menu.ligas.get(idLigaAjustado).getEquipas()
+                        Menu.ligas.get(idLigaAjustado).getEquipas()
                     )
                 )
             );
