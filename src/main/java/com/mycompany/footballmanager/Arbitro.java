@@ -30,10 +30,10 @@ public class Arbitro extends Pessoa implements Dados {
     }
 
     public Arbitro(
-            int id,
-            String nome,
-            int idade,
-            int experiencia
+        int id,
+        String nome,
+        int idade,
+        int experiencia
     ) {
         super(nome, idade);
         this.id = id;
@@ -65,7 +65,7 @@ public class Arbitro extends Pessoa implements Dados {
         // Imprime todos os Arbitros
         if (!Menu.arbitros.isEmpty()) {
 
-            for (Arbitro arbitro : arbitros) {
+            for (Arbitro arbitro : Menu.arbitros) {
                 System.out.printf(arbitro.toString());
             }
         } else {

@@ -554,7 +554,6 @@ public class Partida implements Dados {
         return null; // Retorna null se não houver correspondência do ID da equipas
     }
 
-
     public void setEquipa(int equipa) {
         this.equipa = equipa;
     }

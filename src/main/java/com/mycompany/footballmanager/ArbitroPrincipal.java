@@ -76,7 +76,7 @@ public class ArbitroPrincipal extends Arbitro {
     @Override
     public String toString() {
         return String.format("| %-3s | %-20s | %-7s | %-11s | %-11s |%n",
-                getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
+            getId(), getNome(), getIdade(), getExperiencia(), getFuncao());
     }
     // END toString Methods ----------------------------------------------------------------
 }
