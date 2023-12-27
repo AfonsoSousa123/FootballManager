@@ -442,14 +442,14 @@ public class Equipa implements Dados {
 
                 // Cria um novo jogador com dados aleatórios e IDs autoincrementados
                 Jogador jogador = new Jogador(
-                        latest + increment, // ID automaticamente incrementado
-                        randomName(), // Nome aleatório
-                        random.nextInt(20, 40), // Idade aleatória entre 20 e 40 anos
-                        Menu.jogador.getRandomPosicao(), // Posição aleatória do jogador
-                        randomLorem(), // Histórico de lesões aleatório
-                        random.nextInt(1, 100), // Valor de ataque aleatório
-                        random.nextInt(1, 100), // Valor de defesa aleatório
-                        random.nextInt(1, 100) // Nível de agressividade aleatório
+                    latest + increment, // ID automaticamente incrementado
+                    randomName(), // Nome aleatório
+                    random.nextInt(20, 40), // Idade aleatória entre 20 e 40 anos
+                    Menu.jogador.getRandomPosicao(), // Posição aleatória do jogador
+                    randomLorem(), // Histórico de lesões aleatório
+                    random.nextInt(1, 100), // Valor de ataque aleatório
+                    random.nextInt(1, 100), // Valor de defesa aleatório
+                    random.nextInt(1, 100) // Nível de agressividade aleatório
                 );
 
                 randomPlantel.add(jogador.getId()); // Adiciona os IDs dos jogadores ao plantel aleatório
@@ -592,7 +592,7 @@ public class Equipa implements Dados {
     public static String tableHeaders() {
         System.out.println("|-------------------------------------------------------------------------------------------------------------------------------------------------------------- EQUIPAS --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|");
         return String.format("| %-3s | %-25s | %-200s | %-25s | %-20s | %-25s | %-25s |%n",
-                "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais");
+            "ID", "Nome", "Plantel", "Treinador", "Liga", "Cidade", "Pais");
     }
 
     @Override

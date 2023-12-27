@@ -218,6 +218,7 @@ public class Partida implements Dados {
         Scanner scanner = new Scanner(System.in);
         int latest = 0;
         int equipasSize = Menu.equipas.get(Menu.equipas.size() - 1).getId();
+      
         try {
             // Verifica se o ArrayList das partidas está vazio
             if (!Menu.partidas.isEmpty()) {

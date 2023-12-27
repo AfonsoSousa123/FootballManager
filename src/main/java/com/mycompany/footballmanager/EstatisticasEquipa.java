@@ -9,6 +9,9 @@ import com.mycompany.footballmanager.Interfaces.Dados;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
+
+import static com.mycompany.footballmanager.Menu.*;
 
 import static com.mycompany.footballmanager.Menu.*;
 
@@ -26,6 +29,7 @@ public class EstatisticasEquipa implements Dados {
     private int numEmpates;
     private int golosMarcados;
     private int golosSofridos;
+    private ArrayList<Integer> equipas;
 
     private Random random = new Random();
     private final String txtFilePath = "./src/main/java/com/mycompany/footballmanager/DB/equipaStats.txt"; // File Path
@@ -53,6 +57,7 @@ public class EstatisticasEquipa implements Dados {
         this.numEmpates = numEmpates;
         this.golosMarcados = golosMarcados;
         this.golosSofridos = golosSofridos;
+        equipas = new ArrayList<>();
     }
     // END Constructors ----------------------------------------------------------------
 
