@@ -27,10 +27,10 @@ public class ProbabilidadesPartida {
 
         // Retorna a probabilidade calculada
         return desempenhoMedio *
-                numJogadores *
-                taticasTreinador *
-                experienciaArbitros *
-                factorJogaPrimeiro;
+            numJogadores *
+            taticasTreinador *
+            experienciaArbitros *
+            factorJogaPrimeiro;
     }
 
     private static double calculaDesempenhoMedio(Equipa equipa) {
@@ -68,9 +68,9 @@ public class ProbabilidadesPartida {
         double defesas = 0.0;
 
         for (Jogador jogador : equipa.getJogadoresValues(equipa.getPlantel())) {
-            if (jogador.getPosicao().equals("AVANCADO") || jogador.getPosicao().equals("CENTRAL")) {
+            if (jogador.getPosicao() == Posicao.AVANCADO || jogador.getPosicao() == Posicao.CENTRAL) {
                 atacantes += 1.0;
-            } else if (jogador.getPosicao().equals("DEFESA") || jogador.getPosicao().equals("MEDIO")) {
+            } else if (jogador.getPosicao() == Posicao.DEFESA || jogador.getPosicao() == Posicao.MEDIO) {
                 defesas += 1.0;
             }
         }
